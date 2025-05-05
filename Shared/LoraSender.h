@@ -8,6 +8,8 @@
 #ifndef INC_LORASENDER_H_
 #define INC_LORASENDER_H_
 
-void send_packet();
+#include "Types.h"
+
+void send_packet(SendPacket_t packet);
 
 #endif /* INC_LORASENDER_H_ */

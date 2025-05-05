@@ -207,9 +207,9 @@ void RTC_IRQHandler(void)
   /* USER CODE END RTC_IRQn 0 */
   HAL_RTCEx_RTCIRQHandler(&hrtc);
   /* USER CODE BEGIN RTC_IRQn 1 */
-	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	HAL_Delay(50);
-	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+//	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+//	HAL_Delay(50);
+//	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
   /* USER CODE END RTC_IRQn 1 */
 }
 

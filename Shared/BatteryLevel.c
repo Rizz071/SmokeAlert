@@ -13,7 +13,7 @@
 
 extern ADC_HandleTypeDef hadc1;
 
-static Battery_t Battery;
+extern Battery_t Battery;
 
 static uint8_t battery_percent_from_voltage(float);
 

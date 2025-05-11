@@ -26,8 +26,8 @@ static void init_LoRa() {
 	myLoRa.hSPIx = &hspi1;
 
 	myLoRa.frequency = 433;             // default = 433 MHz
-	//	myLoRa.spredingFactor = SF_7;            // default = SF_7
-	//	myLoRa.bandWidth = BW_7_8KHz;       // default = BW_125KHz
+//	myLoRa.spredingFactor = SF_12;            // default = SF_7
+	myLoRa.bandWidth = BW_125KHz;       // default = BW_125KHz
 	myLoRa.crcRate = CR_4_8;          // default = CR_4_5
 	myLoRa.power = POWER_17db;      // default = 20db
 	myLoRa.overCurrentProtection = 130;             // default = 100 mA

@@ -28,8 +28,18 @@ Battery_t get_battery_level() {
 
 	HAL_ADC_Stop(&hadc1);
 
-	float vref = 1.20f;
-	Battery.vdd = vref * 4096.0f / adc_val;
+	/*
+	 *  Vmax(100%)=4.5V
+	 *  R1=2.2k
+	 *  R2=3.3K
+	 *  k=1.675
+	 *  => Vmax = 2.7V
+	 */
+
+	float vref = 3.3f;
+
+	Battery.vdd = (vref / 2.7f) * vref * adc_val / 4096.0f;
+
 	Battery.charge_percent = battery_percent_from_voltage(Battery.vdd);
 
 	return Battery;
@@ -37,14 +47,14 @@ Battery_t get_battery_level() {
 
 static uint8_t battery_percent_from_voltage(float voltage) {
 
-	//Approximation for cr123a BAT
-	float q = 100.0f / (1.0f + expf(-20.0f * (voltage - 2.85f)));
-
-	if (q < 0.0f)
-		q = 0.0f;
-
-	if (q > 100.0f)
-		q = 100.0f;
-
-	return (uint8_t) (q + 0.5f);
+	if (voltage >= 3.2f)
+		return 100;
+	else if (voltage >= 2.9f)
+		return (uint8_t) (80 + (voltage - 2.9f) / 0.3f * 20);
+	else if (voltage >= 2.5f)
+		return (uint8_t) (20 + (voltage - 2.5f) / 0.4f * 60);
+	else if (voltage >= 2.0f)
+		return (uint8_t) ((voltage - 2.0f) / 0.5f * 20);
+	else
+		return 0;
 }

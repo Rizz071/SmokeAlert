@@ -34,7 +34,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  C:/Users/rizz/Git/SmokeAlert/Shared/Types.h \
  C:/Users/rizz/Git/SmokeAlert/Shared/SerialNumber.h \
  C:/Users/rizz/Git/SmokeAlert/Shared/BatteryLevel.h \
- C:/Users/rizz/Git/SmokeAlert/Shared/InfraSensor.h
+ C:/Users/rizz/Git/SmokeAlert/Shared/InfraSensor.h \
+ C:/Users/rizz/Git/SmokeAlert/Shared/BatteryLevel.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 ../Core/Inc/stm32f1xx_hal_conf.h:
@@ -72,3 +73,4 @@ C:/Users/rizz/Git/SmokeAlert/Shared/Types.h:
 C:/Users/rizz/Git/SmokeAlert/Shared/SerialNumber.h:
 C:/Users/rizz/Git/SmokeAlert/Shared/BatteryLevel.h:
 C:/Users/rizz/Git/SmokeAlert/Shared/InfraSensor.h:
+C:/Users/rizz/Git/SmokeAlert/Shared/BatteryLevel.h:

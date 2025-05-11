@@ -8,6 +8,8 @@
 #ifndef INFRASENSOR_H_
 #define INFRASENSOR_H_
 
-float get_infra_sensor_data();
+#include "BatteryLevel.h"
+
+float get_infra_sensor_data(Battery_t);
 
 #endif /* INFRASENSOR_H_ */

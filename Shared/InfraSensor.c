@@ -17,22 +17,21 @@ extern ADC_HandleTypeDef hadc2;
 float get_infra_sensor_data(Battery_t Battery) {
 
 	//Sensor stabilization for 100ms
-	HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_RESET);
+//	HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_RESET);
 	HAL_Delay(100);
+//	HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_SET);
+//	HAL_Delay(10);
 
-	HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_SET);
-	HAL_Delay(10);
-
-	// Polling sensor 5 times
+// Polling sensor 5 times
 	uint32_t adc_V0 = 0;
 
-	for (int i = 0; i <= 4; i++) {
+	for (int i = 0; i <= 3; i++) {
 
 		HAL_ADC_Start(&hadc2);
 
 		HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_RESET);
 
-		TIM2_Delay_us(280);
+		TIM2_Delay_us(250);
 
 		if (HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY) == HAL_OK) {
 			uint32_t v_temp = HAL_ADC_GetValue(&hadc2);
@@ -40,13 +39,13 @@ float get_infra_sensor_data(Battery_t Battery) {
 				adc_V0 = v_temp;
 		}
 
-		TIM2_Delay_us(40);
+		HAL_ADC_Stop(&hadc2);
+
+		TIM2_Delay_us(35);
 
 		HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_SET);
 
-		HAL_ADC_Stop(&hadc2);
-
-		TIM2_Delay_us(10000 - 280 - 40);
+		TIM2_Delay_us(10000);
 	}
 
 	/*

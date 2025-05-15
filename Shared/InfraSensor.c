@@ -31,7 +31,7 @@ float get_infra_sensor_data(Battery_t Battery) {
 
 		HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_RESET);
 
-		TIM2_Delay_us(250);
+		TIM2_Delay_us(280);
 
 		if (HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY) == HAL_OK) {
 			uint32_t v_temp = HAL_ADC_GetValue(&hadc2);
@@ -39,11 +39,11 @@ float get_infra_sensor_data(Battery_t Battery) {
 				adc_V0 = v_temp;
 		}
 
-		HAL_ADC_Stop(&hadc2);
-
-		TIM2_Delay_us(35);
+		TIM2_Delay_us(40);
 
 		HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_SET);
+
+		HAL_ADC_Stop(&hadc2);
 
 		TIM2_Delay_us(10000);
 	}

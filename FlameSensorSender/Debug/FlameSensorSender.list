@@ -1349,7 +1349,7 @@ int main(void) {
  8000f70:	4603      	mov	r3, r0
  8000f72:	b2db      	uxtb	r3, r3
  8000f74:	461c      	mov	r4, r3
-			(uint8_t) (alarm_level * 100) % 100);
+			(uint16_t) (alarm_level * 100) % 100);
  8000f76:	4b93      	ldr	r3, [pc, #588]	@ (80011c4 <main+0x294>)
  8000f78:	681b      	ldr	r3, [r3, #0]
  8000f7a:	4994      	ldr	r1, [pc, #592]	@ (80011cc <main+0x29c>)
@@ -1359,7 +1359,7 @@ int main(void) {
  8000f84:	4618      	mov	r0, r3
  8000f86:	f7ff ffb3 	bl	8000ef0 <__aeabi_f2uiz>
  8000f8a:	4603      	mov	r3, r0
- 8000f8c:	b2db      	uxtb	r3, r3
+ 8000f8c:	b29b      	uxth	r3, r3
 	debug("alarm_level: %d.%02d\n\r", (uint8_t) alarm_level,
  8000f8e:	4a90      	ldr	r2, [pc, #576]	@ (80011d0 <main+0x2a0>)
  8000f90:	fba2 1203 	umull	r1, r2, r2, r3
@@ -1367,7 +1367,7 @@ int main(void) {
  8000f96:	2164      	movs	r1, #100	@ 0x64
  8000f98:	fb01 f202 	mul.w	r2, r1, r2
  8000f9c:	1a9b      	subs	r3, r3, r2
- 8000f9e:	b2db      	uxtb	r3, r3
+ 8000f9e:	b29b      	uxth	r3, r3
  8000fa0:	461a      	mov	r2, r3
  8000fa2:	4621      	mov	r1, r4
  8000fa4:	488b      	ldr	r0, [pc, #556]	@ (80011d4 <main+0x2a4>)
@@ -1433,7 +1433,7 @@ int main(void) {
  800101e:	4603      	mov	r3, r0
  8001020:	b2db      	uxtb	r3, r3
  8001022:	461c      	mov	r4, r3
-			(uint8_t) (Battery.vdd * 100) % 100);
+			(uint16_t) (Battery.vdd * 100) % 100);
  8001024:	4b71      	ldr	r3, [pc, #452]	@ (80011ec <main+0x2bc>)
  8001026:	681b      	ldr	r3, [r3, #0]
  8001028:	4968      	ldr	r1, [pc, #416]	@ (80011cc <main+0x29c>)
@@ -1443,7 +1443,7 @@ int main(void) {
  8001032:	4618      	mov	r0, r3
  8001034:	f7ff ff5c 	bl	8000ef0 <__aeabi_f2uiz>
  8001038:	4603      	mov	r3, r0
- 800103a:	b2db      	uxtb	r3, r3
+ 800103a:	b29b      	uxth	r3, r3
 	debug("\tVDD: %d.%02d", (uint8_t) Battery.vdd,
  800103c:	4a64      	ldr	r2, [pc, #400]	@ (80011d0 <main+0x2a0>)
  800103e:	fba2 1203 	umull	r1, r2, r2, r3
@@ -1451,7 +1451,7 @@ int main(void) {
  8001044:	2164      	movs	r1, #100	@ 0x64
  8001046:	fb01 f202 	mul.w	r2, r1, r2
  800104a:	1a9b      	subs	r3, r3, r2
- 800104c:	b2db      	uxtb	r3, r3
+ 800104c:	b29b      	uxth	r3, r3
  800104e:	461a      	mov	r2, r3
  8001050:	4621      	mov	r1, r4
  8001052:	4869      	ldr	r0, [pc, #420]	@ (80011f8 <main+0x2c8>)
@@ -1495,7 +1495,7 @@ int main(void) {
  80010a0:	4603      	mov	r3, r0
  80010a2:	b2db      	uxtb	r3, r3
  80010a4:	461c      	mov	r4, r3
-			(uint8_t) (sensor_data * 100) % 100);
+			(uint16_t) (sensor_data * 100) % 100);
  80010a6:	4949      	ldr	r1, [pc, #292]	@ (80011cc <main+0x29c>)
  80010a8:	6978      	ldr	r0, [r7, #20]
  80010aa:	f7ff fd5b 	bl	8000b64 <__aeabi_fmul>
@@ -1503,7 +1503,7 @@ int main(void) {
  80010b0:	4618      	mov	r0, r3
  80010b2:	f7ff ff1d 	bl	8000ef0 <__aeabi_f2uiz>
  80010b6:	4603      	mov	r3, r0
- 80010b8:	b2db      	uxtb	r3, r3
+ 80010b8:	b29b      	uxth	r3, r3
 	debug("Sensor: %d.%02d\n\r", (uint8_t) sensor_data,
  80010ba:	4a45      	ldr	r2, [pc, #276]	@ (80011d0 <main+0x2a0>)
  80010bc:	fba2 1203 	umull	r1, r2, r2, r3
@@ -1511,7 +1511,7 @@ int main(void) {
  80010c2:	2164      	movs	r1, #100	@ 0x64
  80010c4:	fb01 f202 	mul.w	r2, r1, r2
  80010c8:	1a9b      	subs	r3, r3, r2
- 80010ca:	b2db      	uxtb	r3, r3
+ 80010ca:	b29b      	uxth	r3, r3
  80010cc:	461a      	mov	r2, r3
  80010ce:	4621      	mov	r1, r4
  80010d0:	484d      	ldr	r0, [pc, #308]	@ (8001208 <main+0x2d8>)
@@ -1553,7 +1553,7 @@ int main(void) {
  8001112:	4603      	mov	r3, r0
  8001114:	b2db      	uxtb	r3, r3
  8001116:	461c      	mov	r4, r3
-			(uint8_t) (sensor_data * 100) % 100);
+			(uint16_t) (sensor_data * 100) % 100);
  8001118:	492c      	ldr	r1, [pc, #176]	@ (80011cc <main+0x29c>)
  800111a:	6978      	ldr	r0, [r7, #20]
  800111c:	f7ff fd22 	bl	8000b64 <__aeabi_fmul>
@@ -1561,7 +1561,7 @@ int main(void) {
  8001122:	4618      	mov	r0, r3
  8001124:	f7ff fee4 	bl	8000ef0 <__aeabi_f2uiz>
  8001128:	4603      	mov	r3, r0
- 800112a:	b2db      	uxtb	r3, r3
+ 800112a:	b29b      	uxth	r3, r3
 	debug("\tsensor_data: %d.%02d\n\r", (uint8_t) sensor_data,
  800112c:	4a28      	ldr	r2, [pc, #160]	@ (80011d0 <main+0x2a0>)
  800112e:	fba2 1203 	umull	r1, r2, r2, r3
@@ -1569,7 +1569,7 @@ int main(void) {
  8001134:	2164      	movs	r1, #100	@ 0x64
  8001136:	fb01 f202 	mul.w	r2, r1, r2
  800113a:	1a9b      	subs	r3, r3, r2
- 800113c:	b2db      	uxtb	r3, r3
+ 800113c:	b29b      	uxth	r3, r3
  800113e:	461a      	mov	r2, r3
  8001140:	4621      	mov	r1, r4
  8001142:	4836      	ldr	r0, [pc, #216]	@ (800121c <main+0x2ec>)
@@ -15855,11 +15855,13 @@ float get_infra_sensor_data(ADC_HandleTypeDef *ha, float alarm_lvl) {
  8005fc4:	6013      	str	r3, [r2, #0]
 
 	// Sensor stabilization for 100ms
-	HAL_Delay(100);
- 8005fc6:	2064      	movs	r0, #100	@ 0x64
+	HAL_Delay(200);
+ 8005fc6:	20c8      	movs	r0, #200	@ 0xc8
  8005fc8:	f7fb fe7e 	bl	8001cc8 <HAL_Delay>
 
-	uint32_t real_adc_V0 = poll_sensor(1) * 2;
+	uint32_t real_adc_V0;
+
+	real_adc_V0 = poll_sensor(1) * 2;
  8005fcc:	2001      	movs	r0, #1
  8005fce:	f7ff ff8d 	bl	8005eec <poll_sensor>
  8005fd2:	4603      	mov	r3, r0
@@ -15887,7 +15889,7 @@ float get_infra_sensor_data(ADC_HandleTypeDef *ha, float alarm_lvl) {
  8005ffc:	60fb      	str	r3, [r7, #12]
 	}
 
-	return real_adc_V0;
+	return (float) real_adc_V0;
  8005ffe:	68f8      	ldr	r0, [r7, #12]
  8006000:	f7fa fd58 	bl	8000ab4 <__aeabi_ui2f>
  8006004:	4603      	mov	r3, r0

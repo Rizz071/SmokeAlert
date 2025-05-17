@@ -133,7 +133,7 @@ int main(void) {
 	// Defining alarm_level
 	alarm_level = 1.1;
 	debug("alarm_level: %d.%02d\n\r", (uint8_t) alarm_level,
-			(uint8_t) (alarm_level * 100) % 100);
+			(uint16_t) (alarm_level * 100) % 100);
 
 	HAL_Delay(10);
 
@@ -150,7 +150,7 @@ int main(void) {
 	HAL_ADC_DeInit(&hadc1);
 	debug("Battery status:");
 	debug("\tVDD: %d.%02d", (uint8_t) Battery.vdd,
-			(uint8_t) (Battery.vdd * 100) % 100);
+			(uint16_t) (Battery.vdd * 100) % 100);
 	debug("\tPercent: %d\n\r", Battery.charge_percent);
 
 	// Enabling VCC to Smoke Sensor and polling for data
@@ -161,7 +161,7 @@ int main(void) {
 	HAL_ADC_DeInit(&hadc2);
 	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_SET);
 	debug("Sensor: %d.%02d\n\r", (uint8_t) sensor_data,
-			(uint8_t) (sensor_data * 100) % 100);
+			(uint16_t) (sensor_data * 100) % 100);
 
 	packet.ID = hw_serial.byte_2;
 	packet.battery_level = Battery.charge_percent;
@@ -170,7 +170,7 @@ int main(void) {
 	debug("\tID: %d", (uint8_t) packet.ID);
 	debug("\tbattery_level: %d%%", (uint8_t) Battery.charge_percent);
 	debug("\tsensor_data: %d.%02d\n\r", (uint8_t) sensor_data,
-			(uint8_t) (sensor_data * 100) % 100);
+			(uint16_t) (sensor_data * 100) % 100);
 
 	debug("Enabling LoRa...");
 	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_LORA_Pin, GPIO_PIN_RESET);

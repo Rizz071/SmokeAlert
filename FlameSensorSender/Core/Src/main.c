@@ -22,14 +22,13 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
+#include "DebugLog.h"
+#include "Types.h"
 #include "LoraSender.h"
 #include "AlarmReset.h"
-#include "Types.h"
 #include "SerialNumber.h"
 #include "BatteryLevel.h"
 #include "InfraSensor.h"
-
-//#include "stm32f1xx_hal.h"
 
 /* USER CODE END Includes */
 
@@ -58,11 +57,15 @@ SPI_HandleTypeDef hspi1;
 
 TIM_HandleTypeDef htim2;
 
+UART_HandleTypeDef huart1;
+
 /* USER CODE BEGIN PV */
 
 SerialNumber_t hw_serial;
 Battery_t Battery;
 SendPacket_t packet;
+
+float alarm_level;
 
 /* USER CODE END PV */
 
@@ -74,6 +77,7 @@ static void MX_RTC_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_ADC2_Init(void);
 static void MX_TIM2_Init(void);
+static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -91,6 +95,11 @@ int main(void) {
 
 	/* USER CODE BEGIN 1 */
 
+	// TODO 1. Добавить светодиод при 10 секундной проверке датчика. Вынести эти 10 сек в константы настройки.
+	// TODO 2. Добавить порт под адаптер стандартной зарядкию Добавить два диода Шоттки ss14
+	// TODO 3. Проверка поступившего сообщения с настройками?
+	// TODO 4. Настройки: alert_level, time_to_regular_poll, poll_times_to_heartbeat
+	// TODO 5. вывод в UART всей отладночной информации
 	/* USER CODE END 1 */
 
 	/* MCU Configuration--------------------------------------------------------*/
@@ -113,40 +122,72 @@ int main(void) {
 	MX_GPIO_Init();
 	MX_RTC_Init();
 	MX_TIM2_Init();
+	MX_USART1_UART_Init();
 	/* USER CODE BEGIN 2 */
+
+	debug_init(&huart1);
+
+	debug("========================");
+	debug("The device has woken up!");
+
+	// Defining alarm_level
+	alarm_level = 1.1;
+	debug("alarm_level: %d.%02d\n\r", (uint8_t) alarm_level,
+			(uint8_t) (alarm_level * 100) % 100);
+
 	HAL_Delay(10);
 
 	HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_SET);
 
-	// Getting hardware serial for self identity
+	debug("Polling for HW Serial...");
 	hw_serial = get_serial_number();
+	debug("HW Serial: %d %d %d\n\r", hw_serial.byte_0, hw_serial.byte_1,
+			hw_serial.byte_2);
 
+	debug("Polling for battery status...");
 	MX_ADC1_Init();
 	Battery = get_battery_level();
 	HAL_ADC_DeInit(&hadc1);
+	debug("Battery status:");
+	debug("\tVDD: %d.%02d", (uint8_t) Battery.vdd,
+			(uint8_t) (Battery.vdd * 100) % 100);
+	debug("\tPercent: %d\n\r", Battery.charge_percent);
 
-	// Enable VCC to Smoke Sensor and getting data
+	// Enabling VCC to Smoke Sensor and polling for data
+	debug("Polling for dust sensor data...");
 	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_RESET);
 	MX_ADC2_Init();
-	float sensor_data = get_infra_sensor_data();
+	float sensor_data = get_infra_sensor_data(&hadc2, alarm_level);
 	HAL_ADC_DeInit(&hadc2);
 	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_SET);
+	debug("Sensor: %d.%02d\n\r", (uint8_t) sensor_data,
+			(uint8_t) (sensor_data * 100) % 100);
 
-	// Forming a packet to send
 	packet.ID = hw_serial.byte_2;
 	packet.battery_level = Battery.charge_percent;
 	packet.sensor_data = sensor_data;
+	debug("Formed packet:");
+	debug("\tID: %d", (uint8_t) packet.ID);
+	debug("\tbattery_level: %d%%", (uint8_t) Battery.charge_percent);
+	debug("\tsensor_data: %d.%02d\n\r", (uint8_t) sensor_data,
+			(uint8_t) (sensor_data * 100) % 100);
 
-// Enabling LoRa and sending packet to Base Station
+	debug("Enabling LoRa...");
 	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_LORA_Pin, GPIO_PIN_RESET);
 	MX_SPI1_Init();
 	HAL_Delay(100);
+	debug("Sending packet...");
 	send_packet(packet);
+	debug("\t...sent!");
 	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_LORA_Pin, GPIO_PIN_SET);
 
-	HAL_Delay(1000);
+	//  Toggle red led
+	HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_SET);
+	HAL_Delay(1);
+	HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_RESET);
 
-// Sleeping
+	// Sleeping
+	debug("Going sleep (STANDBY MODE)...");
 	set_alarm(3);
 	HAL_PWR_EnterSTANDBYMode();
 
@@ -175,9 +216,10 @@ void SystemClock_Config(void) {
 	/** Initializes the RCC Oscillators according to the specified parameters
 	 * in the RCC_OscInitTypeDef structure.
 	 */
-	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI
-			| RCC_OSCILLATORTYPE_HSE;
-	RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI
+			| RCC_OSCILLATORTYPE_LSI;
+	RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+	RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
 	RCC_OscInitStruct.LSIState = RCC_LSI_ON;
 	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
 	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
@@ -188,7 +230,7 @@ void SystemClock_Config(void) {
 	 */
 	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
 			| RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
-	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;
+	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
 	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
 	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
 	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
@@ -425,6 +467,37 @@ static void MX_TIM2_Init(void) {
 }
 
 /**
+ * @brief USART1 Initialization Function
+ * @param None
+ * @retval None
+ */
+static void MX_USART1_UART_Init(void) {
+
+	/* USER CODE BEGIN USART1_Init 0 */
+
+	/* USER CODE END USART1_Init 0 */
+
+	/* USER CODE BEGIN USART1_Init 1 */
+
+	/* USER CODE END USART1_Init 1 */
+	huart1.Instance = USART1;
+	huart1.Init.BaudRate = 9600;
+	huart1.Init.WordLength = UART_WORDLENGTH_8B;
+	huart1.Init.StopBits = UART_STOPBITS_1;
+	huart1.Init.Parity = UART_PARITY_NONE;
+	huart1.Init.Mode = UART_MODE_TX_RX;
+	huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+	huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+	if (HAL_UART_Init(&huart1) != HAL_OK) {
+		Error_Handler();
+	}
+	/* USER CODE BEGIN USART1_Init 2 */
+
+	/* USER CODE END USART1_Init 2 */
+
+}
+
+/**
  * @brief GPIO Initialization Function
  * @param None
  * @retval None
@@ -445,18 +518,26 @@ static void MX_GPIO_Init(void) {
 
 	/*Configure GPIO pin Output Level */
 	HAL_GPIO_WritePin(GPIOB,
-			RST_SIGNAL_Pin | MOSFET_GATE_SENSOR_Pin | MOSFET_GATE_LORA_Pin
-					| V_LED_Pin, GPIO_PIN_SET);
+	RST_SIGNAL_Pin | MOSFET_GATE_SENSOR_Pin | MOSFET_GATE_LORA_Pin | V_LED_Pin,
+			GPIO_PIN_SET);
 
-	/*Configure GPIO pins : PC13 PC14 PC15 */
-	GPIO_InitStruct.Pin = GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
+	/*Configure GPIO pin Output Level */
+	HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_RESET);
+
+	/*Configure GPIO pin : PC13 */
+	GPIO_InitStruct.Pin = GPIO_PIN_13;
 	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
 	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-	/*Configure GPIO pins : PA2 PA3 PA8 PA9
-	 PA10 PA11 PA12 PA15 */
-	GPIO_InitStruct.Pin = GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_8 | GPIO_PIN_9
-			| GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_15;
+	/*Configure GPIO pins : PD0 PD1 */
+	GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1;
+	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+	/*Configure GPIO pins : PA2 PA3 PA8 PA11
+	 PA12 PA15 */
+	GPIO_InitStruct.Pin = GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_8 | GPIO_PIN_11
+			| GPIO_PIN_12 | GPIO_PIN_15;
 	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
 	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
@@ -473,19 +554,19 @@ static void MX_GPIO_Init(void) {
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(DIO0_INT_GPIO_Port, &GPIO_InitStruct);
 
-	/*Configure GPIO pin : RST_SIGNAL_Pin */
-	GPIO_InitStruct.Pin = RST_SIGNAL_Pin;
+	/*Configure GPIO pins : RST_SIGNAL_Pin INFO_LED_Pin */
+	GPIO_InitStruct.Pin = RST_SIGNAL_Pin | INFO_LED_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(RST_SIGNAL_GPIO_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-	/*Configure GPIO pins : PB2 PB13 PB14 PB15
-	 PB3 PB4 PB5 PB6
-	 PB7 PB8 PB9 */
-	GPIO_InitStruct.Pin = GPIO_PIN_2 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15
-			| GPIO_PIN_3 | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7
-			| GPIO_PIN_8 | GPIO_PIN_9;
+	/*Configure GPIO pins : PB2 PB13 PB14 PB3
+	 PB4 PB5 PB6 PB7
+	 PB8 PB9 */
+	GPIO_InitStruct.Pin = GPIO_PIN_2 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_3
+			| GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8
+			| GPIO_PIN_9;
 	GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
 	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
@@ -502,6 +583,9 @@ static void MX_GPIO_Init(void) {
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
 	HAL_GPIO_Init(V_LED_GPIO_Port, &GPIO_InitStruct);
+
+	/*Configure peripheral I/O remapping */
+	__HAL_AFIO_REMAP_PD01_ENABLE();
 
 	/* USER CODE BEGIN MX_GPIO_Init_2 */
 	/* USER CODE END MX_GPIO_Init_2 */

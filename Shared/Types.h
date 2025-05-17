@@ -22,8 +22,6 @@ typedef struct SendPacket_t {
 	uint8_t battery_level;
 } SendPacket_t;
 
-
-
 typedef struct Battery_t {
 	float vdd;
 	uint8_t charge_percent;

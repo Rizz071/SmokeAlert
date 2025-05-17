@@ -73,6 +73,8 @@ void Error_Handler(void);
 #define MOSFET_GATE_LORA_GPIO_Port GPIOB
 #define V_LED_Pin GPIO_PIN_12
 #define V_LED_GPIO_Port GPIOB
+#define INFO_LED_Pin GPIO_PIN_15
+#define INFO_LED_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

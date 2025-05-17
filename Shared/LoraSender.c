@@ -10,8 +10,6 @@
 #include "LoRa.h"
 #include "Types.h"
 
-
-
 //
 #define RegOpMode 0x01 // (RegOpMode): Режим работы (LoRa, Sleep/Standby/TX).
 //#define RegFrfMsb 0x0D // (RegFrfMsb), 0x0E (RegFrfMid), 0x0F (RegFrfLsb): Частота (433 МГц).
@@ -35,30 +33,19 @@ extern SPI_HandleTypeDef hspi1;
 
 LoRa myLoRa;
 
-
 void SX1278_Init(void) {
 	myLoRa = newLoRa();
 
-	myLoRa.CS_port         = NSS_SIGNAL_GPIO_Port;
-	myLoRa.CS_pin          = NSS_SIGNAL_Pin;
-	myLoRa.reset_port      = GPIOB;
-	myLoRa.reset_pin       = RST_SIGNAL_Pin;
-	myLoRa.DIO0_port       = DIO0_INT_GPIO_Port;
-	myLoRa.DIO0_pin        = DIO0_INT_Pin;
-	myLoRa.hSPIx           = &hspi1;
-
-
-
-
+	myLoRa.CS_port = NSS_SIGNAL_GPIO_Port;
+	myLoRa.CS_pin = NSS_SIGNAL_Pin;
+	myLoRa.reset_port = GPIOB;
+	myLoRa.reset_pin = RST_SIGNAL_Pin;
+	myLoRa.DIO0_port = DIO0_INT_GPIO_Port;
+	myLoRa.DIO0_pin = DIO0_INT_Pin;
+	myLoRa.hSPIx = &hspi1;
 
 	LoRa_init(&myLoRa);
 }
-
-
-
-
-
-
 
 void send_packet(SendPacket_t packet) {
 

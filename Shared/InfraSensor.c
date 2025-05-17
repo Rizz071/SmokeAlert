@@ -6,55 +6,65 @@
  */
 
 #include "InfraSensor.h"
-//#include "stm32f1xx_hal.h"
 #include "Delay_ns.h"
-#include "main.h"
 
-extern ADC_HandleTypeDef hadc2;
+static ADC_HandleTypeDef *hadc;
+static float alarm_level;
 
-float get_infra_sensor_data() {
-
-	//Sensor stabilization for 100ms
-	HAL_Delay(200);
+uint32_t poll_sensor(uint8_t times) {
 
 	uint32_t adc_V0 = 0;
 
-	// Polling sensor 2 times
-	for (int i = 0; i <= 1; i++) {
-
-
+	for (uint8_t i = 1; i <= times; i++) {
 
 		HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_RESET);
 
 		TIM2_Delay_us(280);
-		HAL_ADC_Start(&hadc2);
-		HAL_ADC_PollForConversion(&hadc2, 10);
 
-//		if (HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY) == HAL_OK) {
-		uint32_t v_temp = HAL_ADC_GetValue(&hadc2);
-		HAL_ADC_Stop(&hadc2);
+		HAL_ADC_Start(hadc);
+
+		HAL_ADC_PollForConversion(hadc, 10);
+
+		uint32_t v_temp = HAL_ADC_GetValue(hadc);
+
+		HAL_ADC_Stop(hadc);
 
 		if (v_temp > adc_V0)
 			adc_V0 = v_temp;
-//		}
 
 		TIM2_Delay_us(40);
 
-
 		HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_SET);
 
-		TIM2_Delay_us(10000);
+		HAL_Delay(10);
 	}
 
 	/*
-	 *  Vmax(100%)=3.6V
-	 *  R1=220
-	 *  R2=330
-	 *  k=1.67
+	 *  Vmax(100%)=4V
+	 *  R1=10k
+	 *  R2=10k
+	 *  k=0.5
 	 *
 	 */
 
-	float sensor_data = 1.67 * adc_V0 * 3.6 / 4096.0f;
+	return adc_V0 / 4095.0f * 3.3f;
 
-	return sensor_data;
+}
+
+float get_infra_sensor_data(ADC_HandleTypeDef *ha, float alarm_lvl) {
+
+	hadc = ha;
+	alarm_level = alarm_lvl;
+
+	// Sensor stabilization for 100ms
+	HAL_Delay(100);
+
+	uint32_t real_adc_V0 = poll_sensor(1) * 2;
+
+	// Recheck when alarm threshold is exceeded
+	if (real_adc_V0 >= alarm_level) {
+		real_adc_V0 = poll_sensor(3) * 2;
+	}
+
+	return real_adc_V0;
 }

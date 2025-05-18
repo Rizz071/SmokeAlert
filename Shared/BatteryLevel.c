@@ -10,6 +10,7 @@
 #include <math.h>
 #include <stdint.h>
 #include "Types.h"
+#include "DebugLog.h"
 
 extern ADC_HandleTypeDef hadc1;
 
@@ -19,14 +20,24 @@ static uint8_t battery_percent_from_voltage(float);
 
 Battery_t get_battery_level() {
 
+	debug("Polling for battery status...");
 	HAL_ADC_Start(&hadc1);
 
-	uint32_t adc_val;
-	if (HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY) == HAL_OK) {
-		adc_val = HAL_ADC_GetValue(&hadc1);
-	}
+	uint16_t adc_val = 0;
+	uint16_t temp_val;
 
-	HAL_ADC_Stop(&hadc1);
+	for (uint8_t i = 0; i <= 2; i++) {
+
+		HAL_ADC_PollForConversion(&hadc1, 10);
+
+		temp_val = (uint16_t) HAL_ADC_GetValue(&hadc1);
+
+		HAL_ADC_Stop(&hadc1);
+
+		if (temp_val > adc_val)
+			adc_val = temp_val;
+
+	}
 
 	/*
 	 *  Vmax(100%)=4.5V
@@ -38,9 +49,14 @@ Battery_t get_battery_level() {
 
 	float vref = 3.3f;
 
-	Battery.vdd = (vref / 2.7f) * vref * adc_val / 4096.0f;
+	Battery.vdd = (vref / 2.7f) * vref * adc_val / 4095.0f;
 
 	Battery.charge_percent = battery_percent_from_voltage(Battery.vdd);
+
+	debug("Battery status:");
+	debug("\tVDD: %d.%02d", (uint8_t) Battery.vdd,
+			(uint16_t) (Battery.vdd * 100) % 100);
+	debug("\tPercent: %d\n\r", Battery.charge_percent);
 
 	return Battery;
 }

@@ -11,7 +11,7 @@
 static ADC_HandleTypeDef *hadc;
 static float alarm_level;
 
-uint32_t poll_sensor(uint8_t times) {
+static float poll_sensor(uint8_t times) {
 
 	uint32_t adc_V0 = 0;
 
@@ -25,7 +25,7 @@ uint32_t poll_sensor(uint8_t times) {
 
 		HAL_ADC_PollForConversion(hadc, 10);
 
-		uint32_t v_temp = HAL_ADC_GetValue(hadc);
+		uint16_t v_temp = (uint16_t) HAL_ADC_GetValue(hadc);
 
 		HAL_ADC_Stop(hadc);
 
@@ -47,7 +47,7 @@ uint32_t poll_sensor(uint8_t times) {
 	 *
 	 */
 
-	return adc_V0 / 4095.0f * 3.3f;
+	return adc_V0 / 4095.0f * 3.3f * 2.0f;
 
 }
 
@@ -57,16 +57,16 @@ float get_infra_sensor_data(ADC_HandleTypeDef *ha, float alarm_lvl) {
 	alarm_level = alarm_lvl;
 
 	// Sensor stabilization for 100ms
-	HAL_Delay(200);
+	HAL_Delay(100);
 
-	uint32_t real_adc_V0;
+	float real_adc_V0;
 
-	real_adc_V0 = poll_sensor(1) * 2;
+	real_adc_V0 = poll_sensor(1);
 
 	// Recheck when alarm threshold is exceeded
 	if (real_adc_V0 >= alarm_level) {
-		real_adc_V0 = poll_sensor(3) * 2;
+		real_adc_V0 = poll_sensor(3);
 	}
 
-	return (float) real_adc_V0;
+	return real_adc_V0;
 }

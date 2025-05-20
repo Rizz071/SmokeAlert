@@ -6,24 +6,33 @@
  */
 
 #include "InfraSensor.h"
+#include "main.h"
 #include "Delay_ns.h"
+#include "DebugLog.h"
 
-static ADC_HandleTypeDef *hadc;
-static float alarm_level;
+static float poll_sensor(ADC_HandleTypeDef *hadc, uint8_t times) {
 
-static float poll_sensor(uint8_t times) {
+//	HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_RESET);
+//	HAL_Delay(100);
+//	HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_SET);
 
-	uint32_t adc_V0 = 0;
+	uint16_t adc_V0 = 0;
 
 	for (uint8_t i = 1; i <= times; i++) {
 
 		HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_RESET);
 
+		HAL_ADCEx_Calibration_Start(hadc); // 3-5 us на stm32f103 при 8Mhz at ADC
+
 		TIM2_Delay_us(280);
+
+//		HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_SET);
+//		HAL_Delay(1);
+//		HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_RESET);
 
 		HAL_ADC_Start(hadc);
 
-		HAL_ADC_PollForConversion(hadc, 10);
+		HAL_ADC_PollForConversion(hadc, HAL_MAX_DELAY);
 
 		uint16_t v_temp = (uint16_t) HAL_ADC_GetValue(hadc);
 
@@ -43,30 +52,21 @@ static float poll_sensor(uint8_t times) {
 	 *  Vmax(100%)=4V
 	 *  R1=10k
 	 *  R2=10k
-	 *  k=0.5
+	 *  k=2.0
 	 *
 	 */
 
-	return adc_V0 / 4095.0f * 3.3f * 2.0f;
+	debug("\t...DONE\n\r");
+
+	return (adc_V0 * 3.3f) / 4095.0f * 2.0f;
 
 }
 
-float get_infra_sensor_data(ADC_HandleTypeDef *ha, float alarm_lvl) {
+float get_infra_sensor_data(ADC_HandleTypeDef *hadc) {
 
-	hadc = ha;
-	alarm_level = alarm_lvl;
+	debug("Polling for dust sensor data...");
 
-	// Sensor stabilization for 100ms
-	HAL_Delay(100);
+	HAL_Delay(100); // Sensor stabilization time (min 100ms)
 
-	float real_adc_V0;
-
-	real_adc_V0 = poll_sensor(1);
-
-	// Recheck when alarm threshold is exceeded
-	if (real_adc_V0 >= alarm_level) {
-		real_adc_V0 = poll_sensor(3);
-	}
-
-	return real_adc_V0;
+	return poll_sensor(hadc, 3);
 }

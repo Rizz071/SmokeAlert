@@ -1,0 +1,57 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36" version="27.0.6">
+  <diagram name="Страница — 1" id="Ba43dn694KedPT_P9-0n">
+    <mxGraphModel dx="1188" dy="648" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c-6C08hO20Lu4jWBWG4H-3" value="Smoke Alert Sensor" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="50" width="400" height="450" as="geometry" />
+        </mxCell>
+        <mxCell id="c-6C08hO20Lu4jWBWG4H-1" value="" style="swimlane;startSize=0;" vertex="1" parent="c-6C08hO20Lu4jWBWG4H-3">
+          <mxGeometry x="20" y="70" width="140" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="c-6C08hO20Lu4jWBWG4H-2" value="MCU&lt;hr&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Stm32f103c6t6&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="c-6C08hO20Lu4jWBWG4H-1">
+          <mxGeometry x="20" y="85" width="100" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c-6C08hO20Lu4jWBWG4H-6" value="" style="swimlane;startSize=0;" vertex="1" parent="c-6C08hO20Lu4jWBWG4H-3">
+          <mxGeometry x="260" y="70" width="120" height="90" as="geometry">
+            <mxRectangle x="260" y="70" width="50" height="40" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c-6C08hO20Lu4jWBWG4H-7" value="LoRa&lt;hr&gt;E220-900M22S" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="c-6C08hO20Lu4jWBWG4H-6">
+          <mxGeometry x="5" y="15" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c-6C08hO20Lu4jWBWG4H-8" value="" style="swimlane;startSize=0;" vertex="1" parent="c-6C08hO20Lu4jWBWG4H-3">
+          <mxGeometry x="260" y="200" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="c-6C08hO20Lu4jWBWG4H-9" value="&lt;div&gt;Dust Sensor&lt;/div&gt;&lt;hr&gt;GP2Y1014AU0F" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="c-6C08hO20Lu4jWBWG4H-8">
+          <mxGeometry x="5" y="15" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c-6C08hO20Lu4jWBWG4H-10" value="" style="swimlane;startSize=0;" vertex="1" parent="c-6C08hO20Lu4jWBWG4H-3">
+          <mxGeometry x="140" y="340" width="105" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="c-6C08hO20Lu4jWBWG4H-11" value="&lt;div&gt;Battery Holder&lt;/div&gt;&lt;hr&gt;KeyStone&lt;div&gt;2462&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;AAx2&lt;/span&gt;&lt;div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="c-6C08hO20Lu4jWBWG4H-10">
+          <mxGeometry x="2.5" width="100" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="c-6C08hO20Lu4jWBWG4H-13" value="" style="shape=flexArrow;endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="c-6C08hO20Lu4jWBWG4H-3">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="160" y="114.5" as="sourcePoint" />
+            <mxPoint x="260" y="115" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c-6C08hO20Lu4jWBWG4H-15" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;entryX=1.005;entryY=0.724;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="c-6C08hO20Lu4jWBWG4H-3" source="c-6C08hO20Lu4jWBWG4H-8">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="257.73999999999995" y="245.66000000000003" as="sourcePoint" />
+            <mxPoint x="159.99999999999994" y="244.32999999999998" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c-6C08hO20Lu4jWBWG4H-16" value="" style="swimlane;startSize=0;" vertex="1" parent="1">
+          <mxGeometry x="120" y="390" width="105" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="c-6C08hO20Lu4jWBWG4H-17" value="&lt;div&gt;Case (ABS)&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="c-6C08hO20Lu4jWBWG4H-16">
+          <mxGeometry x="7.5" y="25" width="90" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

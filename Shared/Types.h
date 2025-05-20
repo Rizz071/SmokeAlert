@@ -27,4 +27,11 @@ typedef struct Battery_t {
 	uint8_t charge_percent;
 } Battery_t;
 
+// Settings must be received from the base station when the sensor is connected
+typedef struct Settings {
+//	uint16_t ? lora_secret_word;
+	float alarm_level; // 0-4V
+	uint16_t time_to_heartbeat_s;  // in seconds
+} Settings_t;
+
 #endif /* TYPES_H_ */

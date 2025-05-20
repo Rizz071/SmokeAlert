@@ -8419,7 +8419,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "CR123A 3V"
+		(property "Value" "AA 2pcs 3V0-3V6 at start"
 			(at 29.165 -8.715 0)
 			(layer "B.Fab")
 			(uuid "2cf5050f-cf31-4dd8-bf5a-9a1b772148c6")

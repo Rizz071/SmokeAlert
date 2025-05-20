@@ -61,11 +61,10 @@ UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 
+Settings_t settings;
 SerialNumber_t hw_serial;
 Battery_t Battery;
 SendPacket_t packet;
-
-float alarm_level;
 
 /* USER CODE END PV */
 
@@ -99,7 +98,6 @@ int main(void)
 	// TODO 1. Добавить светодиод при 10 секундной проверке датчика. Вынести эти 10 сек в константы настройки.
 	// TODO 2. Добавить порт под адаптер стандартной зарядкию Добавить два диода Шоттки ss14
 	// TODO 3. Проверка поступившего сообщения с настройками?
-	// TODO 4. Настройки: alert_level, time_to_regular_poll, poll_times_to_heartbeat
 	// TODO 5. вывод в UART всей отладночной информации
   /* USER CODE END 1 */
 
@@ -126,35 +124,31 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
+	// Dummy data
+	settings.alarm_level = 1.0f;
+	settings.time_to_heartbeat_s = 3;
+
 	debug_init(&huart1);
 
 	debug("========================");
 	debug("The device has woken up!");
+	debug("\tAlarm level: %d.%02d", (uint8_t) settings.alarm_level,
+			(uint8_t) (settings.alarm_level * 100) % 100);
+	debug("\tHeartbeat every: %d.%02d sec\n\r", settings.time_to_heartbeat_s,
+			(uint16_t) (settings.time_to_heartbeat_s * 100) % 100);
 
-	// Defining alarm_level
-	alarm_level = 1.1;
-	debug("alarm_level: %d.%02d\n\r", (uint8_t) alarm_level,
-			(uint16_t) (alarm_level * 100) % 100);
-
-	HAL_Delay(10);
-
-	HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_SET);
+	MX_ADC1_Init();
+	Battery = get_battery_level(&hadc1);
+	HAL_ADC_DeInit(&hadc1);
 
 	hw_serial = get_serial_number();
 
-	MX_ADC1_Init();
-	Battery = get_battery_level();
-	HAL_ADC_DeInit(&hadc1);
-
 	// Enabling VCC to Smoke Sensor and polling for data
-	debug("Polling for dust sensor data...");
-	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_RESET);
-	MX_ADC2_Init();
-	float sensor_data = get_infra_sensor_data(&hadc2, alarm_level);
-	HAL_ADC_DeInit(&hadc2);
 	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_SET);
-	debug("Sensor: %d.%02d\n\r", (uint8_t) sensor_data,
-			(uint16_t) (sensor_data * 100) % 100);
+	MX_ADC2_Init();
+	float sensor_data = get_infra_sensor_data(&hadc2);
+	HAL_ADC_DeInit(&hadc2);
+	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_RESET);
 
 	packet.ID = hw_serial.byte_2;
 	packet.battery_level = Battery.charge_percent;
@@ -165,23 +159,21 @@ int main(void)
 	debug("\tsensor_data: %d.%02d\n\r", (uint8_t) sensor_data,
 			(uint16_t) (sensor_data * 100) % 100);
 
-	debug("Enabling LoRa...");
 	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_LORA_Pin, GPIO_PIN_RESET);
 	MX_SPI1_Init();
 	HAL_Delay(100);
-	debug("Sending packet...");
-	send_packet(packet);
-	debug("\t...sent!");
+	send_packet(&hspi1, packet);
 	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_LORA_Pin, GPIO_PIN_SET);
 
-	//  Toggle red led
+	//  Toggling RED LED
 	HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_SET);
 	HAL_Delay(1);
 	HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_RESET);
 
 	// Sleeping
-	debug("Going sleep (STANDBY MODE)...");
-	set_alarm(3);
+	set_alarm(&hrtc, settings.time_to_heartbeat_s);
+
+	debug("Going STANDBY MODE\n\r\n\r");
 	HAL_PWR_EnterSTANDBYMode();
 
   /* USER CODE END 2 */
@@ -325,7 +317,7 @@ static void MX_ADC2_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_0;
   sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_239CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_13CYCLES_5;
   if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -531,10 +523,10 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(NSS_SIGNAL_GPIO_Port, NSS_SIGNAL_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, RST_SIGNAL_Pin|MOSFET_GATE_SENSOR_Pin|MOSFET_GATE_LORA_Pin|V_LED_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB, RST_SIGNAL_Pin|MOSFET_GATE_LORA_Pin|V_LED_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin|INFO_LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
@@ -566,8 +558,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(DIO0_INT_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : RST_SIGNAL_Pin INFO_LED_Pin */
-  GPIO_InitStruct.Pin = RST_SIGNAL_Pin|INFO_LED_Pin;
+  /*Configure GPIO pins : RST_SIGNAL_Pin MOSFET_GATE_SENSOR_Pin INFO_LED_Pin */
+  GPIO_InitStruct.Pin = RST_SIGNAL_Pin|MOSFET_GATE_SENSOR_Pin|INFO_LED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -582,12 +574,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : MOSFET_GATE_SENSOR_Pin MOSFET_GATE_LORA_Pin */
-  GPIO_InitStruct.Pin = MOSFET_GATE_SENSOR_Pin|MOSFET_GATE_LORA_Pin;
+  /*Configure GPIO pin : MOSFET_GATE_LORA_Pin */
+  GPIO_InitStruct.Pin = MOSFET_GATE_LORA_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  HAL_GPIO_Init(MOSFET_GATE_LORA_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : V_LED_Pin */
   GPIO_InitStruct.Pin = V_LED_Pin;

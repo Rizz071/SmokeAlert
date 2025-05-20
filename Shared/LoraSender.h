@@ -10,6 +10,6 @@
 
 #include "Types.h"
 
-void send_packet(SendPacket_t packet);
+void send_packet(SPI_HandleTypeDef *hspi, SendPacket_t packet);
 
 #endif /* INC_LORASENDER_H_ */

@@ -6,33 +6,34 @@
  */
 
 #include "BatteryLevel.h"
-#include "stm32f1xx_hal.h"
+#include "main.h"
 #include <math.h>
 #include <stdint.h>
 #include "Types.h"
 #include "DebugLog.h"
 
-extern ADC_HandleTypeDef hadc1;
-
 extern Battery_t Battery;
 
 static uint8_t battery_percent_from_voltage(float);
 
-Battery_t get_battery_level() {
+Battery_t get_battery_level(ADC_HandleTypeDef *hadc) {
 
 	debug("Polling for battery status...");
-	HAL_ADC_Start(&hadc1);
 
 	uint16_t adc_val = 0;
 	uint16_t temp_val;
 
-	for (uint8_t i = 0; i <= 2; i++) {
+	HAL_ADCEx_Calibration_Start(hadc);
 
-		HAL_ADC_PollForConversion(&hadc1, 10);
+	for (uint8_t i = 1; i <= 3; i++) {
 
-		temp_val = (uint16_t) HAL_ADC_GetValue(&hadc1);
+		HAL_ADC_Start(hadc);
 
-		HAL_ADC_Stop(&hadc1);
+		HAL_ADC_PollForConversion(hadc, 10);
+
+		temp_val = (uint16_t) HAL_ADC_GetValue(hadc);
+
+		HAL_ADC_Stop(hadc);
 
 		if (temp_val > adc_val)
 			adc_val = temp_val;

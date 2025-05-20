@@ -8,10 +8,8 @@
 #ifndef INC_ALARMRESET_H_
 #define INC_ALARMRESET_H_
 
-#include <stdint.h>
-#include <stdint.h>
+#include "stm32f1xx_hal.h"
 
-
-void set_alarm(uint8_t sec);
+void set_alarm(RTC_HandleTypeDef *hrtc, uint16_t sec);
 
 #endif /* INC_ALARMRESET_H_ */

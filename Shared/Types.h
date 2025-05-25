@@ -31,7 +31,8 @@ typedef struct Battery_t {
 typedef struct Settings {
 //	uint16_t ? lora_secret_word;
 	float alarm_level; // 0-4V
-	uint16_t time_to_heartbeat_s;  // in seconds
+	uint16_t time_to_wakeup;  // in seconds
+	uint8_t times_to_heartbeat; // times to send heartbeat via LoRa
 } Settings_t;
 
 #endif /* TYPES_H_ */

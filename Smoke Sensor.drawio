@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36" version="27.0.6">
   <diagram name="Страница — 1" id="Ba43dn694KedPT_P9-0n">
-    <mxGraphModel dx="1188" dy="648" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="868" dy="468" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -44,6 +44,12 @@
             <mxPoint x="257.73999999999995" y="245.66000000000003" as="sourcePoint" />
             <mxPoint x="159.99999999999994" y="244.32999999999998" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="c-6C08hO20Lu4jWBWG4H-22" value="" style="swimlane;startSize=0;" vertex="1" parent="c-6C08hO20Lu4jWBWG4H-3">
+          <mxGeometry x="261" y="340" width="105" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="c-6C08hO20Lu4jWBWG4H-23" value="&lt;div&gt;USB Type-C&lt;br&gt;VCC&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="c-6C08hO20Lu4jWBWG4H-22">
+          <mxGeometry x="7.5" y="25" width="90" height="40" as="geometry" />
         </mxCell>
         <mxCell id="c-6C08hO20Lu4jWBWG4H-16" value="" style="swimlane;startSize=0;" vertex="1" parent="1">
           <mxGeometry x="120" y="390" width="105" height="90" as="geometry" />

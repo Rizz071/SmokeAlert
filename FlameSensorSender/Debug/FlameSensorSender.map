@@ -5509,36 +5509,36 @@ LOAD C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_macro   0x0001a522      0x203 ./Shared/LoraSender.o
  .debug_macro   0x0001a725      0x1f1 ./Shared/SerialNumber.o
 
-.debug_line     0x00000000    0x18698
- .debug_line    0x00000000      0xcef ./Core/Src/main.o
- .debug_line    0x00000cef      0x902 ./Core/Src/stm32f1xx_hal_msp.o
- .debug_line    0x000015f1      0x83c ./Core/Src/stm32f1xx_it.o
- .debug_line    0x00001e2d      0x588 ./Core/Src/sysmem.o
- .debug_line    0x000023b5      0x7f4 ./Core/Src/system_stm32f1xx.o
- .debug_line    0x00002ba9       0x78 ./Core/Startup/startup_stm32f103c6tx.o
- .debug_line    0x00002c21      0xa25 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
- .debug_line    0x00003646     0x104a ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.o
- .debug_line    0x00004690      0xd6c ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc_ex.o
- .debug_line    0x000053fc      0xbef ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.o
- .debug_line    0x00005feb      0xa6d ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.o
- .debug_line    0x00006a58      0x9c9 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.o
- .debug_line    0x00007421      0xede ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.o
- .debug_line    0x000082ff      0x98f ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.o
- .debug_line    0x00008c8e     0x1234 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc.o
- .debug_line    0x00009ec2      0xa3c ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc_ex.o
- .debug_line    0x0000a8fe     0x1cbc ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.o
- .debug_line    0x0000c5ba     0x34ca ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.o
- .debug_line    0x0000fa84     0x18b9 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.o
- .debug_line    0x0001133d     0x2541 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.o
- .debug_line    0x0001387e      0x7c8 ./Shared/AlarmReset.o
- .debug_line    0x00014046      0x7cd ./Shared/BackupReg.o
- .debug_line    0x00014813      0x9a6 ./Shared/BatteryLevel.o
- .debug_line    0x000151b9      0x93f ./Shared/DebugLog.o
- .debug_line    0x00015af8      0x79c ./Shared/Delay_ns.o
- .debug_line    0x00016294      0x812 ./Shared/InfraSensor.o
- .debug_line    0x00016aa6      0xc17 ./Shared/LoRa.o
- .debug_line    0x000176bd      0x80f ./Shared/LoraSender.o
- .debug_line    0x00017ecc      0x7cc ./Shared/SerialNumber.o
+.debug_line     0x00000000    0x18696
+ .debug_line    0x00000000      0xced ./Core/Src/main.o
+ .debug_line    0x00000ced      0x902 ./Core/Src/stm32f1xx_hal_msp.o
+ .debug_line    0x000015ef      0x83c ./Core/Src/stm32f1xx_it.o
+ .debug_line    0x00001e2b      0x588 ./Core/Src/sysmem.o
+ .debug_line    0x000023b3      0x7f4 ./Core/Src/system_stm32f1xx.o
+ .debug_line    0x00002ba7       0x78 ./Core/Startup/startup_stm32f103c6tx.o
+ .debug_line    0x00002c1f      0xa25 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
+ .debug_line    0x00003644     0x104a ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.o
+ .debug_line    0x0000468e      0xd6c ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc_ex.o
+ .debug_line    0x000053fa      0xbef ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.o
+ .debug_line    0x00005fe9      0xa6d ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.o
+ .debug_line    0x00006a56      0x9c9 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.o
+ .debug_line    0x0000741f      0xede ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.o
+ .debug_line    0x000082fd      0x98f ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.o
+ .debug_line    0x00008c8c     0x1234 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc.o
+ .debug_line    0x00009ec0      0xa3c ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc_ex.o
+ .debug_line    0x0000a8fc     0x1cbc ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.o
+ .debug_line    0x0000c5b8     0x34ca ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.o
+ .debug_line    0x0000fa82     0x18b9 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.o
+ .debug_line    0x0001133b     0x2541 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.o
+ .debug_line    0x0001387c      0x7c8 ./Shared/AlarmReset.o
+ .debug_line    0x00014044      0x7cd ./Shared/BackupReg.o
+ .debug_line    0x00014811      0x9a6 ./Shared/BatteryLevel.o
+ .debug_line    0x000151b7      0x93f ./Shared/DebugLog.o
+ .debug_line    0x00015af6      0x79c ./Shared/Delay_ns.o
+ .debug_line    0x00016292      0x812 ./Shared/InfraSensor.o
+ .debug_line    0x00016aa4      0xc17 ./Shared/LoRa.o
+ .debug_line    0x000176bb      0x80f ./Shared/LoraSender.o
+ .debug_line    0x00017eca      0x7cc ./Shared/SerialNumber.o
 
 .debug_str      0x00000000    0x927fe
  .debug_str     0x00000000    0x927fe ./Core/Src/main.o

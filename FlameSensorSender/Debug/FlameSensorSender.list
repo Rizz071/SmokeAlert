@@ -37,11 +37,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  0001a916  00000000  00000000  00022b88  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00018698  00000000  00000000  0003d49e  2**0
+ 17 .debug_line   00018696  00000000  00000000  0003d49e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000927fe  00000000  00000000  00055b36  2**0
+ 18 .debug_str    000927fe  00000000  00000000  00055b34  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  000e8334  2**0
+ 19 .comment      00000043  00000000  00000000  000e8332  2**0
                   CONTENTS, READONLY
  20 .debug_frame  0000569c  00000000  00000000  000e8378  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -1330,9 +1330,9 @@ int main(void) {
  8000f4e:	4b8b      	ldr	r3, [pc, #556]	@ (800117c <main+0x24c>)
  8000f50:	f04f 527e 	mov.w	r2, #1065353216	@ 0x3f800000
  8000f54:	601a      	str	r2, [r3, #0]
-	settings.time_to_wakeup = 3;
+	settings.time_to_wakeup = 4;
  8000f56:	4b89      	ldr	r3, [pc, #548]	@ (800117c <main+0x24c>)
- 8000f58:	2203      	movs	r2, #3
+ 8000f58:	2204      	movs	r2, #4
  8000f5a:	809a      	strh	r2, [r3, #4]
 	settings.times_to_heartbeat = 3;
  8000f5c:	4b87      	ldr	r3, [pc, #540]	@ (800117c <main+0x24c>)
@@ -1426,72 +1426,72 @@ int main(void) {
  8001012:	4863      	ldr	r0, [pc, #396]	@ (80011a0 <main+0x270>)
  8001014:	f000 ff44 	bl	8001ea0 <HAL_ADC_DeInit>
 
-	hw_serial = get_serial_number();
- 8001018:	4c62      	ldr	r4, [pc, #392]	@ (80011a4 <main+0x274>)
- 800101a:	463b      	mov	r3, r7
- 800101c:	4618      	mov	r0, r3
- 800101e:	f005 fd1f 	bl	8006a60 <get_serial_number>
- 8001022:	463b      	mov	r3, r7
- 8001024:	e893 0007 	ldmia.w	r3, {r0, r1, r2}
- 8001028:	e884 0007 	stmia.w	r4, {r0, r1, r2}
-
 	// Enabling VCC to Smoke Sensor and polling for data
 	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_RESET);
- 800102c:	2200      	movs	r2, #0
- 800102e:	f44f 6180 	mov.w	r1, #1024	@ 0x400
- 8001032:	485d      	ldr	r0, [pc, #372]	@ (80011a8 <main+0x278>)
- 8001034:	f001 ff62 	bl	8002efc <HAL_GPIO_WritePin>
+ 8001018:	2200      	movs	r2, #0
+ 800101a:	f44f 6180 	mov.w	r1, #1024	@ 0x400
+ 800101e:	4861      	ldr	r0, [pc, #388]	@ (80011a4 <main+0x274>)
+ 8001020:	f001 ff6c 	bl	8002efc <HAL_GPIO_WritePin>
 	MX_ADC2_Init();
- 8001038:	f000 f960 	bl	80012fc <MX_ADC2_Init>
+ 8001024:	f000 f96a 	bl	80012fc <MX_ADC2_Init>
 	float sensor_data = get_infra_sensor_data(&hadc2);
- 800103c:	485b      	ldr	r0, [pc, #364]	@ (80011ac <main+0x27c>)
- 800103e:	f005 f8cb 	bl	80061d8 <get_infra_sensor_data>
- 8001042:	61f8      	str	r0, [r7, #28]
+ 8001028:	485f      	ldr	r0, [pc, #380]	@ (80011a8 <main+0x278>)
+ 800102a:	f005 f8d5 	bl	80061d8 <get_infra_sensor_data>
+ 800102e:	61f8      	str	r0, [r7, #28]
 	HAL_ADC_DeInit(&hadc2);
- 8001044:	4859      	ldr	r0, [pc, #356]	@ (80011ac <main+0x27c>)
- 8001046:	f000 ff2b 	bl	8001ea0 <HAL_ADC_DeInit>
+ 8001030:	485d      	ldr	r0, [pc, #372]	@ (80011a8 <main+0x278>)
+ 8001032:	f000 ff35 	bl	8001ea0 <HAL_ADC_DeInit>
 	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_SET);
- 800104a:	2201      	movs	r2, #1
- 800104c:	f44f 6180 	mov.w	r1, #1024	@ 0x400
- 8001050:	4855      	ldr	r0, [pc, #340]	@ (80011a8 <main+0x278>)
- 8001052:	f001 ff53 	bl	8002efc <HAL_GPIO_WritePin>
+ 8001036:	2201      	movs	r2, #1
+ 8001038:	f44f 6180 	mov.w	r1, #1024	@ 0x400
+ 800103c:	4859      	ldr	r0, [pc, #356]	@ (80011a4 <main+0x274>)
+ 800103e:	f001 ff5d 	bl	8002efc <HAL_GPIO_WritePin>
 
 	init_backup_register();
- 8001056:	f004 fe9b 	bl	8005d90 <init_backup_register>
+ 8001042:	f004 fea5 	bl	8005d90 <init_backup_register>
 	uint8_t backup_reg_current_value = read_backup_register();
- 800105a:	f004 feaf 	bl	8005dbc <read_backup_register>
- 800105e:	4603      	mov	r3, r0
- 8001060:	76fb      	strb	r3, [r7, #27]
+ 8001046:	f004 feb9 	bl	8005dbc <read_backup_register>
+ 800104a:	4603      	mov	r3, r0
+ 800104c:	76fb      	strb	r3, [r7, #27]
 	debug("Times to heartbeat: %d of %d\n\r", backup_reg_current_value + 1,
- 8001062:	7efb      	ldrb	r3, [r7, #27]
- 8001064:	3301      	adds	r3, #1
+ 800104e:	7efb      	ldrb	r3, [r7, #27]
+ 8001050:	3301      	adds	r3, #1
 			settings.times_to_heartbeat);
- 8001066:	4a45      	ldr	r2, [pc, #276]	@ (800117c <main+0x24c>)
- 8001068:	7992      	ldrb	r2, [r2, #6]
+ 8001052:	4a4a      	ldr	r2, [pc, #296]	@ (800117c <main+0x24c>)
+ 8001054:	7992      	ldrb	r2, [r2, #6]
 	debug("Times to heartbeat: %d of %d\n\r", backup_reg_current_value + 1,
- 800106a:	4619      	mov	r1, r3
- 800106c:	4850      	ldr	r0, [pc, #320]	@ (80011b0 <main+0x280>)
- 800106e:	f004 fffb 	bl	8006068 <debug>
+ 8001056:	4619      	mov	r1, r3
+ 8001058:	4854      	ldr	r0, [pc, #336]	@ (80011ac <main+0x27c>)
+ 800105a:	f005 f805 	bl	8006068 <debug>
 
 	if ((backup_reg_current_value + 1 >= settings.times_to_heartbeat)
- 8001072:	7efb      	ldrb	r3, [r7, #27]
- 8001074:	3301      	adds	r3, #1
- 8001076:	4a41      	ldr	r2, [pc, #260]	@ (800117c <main+0x24c>)
- 8001078:	7992      	ldrb	r2, [r2, #6]
- 800107a:	4293      	cmp	r3, r2
- 800107c:	da08      	bge.n	8001090 <main+0x160>
+ 800105e:	7efb      	ldrb	r3, [r7, #27]
+ 8001060:	3301      	adds	r3, #1
+ 8001062:	4a46      	ldr	r2, [pc, #280]	@ (800117c <main+0x24c>)
+ 8001064:	7992      	ldrb	r2, [r2, #6]
+ 8001066:	4293      	cmp	r3, r2
+ 8001068:	da08      	bge.n	800107c <main+0x14c>
 			|| (sensor_data >= settings.alarm_level)) {
- 800107e:	4b3f      	ldr	r3, [pc, #252]	@ (800117c <main+0x24c>)
- 8001080:	681b      	ldr	r3, [r3, #0]
- 8001082:	4619      	mov	r1, r3
- 8001084:	69f8      	ldr	r0, [r7, #28]
- 8001086:	f7ff ff1f 	bl	8000ec8 <__aeabi_fcmpge>
- 800108a:	4603      	mov	r3, r0
- 800108c:	2b00      	cmp	r3, #0
- 800108e:	d052      	beq.n	8001136 <main+0x206>
+ 800106a:	4b44      	ldr	r3, [pc, #272]	@ (800117c <main+0x24c>)
+ 800106c:	681b      	ldr	r3, [r3, #0]
+ 800106e:	4619      	mov	r1, r3
+ 8001070:	69f8      	ldr	r0, [r7, #28]
+ 8001072:	f7ff ff29 	bl	8000ec8 <__aeabi_fcmpge>
+ 8001076:	4603      	mov	r3, r0
+ 8001078:	2b00      	cmp	r3, #0
+ 800107a:	d05c      	beq.n	8001136 <main+0x206>
+
+		hw_serial = get_serial_number();
+ 800107c:	4c4c      	ldr	r4, [pc, #304]	@ (80011b0 <main+0x280>)
+ 800107e:	463b      	mov	r3, r7
+ 8001080:	4618      	mov	r0, r3
+ 8001082:	f005 fced 	bl	8006a60 <get_serial_number>
+ 8001086:	463b      	mov	r3, r7
+ 8001088:	e893 0007 	ldmia.w	r3, {r0, r1, r2}
+ 800108c:	e884 0007 	stmia.w	r4, {r0, r1, r2}
 
 		packet.ID = hw_serial.byte_2;
- 8001090:	4b44      	ldr	r3, [pc, #272]	@ (80011a4 <main+0x274>)
+ 8001090:	4b47      	ldr	r3, [pc, #284]	@ (80011b0 <main+0x280>)
  8001092:	689b      	ldr	r3, [r3, #8]
  8001094:	4a47      	ldr	r2, [pc, #284]	@ (80011b4 <main+0x284>)
  8001096:	6013      	str	r3, [r2, #0]
@@ -1552,7 +1552,7 @@ int main(void) {
 		HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_LORA_Pin, GPIO_PIN_RESET);
  8001102:	2200      	movs	r2, #0
  8001104:	f44f 6100 	mov.w	r1, #2048	@ 0x800
- 8001108:	4827      	ldr	r0, [pc, #156]	@ (80011a8 <main+0x278>)
+ 8001108:	4826      	ldr	r0, [pc, #152]	@ (80011a4 <main+0x274>)
  800110a:	f001 fef7 	bl	8002efc <HAL_GPIO_WritePin>
 		MX_SPI1_Init();
  800110e:	f000 f97d 	bl	800140c <MX_SPI1_Init>
@@ -1567,7 +1567,7 @@ int main(void) {
 		HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_LORA_Pin, GPIO_PIN_SET);
  8001122:	2201      	movs	r2, #1
  8001124:	f44f 6100 	mov.w	r1, #2048	@ 0x800
- 8001128:	481f      	ldr	r0, [pc, #124]	@ (80011a8 <main+0x278>)
+ 8001128:	481e      	ldr	r0, [pc, #120]	@ (80011a4 <main+0x274>)
  800112a:	f001 fee7 	bl	8002efc <HAL_GPIO_WritePin>
 
 		write_backup_register(0);
@@ -1588,7 +1588,7 @@ int main(void) {
 	HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_SET);
  8001144:	2201      	movs	r2, #1
  8001146:	f44f 4100 	mov.w	r1, #32768	@ 0x8000
- 800114a:	4817      	ldr	r0, [pc, #92]	@ (80011a8 <main+0x278>)
+ 800114a:	4816      	ldr	r0, [pc, #88]	@ (80011a4 <main+0x274>)
  800114c:	f001 fed6 	bl	8002efc <HAL_GPIO_WritePin>
 	HAL_Delay(1);
  8001150:	2001      	movs	r0, #1
@@ -1596,7 +1596,7 @@ int main(void) {
 	HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_RESET);
  8001156:	2200      	movs	r2, #0
  8001158:	f44f 4100 	mov.w	r1, #32768	@ 0x8000
- 800115c:	4812      	ldr	r0, [pc, #72]	@ (80011a8 <main+0x278>)
+ 800115c:	4811      	ldr	r0, [pc, #68]	@ (80011a4 <main+0x274>)
  800115e:	f001 fecd 	bl	8002efc <HAL_GPIO_WritePin>
 
 	// Sleeping
@@ -1630,10 +1630,10 @@ int main(void) {
  8001198:	08007520 	.word	0x08007520
  800119c:	200001e8 	.word	0x200001e8
  80011a0:	20000078 	.word	0x20000078
- 80011a4:	200001dc 	.word	0x200001dc
- 80011a8:	40010c00 	.word	0x40010c00
- 80011ac:	200000a8 	.word	0x200000a8
- 80011b0:	08007540 	.word	0x08007540
+ 80011a4:	40010c00 	.word	0x40010c00
+ 80011a8:	200000a8 	.word	0x200000a8
+ 80011ac:	08007540 	.word	0x08007540
+ 80011b0:	200001dc 	.word	0x200001dc
  80011b4:	200001f0 	.word	0x200001f0
  80011b8:	08007560 	.word	0x08007560
  80011bc:	08007570 	.word	0x08007570

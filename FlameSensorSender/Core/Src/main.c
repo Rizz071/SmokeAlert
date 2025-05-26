@@ -123,7 +123,7 @@ int main(void) {
 
 	// Dummy data
 	settings.alarm_level = 1.0f;
-	settings.time_to_wakeup = 3;
+	settings.time_to_wakeup = 4;
 	settings.times_to_heartbeat = 3;
 
 	debug_init(&huart1);

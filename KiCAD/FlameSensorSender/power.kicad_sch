@@ -2708,6 +2708,12 @@
 		(uuid "efe9050e-26a9-4a53-9aeb-e65a9be7bc07")
 	)
 	(junction
+		(at 163.83 111.76)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "fbb3842d-8742-48b6-9a6d-134fdfa02282")
+	)
+	(junction
 		(at 144.78 111.76)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2945,16 +2951,6 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 121.92) (xy 158.75 119.38)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3f94f51b-4fb9-4aa3-b80f-5d55bd91c77c")
-	)
-	(wire
-		(pts
 			(xy 130.81 46.99) (xy 130.81 45.72)
 		)
 		(stroke
@@ -3085,6 +3081,16 @@
 	)
 	(wire
 		(pts
+			(xy 162.56 119.38) (xy 163.83 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5fd23204-37b3-4689-a9ca-76fd815dd15c")
+	)
+	(wire
+		(pts
 			(xy 148.59 121.92) (xy 148.59 119.38)
 		)
 		(stroke
@@ -3092,16 +3098,6 @@
 			(type default)
 		)
 		(uuid "60212bb8-41d2-475f-a03d-779876479be1")
-	)
-	(wire
-		(pts
-			(xy 162.56 132.08) (xy 158.75 132.08)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6615c895-b99d-4a58-aeea-a065d891bcc7")
 	)
 	(wire
 		(pts
@@ -3185,7 +3181,7 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 111.76) (xy 162.56 111.76)
+			(xy 158.75 111.76) (xy 163.83 111.76)
 		)
 		(stroke
 			(width 0)
@@ -3315,6 +3311,16 @@
 	)
 	(wire
 		(pts
+			(xy 163.83 111.76) (xy 166.37 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "acf7dc6b-4c71-438a-86ac-468846472315")
+	)
+	(wire
+		(pts
 			(xy 44.45 102.87) (xy 50.8 102.87)
 		)
 		(stroke
@@ -3435,7 +3441,7 @@
 	)
 	(wire
 		(pts
-			(xy 153.67 119.38) (xy 158.75 119.38)
+			(xy 153.67 119.38) (xy 154.94 119.38)
 		)
 		(stroke
 			(width 0)
@@ -3615,6 +3621,16 @@
 	)
 	(wire
 		(pts
+			(xy 163.83 119.38) (xy 163.83 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ec5434be-7519-4de4-bf17-00ed48c9af9e")
+	)
+	(wire
+		(pts
 			(xy 87.63 111.76) (xy 87.63 113.03)
 		)
 		(stroke
@@ -3622,16 +3638,6 @@
 			(type default)
 		)
 		(uuid "ec5c3206-e4f7-473c-81d1-5fc8501a66a1")
-	)
-	(wire
-		(pts
-			(xy 158.75 132.08) (xy 158.75 129.54)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "edec9c1f-fa88-4137-b08d-0460585858f7")
 	)
 	(wire
 		(pts
@@ -3695,7 +3701,7 @@
 	)
 	(global_label "VRAW"
 		(shape input)
-		(at 162.56 111.76 0)
+		(at 166.37 111.76 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3705,7 +3711,7 @@
 		)
 		(uuid "18d2f7d0-8207-4c7d-845a-c14974f283b5")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 168.8825 111.76 0)
+			(at 172.6925 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3804,28 +3810,6 @@
 		(uuid "9a6cd62a-3956-4fbc-bca8-ce57c7b7c470")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 117.3839 102.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "VRAW"
-		(shape input)
-		(at 162.56 132.08 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "cf974582-794a-43c2-93b3-d2ac28d07ac0")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 168.8825 132.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4180,37 +4164,6 @@
 	(netclass_flag ""
 		(length 2.54)
 		(shape round)
-		(at 156.21 119.38 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "bb874207-bf46-4b50-a601-366287a94f09")
-		(property "Netclass" "Power"
-			(at 156.9085 116.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Component Class" ""
-			(at 2.54 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-					(italic yes)
-				)
-			)
-		)
-	)
-	(netclass_flag ""
-		(length 2.54)
-		(shape round)
 		(at 44.45 66.04 270)
 		(fields_autoplaced yes)
 		(effects
@@ -4413,7 +4366,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "06bc08dc-561d-47e2-a35f-3c9e681aaefd")
-		(property "Reference" "D1"
+		(property "Reference" "D2"
 			(at 46.99 41.5925 90)
 			(effects
 				(font
@@ -4467,7 +4420,7 @@
 		(instances
 			(project ""
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "D1")
+					(reference "D2")
 					(unit 1)
 				)
 			)
@@ -4483,7 +4436,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "06d0ed57-28ef-49bb-a230-0f78239166bf")
-		(property "Reference" "R12"
+		(property "Reference" "R14"
 			(at 137.16 54.61 90)
 			(effects
 				(font
@@ -4499,7 +4452,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0201_0603Metric_Pad0.64x0.40mm_HandSolder"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
 			(at 137.16 46.482 90)
 			(effects
 				(font
@@ -4535,7 +4488,7 @@
 		(instances
 			(project ""
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R12")
+					(reference "R14")
 					(unit 1)
 				)
 			)
@@ -4551,7 +4504,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0b4d99a3-3a89-478a-b6fe-22c7d79759d3")
-		(property "Reference" "R15"
+		(property "Reference" "R17"
 			(at 226.06 106.68 0)
 			(effects
 				(font
@@ -4605,7 +4558,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R15")
+					(reference "R17")
 					(unit 1)
 				)
 			)
@@ -4621,7 +4574,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0d13627d-b8e9-4c4c-94d2-83b887db82cc")
-		(property "Reference" "R9"
+		(property "Reference" "R11"
 			(at 100.33 109.22 0)
 			(effects
 				(font
@@ -4675,7 +4628,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R9")
+					(reference "R11")
 					(unit 1)
 				)
 			)
@@ -4691,7 +4644,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "14a2a11d-410c-4813-82ad-5b795df66b3e")
-		(property "Reference" "R8"
+		(property "Reference" "R10"
 			(at 90.17 106.68 0)
 			(effects
 				(font
@@ -4745,7 +4698,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R8")
+					(reference "R10")
 					(unit 1)
 				)
 			)
@@ -4761,7 +4714,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "17892de4-0e89-4d7d-83cc-59b38816a154")
-		(property "Reference" "R16"
+		(property "Reference" "R18"
 			(at 236.22 109.22 0)
 			(effects
 				(font
@@ -4815,7 +4768,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R16")
+					(reference "R18")
 					(unit 1)
 				)
 			)
@@ -5024,7 +4977,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2474f4a3-1f27-4dbc-9db9-96b2adbffa15")
-		(property "Reference" "#PWR013"
+		(property "Reference" "#PWR015"
 			(at 44.45 73.66 0)
 			(effects
 				(font
@@ -5074,7 +5027,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR013")
+					(reference "#PWR015")
 					(unit 1)
 				)
 			)
@@ -5601,7 +5554,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "60c40a28-8255-447f-913b-2b32819aec3a")
-		(property "Reference" "R13"
+		(property "Reference" "R15"
 			(at 146.05 124.46 0)
 			(effects
 				(font
@@ -5619,7 +5572,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0201_0603Metric"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
 			(at 150.368 125.73 90)
 			(effects
 				(font
@@ -5655,7 +5608,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R13")
+					(reference "R15")
 					(unit 1)
 				)
 			)
@@ -5671,7 +5624,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "65085aa9-e690-47c8-bd08-8a8b10077900")
-		(property "Reference" "D2"
+		(property "Reference" "D3"
 			(at 136.8425 67.31 0)
 			(effects
 				(font
@@ -5723,7 +5676,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "D2")
+					(reference "D3")
 					(unit 1)
 				)
 			)
@@ -5739,7 +5692,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "6e81e4a6-d627-4309-950d-90332b064325")
-		(property "Reference" "#PWR014"
+		(property "Reference" "#PWR016"
 			(at 66.04 139.7 0)
 			(effects
 				(font
@@ -5789,7 +5742,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR014")
+					(reference "#PWR016")
 					(unit 1)
 				)
 			)
@@ -5805,7 +5758,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "81033656-8c94-4208-9100-6b59f4e149ad")
-		(property "Reference" "#PWR018"
+		(property "Reference" "#PWR020"
 			(at 201.93 139.7 0)
 			(effects
 				(font
@@ -5855,7 +5808,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR018")
+					(reference "#PWR020")
 					(unit 1)
 				)
 			)
@@ -5956,7 +5909,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23_Handsoldering"
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-3"
 			(at 155.575 109.22 0)
 			(effects
 				(font
@@ -6076,7 +6029,8 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 158.75 125.73 0)
+		(at 158.75 119.38 90)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6084,26 +6038,24 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "999993e7-782f-48f4-b824-856d74b440c4")
-		(property "Reference" "R14"
-			(at 161.29 124.46 0)
+		(property "Reference" "R16"
+			(at 158.75 125.73 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
 		(property "Value" "470k,0603"
-			(at 161.29 127 0)
+			(at 158.75 123.19 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0201_0603Metric_Pad0.64x0.40mm_HandSolder"
-			(at 156.972 125.73 90)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 158.75 117.602 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6112,7 +6064,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 158.75 125.73 0)
+			(at 158.75 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6121,7 +6073,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 158.75 125.73 0)
+			(at 158.75 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6138,7 +6090,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R14")
+					(reference "R16")
 					(unit 1)
 				)
 			)
@@ -6154,7 +6106,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9b086675-2b4a-406c-a7be-cc5bb92af2e7")
-		(property "Reference" "#PWR016"
+		(property "Reference" "#PWR018"
 			(at 124.46 46.99 0)
 			(effects
 				(font
@@ -6205,7 +6157,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR016")
+					(reference "#PWR018")
 					(unit 1)
 				)
 			)
@@ -6288,7 +6240,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a921dfbb-41dd-4f85-9d31-a157d6b8666b")
-		(property "Reference" "R10"
+		(property "Reference" "R12"
 			(at 100.33 124.46 0)
 			(effects
 				(font
@@ -6342,7 +6294,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R10")
+					(reference "R12")
 					(unit 1)
 				)
 			)
@@ -6358,7 +6310,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b25b59ba-6a90-4bed-87b2-3ba9b154bd64")
-		(property "Reference" "R17"
+		(property "Reference" "R19"
 			(at 236.22 124.46 0)
 			(effects
 				(font
@@ -6412,7 +6364,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R17")
+					(reference "R19")
 					(unit 1)
 				)
 			)
@@ -6494,7 +6446,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c04226f7-ac3d-400b-a943-b5dc316e10e1")
-		(property "Reference" "#PWR015"
+		(property "Reference" "#PWR017"
 			(at 88.9 68.58 0)
 			(effects
 				(font
@@ -6544,7 +6496,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR015")
+					(reference "#PWR017")
 					(unit 1)
 				)
 			)
@@ -6560,7 +6512,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cdc7ee12-f200-4ce2-8e9d-c9c87b18e2f4")
-		(property "Reference" "#PWR017"
+		(property "Reference" "#PWR019"
 			(at 162.56 26.67 0)
 			(effects
 				(font
@@ -6610,7 +6562,7 @@
 		(instances
 			(project ""
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR017")
+					(reference "#PWR019")
 					(unit 1)
 				)
 			)
@@ -6692,7 +6644,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d8d9875b-2c19-4740-908b-a6b78420877e")
-		(property "Reference" "J3"
+		(property "Reference" "J7"
 			(at 158.75 71.12 0)
 			(effects
 				(font
@@ -6759,7 +6711,7 @@
 		(instances
 			(project ""
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "J3")
+					(reference "J7")
 					(unit 1)
 				)
 			)
@@ -6846,7 +6798,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f057a396-7956-4091-b096-ff823be465ff")
-		(property "Reference" "R11"
+		(property "Reference" "R13"
 			(at 137.16 39.37 90)
 			(effects
 				(font
@@ -6862,7 +6814,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0201_0603Metric_Pad0.64x0.40mm_HandSolder"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
 			(at 137.16 47.498 90)
 			(effects
 				(font
@@ -6898,7 +6850,7 @@
 		(instances
 			(project ""
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R11")
+					(reference "R13")
 					(unit 1)
 				)
 			)

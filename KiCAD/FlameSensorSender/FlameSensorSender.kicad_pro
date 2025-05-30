@@ -535,6 +535,9 @@
       "Net-(D2-K)": [
         "Power"
       ],
+      "Net-(D3-A)": [
+        "Power"
+      ],
       "Net-(J1-Pin_1)": [
         "Power"
       ],
@@ -545,6 +548,24 @@
         "Power"
       ],
       "Net-(J3-CC2)": [
+        "Power"
+      ],
+      "Net-(J5-Pin_1)": [
+        "Power"
+      ],
+      "Net-(J6-CC1)": [
+        "Power"
+      ],
+      "Net-(J6-CC2)": [
+        "Power"
+      ],
+      "Net-(J6-Pin_1)": [
+        "Power"
+      ],
+      "Net-(J7-CC1)": [
+        "Power"
+      ],
+      "Net-(J7-CC2)": [
         "Power"
       ],
       "Net-(Q1-D)": [
@@ -803,7 +824,7 @@
       "workbook_filename": ""
     },
     "page_layout_descr_file": "kicad-embed://gost_landscape.kicad_wks",
-    "plot_directory": "",
+    "plot_directory": "C:/Users/rizz/Downloads/",
     "space_save_all_events": true,
     "spice_current_sheet_as_root": false,
     "spice_external_command": "spice \"%I\"",

@@ -13099,7 +13099,7 @@
 		(descr "JST PH series connector, B2B-PH-K (http://www.jst-mfg.com/product/pdf/eng/ePH.pdf), generated with kicad-footprint-generator")
 		(tags "connector JST PH vertical")
 		(property "Reference" "J3"
-			(at 1 2.9 0)
+			(at -2.370062 2.860412 0)
 			(layer "B.SilkS")
 			(uuid "d4d3783d-f1b7-4d9f-a8c9-09cda73589ff")
 			(effects
@@ -14546,10 +14546,34 @@
 			(justify left bottom mirror)
 		)
 	)
+	(gr_text "LED"
+		(at 63.813369 60.850064 180)
+		(layer "B.SilkS" knockout)
+		(uuid "65436753-3622-4ed9-aa19-2c0001edcbe3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+			(justify left bottom mirror)
+		)
+	)
 	(gr_text "SWDIO"
 		(at 75.479665 44.684327 180)
 		(layer "B.SilkS" knockout)
 		(uuid "b960fd33-12d8-4b67-a72d-155f13454cd5")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+			(justify left bottom mirror)
+		)
+	)
+	(gr_text "Dust Sensor"
+		(at 65.4175 48.5 90)
+		(layer "B.SilkS" knockout)
+		(uuid "fc5899da-f050-46c3-8816-1c5b8e30a988")
 		(effects
 			(font
 				(size 1 1)

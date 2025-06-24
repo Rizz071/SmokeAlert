@@ -577,6 +577,9 @@
       "Net-(Q2-G)": [
         "Power"
       ],
+      "Net-(Q3-D)": [
+        "Power"
+      ],
       "Net-(U2-~{RESET})": [
         "Power"
       ],

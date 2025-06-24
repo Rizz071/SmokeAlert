@@ -4436,7 +4436,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "06d0ed57-28ef-49bb-a230-0f78239166bf")
-		(property "Reference" "R14"
+		(property "Reference" "R15"
 			(at 137.16 54.61 90)
 			(effects
 				(font
@@ -4488,7 +4488,7 @@
 		(instances
 			(project ""
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R14")
+					(reference "R15")
 					(unit 1)
 				)
 			)
@@ -4504,7 +4504,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0b4d99a3-3a89-478a-b6fe-22c7d79759d3")
-		(property "Reference" "R17"
+		(property "Reference" "R18"
 			(at 226.06 106.68 0)
 			(effects
 				(font
@@ -4558,7 +4558,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R17")
+					(reference "R18")
 					(unit 1)
 				)
 			)
@@ -4574,7 +4574,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0d13627d-b8e9-4c4c-94d2-83b887db82cc")
-		(property "Reference" "R11"
+		(property "Reference" "R12"
 			(at 100.33 109.22 0)
 			(effects
 				(font
@@ -4628,7 +4628,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R11")
+					(reference "R12")
 					(unit 1)
 				)
 			)
@@ -4644,7 +4644,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "14a2a11d-410c-4813-82ad-5b795df66b3e")
-		(property "Reference" "R10"
+		(property "Reference" "R11"
 			(at 90.17 106.68 0)
 			(effects
 				(font
@@ -4698,7 +4698,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R10")
+					(reference "R11")
 					(unit 1)
 				)
 			)
@@ -4714,7 +4714,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "17892de4-0e89-4d7d-83cc-59b38816a154")
-		(property "Reference" "R18"
+		(property "Reference" "R19"
 			(at 236.22 109.22 0)
 			(effects
 				(font
@@ -4768,7 +4768,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R18")
+					(reference "R19")
 					(unit 1)
 				)
 			)
@@ -4977,7 +4977,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2474f4a3-1f27-4dbc-9db9-96b2adbffa15")
-		(property "Reference" "#PWR015"
+		(property "Reference" "#PWR016"
 			(at 44.45 73.66 0)
 			(effects
 				(font
@@ -5027,7 +5027,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR015")
+					(reference "#PWR016")
 					(unit 1)
 				)
 			)
@@ -5554,7 +5554,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "60c40a28-8255-447f-913b-2b32819aec3a")
-		(property "Reference" "R15"
+		(property "Reference" "R16"
 			(at 146.05 124.46 0)
 			(effects
 				(font
@@ -5608,7 +5608,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R15")
+					(reference "R16")
 					(unit 1)
 				)
 			)
@@ -5692,7 +5692,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "6e81e4a6-d627-4309-950d-90332b064325")
-		(property "Reference" "#PWR016"
+		(property "Reference" "#PWR017"
 			(at 66.04 139.7 0)
 			(effects
 				(font
@@ -5742,7 +5742,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR016")
+					(reference "#PWR017")
 					(unit 1)
 				)
 			)
@@ -5758,7 +5758,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "81033656-8c94-4208-9100-6b59f4e149ad")
-		(property "Reference" "#PWR020"
+		(property "Reference" "#PWR021"
 			(at 201.93 139.7 0)
 			(effects
 				(font
@@ -5808,7 +5808,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR020")
+					(reference "#PWR021")
 					(unit 1)
 				)
 			)
@@ -5893,7 +5893,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "8e5cc794-b351-4d2f-bdee-62cf8c3f1dcb")
-		(property "Reference" "Q2"
+		(property "Reference" "Q3"
 			(at 153.67 105.41 90)
 			(effects
 				(font
@@ -5951,7 +5951,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "Q2")
+					(reference "Q3")
 					(unit 1)
 				)
 			)
@@ -6038,7 +6038,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "999993e7-782f-48f4-b824-856d74b440c4")
-		(property "Reference" "R16"
+		(property "Reference" "R17"
 			(at 158.75 125.73 90)
 			(effects
 				(font
@@ -6090,7 +6090,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R16")
+					(reference "R17")
 					(unit 1)
 				)
 			)
@@ -6106,7 +6106,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9b086675-2b4a-406c-a7be-cc5bb92af2e7")
-		(property "Reference" "#PWR018"
+		(property "Reference" "#PWR019"
 			(at 124.46 46.99 0)
 			(effects
 				(font
@@ -6157,7 +6157,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR018")
+					(reference "#PWR019")
 					(unit 1)
 				)
 			)
@@ -6240,7 +6240,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a921dfbb-41dd-4f85-9d31-a157d6b8666b")
-		(property "Reference" "R12"
+		(property "Reference" "R13"
 			(at 100.33 124.46 0)
 			(effects
 				(font
@@ -6294,7 +6294,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R12")
+					(reference "R13")
 					(unit 1)
 				)
 			)
@@ -6310,7 +6310,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b25b59ba-6a90-4bed-87b2-3ba9b154bd64")
-		(property "Reference" "R19"
+		(property "Reference" "R20"
 			(at 236.22 124.46 0)
 			(effects
 				(font
@@ -6364,7 +6364,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R19")
+					(reference "R20")
 					(unit 1)
 				)
 			)
@@ -6446,7 +6446,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c04226f7-ac3d-400b-a943-b5dc316e10e1")
-		(property "Reference" "#PWR017"
+		(property "Reference" "#PWR018"
 			(at 88.9 68.58 0)
 			(effects
 				(font
@@ -6496,7 +6496,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR017")
+					(reference "#PWR018")
 					(unit 1)
 				)
 			)
@@ -6512,7 +6512,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cdc7ee12-f200-4ce2-8e9d-c9c87b18e2f4")
-		(property "Reference" "#PWR019"
+		(property "Reference" "#PWR020"
 			(at 162.56 26.67 0)
 			(effects
 				(font
@@ -6562,7 +6562,7 @@
 		(instances
 			(project ""
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR019")
+					(reference "#PWR020")
 					(unit 1)
 				)
 			)
@@ -6798,7 +6798,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f057a396-7956-4091-b096-ff823be465ff")
-		(property "Reference" "R13"
+		(property "Reference" "R14"
 			(at 137.16 39.37 90)
 			(effects
 				(font
@@ -6850,7 +6850,7 @@
 		(instances
 			(project ""
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "R13")
+					(reference "R14")
 					(unit 1)
 				)
 			)

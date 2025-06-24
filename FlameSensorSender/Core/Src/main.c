@@ -30,6 +30,8 @@
 #include "BatteryLevel.h"
 #include "InfraSensor.h"
 #include "BackupReg.h"
+#include <stdbool.h>
+#include "DataStorage.h"
 
 /* USER CODE END Includes */
 
@@ -62,11 +64,6 @@ UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 
-Settings_t settings;
-SerialNumber_t hw_serial;
-Battery_t Battery;
-SendPacket_t packet;
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -95,7 +92,6 @@ int main(void) {
 
 	/* USER CODE BEGIN 1 */
 
-	// TODO 3. Проверка поступившего сообщения с настройками?
 	/* USER CODE END 1 */
 
 	/* MCU Configuration--------------------------------------------------------*/
@@ -121,38 +117,45 @@ int main(void) {
 	MX_USART1_UART_Init();
 	/* USER CODE BEGIN 2 */
 
-	// Dummy data
-	settings.alarm_level = 1.0f;
-	settings.time_to_wakeup = 4;
-	settings.times_to_heartbeat = 3;
+	Settings_t settings;
+	SerialNumber_t hw_serial;
+	Battery_t Battery;
+	SendPacket_t packet;
+
+	bool ALERT_FLAG = false;
 
 	debug_init(&huart1);
 
 	debug("========================");
 	debug("The device has woken up!");
+
+	settings = retrieveSettingsFromFlash();
+
 	debug("\tAlarm level: %d.%02d", (uint8_t) settings.alarm_level,
 			(uint8_t) (settings.alarm_level * 100) % 100);
-	debug("\tHeartbeat every: %d.%02d sec\n\r", settings.time_to_wakeup,
-			(uint16_t) (settings.time_to_wakeup * 100) % 100);
+	debug("\tSleep time: %d sec", settings.sleep_time);
+	debug("\tHeartbeat every: %d time\n\r", settings.times_to_heartbeat);
 
 	MX_ADC1_Init();
 	Battery = get_battery_level(&hadc1);
 	HAL_ADC_DeInit(&hadc1);
 
-	// Enabling VCC to Smoke Sensor and polling for data
+	// Powering VCC to Smoke Sensor and polling for data
 	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_RESET);
 	MX_ADC2_Init();
 	float sensor_data = get_infra_sensor_data(&hadc2);
+	if (sensor_data >= settings.alarm_level)
+		ALERT_FLAG = true;
 	HAL_ADC_DeInit(&hadc2);
 	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_SET);
 
 	init_backup_register();
 	uint8_t backup_reg_current_value = read_backup_register();
-	debug("Times to heartbeat: %d of %d\n\r", backup_reg_current_value + 1,
+	debug("Sleeps to heartbeat: %d of %d\n\r", backup_reg_current_value + 1,
 			settings.times_to_heartbeat);
 
 	if ((backup_reg_current_value + 1 >= settings.times_to_heartbeat)
-			|| (sensor_data >= settings.alarm_level)) {
+			|| ALERT_FLAG) {
 
 		hw_serial = get_serial_number();
 
@@ -177,13 +180,18 @@ int main(void) {
 		write_backup_register(++backup_reg_current_value);
 	}
 
+	if (ALERT_FLAG) {
+		debug("\n\rBUZZ BUZZ BUZZ\n\r\n\r");
+		settings.sleep_time = 1;
+	}
+
 	//  Toggling RED LED
 	HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_SET);
 	HAL_Delay(1);
 	HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_RESET);
 
 	// Sleeping
-	set_alarm(&hrtc, settings.time_to_wakeup);
+	set_alarm(&hrtc, settings.sleep_time);
 
 	debug("Going STANDBY MODE\n\r\n\r");
 	HAL_PWR_EnterSTANDBYMode();

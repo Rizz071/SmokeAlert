@@ -3217,6 +3217,304 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Transistor_FET:AO3400A"
+			(pin_names
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "Q"
+				(at 5.08 1.905 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "AO3400A"
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
+				(at 5.08 -1.905 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(italic yes)
+					)
+					(justify left)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "http://www.aosmd.com/pdfs/datasheet/AO3400A.pdf"
+				(at 5.08 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+					(hide yes)
+				)
+			)
+			(property "Description" "30V Vds, 5.7A Id, N-Channel MOSFET, SOT-23"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "N-Channel MOSFET"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "SOT?23*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "AO3400A_0_1"
+				(polyline
+					(pts
+						(xy 0.254 1.905) (xy 0.254 -1.905)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.254 0) (xy -2.54 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 2.286) (xy 0.762 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 0.508) (xy 0.762 -0.508)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 -1.27) (xy 0.762 -2.286)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.762 -1.778) (xy 3.302 -1.778) (xy 3.302 1.778) (xy 0.762 1.778)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.016 0) (xy 2.032 0.381) (xy 2.032 -0.381) (xy 1.016 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(circle
+					(center 1.651 0)
+					(radius 2.794)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 2.54) (xy 2.54 1.778)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.54 1.778)
+					(radius 0.254)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(circle
+					(center 2.54 -1.778)
+					(radius 0.254)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -2.54) (xy 2.54 0) (xy 0.762 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.794 0.508) (xy 2.921 0.381) (xy 3.683 0.381) (xy 3.81 0.254)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.302 0.381) (xy 2.921 -0.254) (xy 3.683 -0.254) (xy 3.302 0.381)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "AO3400A_1_1"
+				(pin input line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "G"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 5.08 270)
+					(length 2.54)
+					(name "D"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 -5.08 90)
+					(length 2.54)
+					(name "S"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Transistor_FET:AO3401A"
 			(pin_names
 				(hide yes)
@@ -4172,6 +4470,16 @@
 	)
 	(wire
 		(pts
+			(xy 118.11 115.57) (xy 121.92 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0be67758-5531-4362-a0b5-a886eb84dc56")
+	)
+	(wire
+		(pts
 			(xy 72.39 167.64) (xy 72.39 176.53)
 		)
 		(stroke
@@ -4409,6 +4717,16 @@
 			(type default)
 		)
 		(uuid "3fa96e6e-94dd-40a8-aed2-fefc39641ad8")
+	)
+	(wire
+		(pts
+			(xy 107.95 110.49) (xy 107.95 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "40430aea-ef47-4662-aad4-fa1b0f4e1bf3")
 	)
 	(wire
 		(pts
@@ -5052,6 +5370,16 @@
 	)
 	(wire
 		(pts
+			(xy 113.03 123.19) (xy 113.03 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d7db71e0-a883-4cbe-82d3-a7d742d21b75")
+	)
+	(wire
+		(pts
 			(xy 60.96 134.62) (xy 60.96 137.16)
 		)
 		(stroke
@@ -5462,6 +5790,28 @@
 			)
 		)
 	)
+	(global_label "+5V0"
+		(shape input)
+		(at 102.87 110.49 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "02705620-82c1-4745-9d2d-12e30bf2dc35")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 102.87 116.2008 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "SENSOR EN"
 		(shape output)
 		(at 31.75 110.49 180)
@@ -5856,6 +6206,77 @@
 			(project ""
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
 					(reference "D1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 113.03 129.54 0)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0e867629-e7d3-4fff-b1ba-be5b907fe34f")
+		(property "Reference" "R3"
+			(at 110.49 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1k,0603"
+			(at 110.49 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 111.252 129.54 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 113.03 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 113.03 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3ba81277-cdc2-4238-b0b1-deb0823d2324")
+		)
+		(pin "2"
+			(uuid "64a78acf-bb97-432a-932a-c10868a3b427")
+		)
+		(instances
+			(project "FlameSensorSender"
+				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
+					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -6469,7 +6890,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3de90216-237a-4360-ad3b-9ba0f6951f3b")
-		(property "Reference" "Q1"
+		(property "Reference" "Q2"
 			(at 144.78 48.26 90)
 			(effects
 				(font
@@ -6527,7 +6948,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
-					(reference "Q1")
+					(reference "Q2")
 					(unit 1)
 				)
 			)
@@ -6802,6 +7223,76 @@
 			(project ""
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
 					(reference "SW1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:Buzzer")
+		(at 105.41 107.95 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "562528bb-dad4-40fb-9736-4e69be4cd99e")
+		(property "Reference" "BZ1"
+			(at 104.14 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Buzzer"
+			(at 106.68 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Buzzer_Beeper:Buzzer_12x9.5RM7.6"
+			(at 102.87 108.585 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 102.87 108.585 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Buzzer, polarized"
+			(at 105.41 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "ee79fd8c-a012-41eb-a494-113961ab7952")
+		)
+		(pin "1"
+			(uuid "8246c9b1-ee6f-4d8e-9d9a-4c48562f5065")
+		)
+		(instances
+			(project "FlameSensorSender"
+				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
+					(reference "BZ1")
 					(unit 1)
 				)
 			)
@@ -7094,7 +7585,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "702ec62d-7a94-4ca5-ae5c-942b2bf7be80")
-		(property "Reference" "#PWR011"
+		(property "Reference" "#PWR014"
 			(at 247.65 137.16 0)
 			(effects
 				(font
@@ -7144,7 +7635,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
-					(reference "#PWR011")
+					(reference "#PWR014")
 					(unit 1)
 				)
 			)
@@ -7788,7 +8279,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a36e1fc1-f7ba-408d-af6d-addc5aa9cc04")
-		(property "Reference" "R3"
+		(property "Reference" "R6"
 			(at 187.96 124.46 90)
 			(effects
 				(font
@@ -7840,7 +8331,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
-					(reference "R3")
+					(reference "R6")
 					(unit 1)
 				)
 			)
@@ -7856,7 +8347,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a3a832d9-4aae-48b3-8ecb-2e36cd547b22")
-		(property "Reference" "R9"
+		(property "Reference" "R10"
 			(at 237.49 78.74 90)
 			(effects
 				(font
@@ -7908,7 +8399,7 @@
 		(instances
 			(project ""
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
-					(reference "R9")
+					(reference "R10")
 					(unit 1)
 				)
 			)
@@ -7975,6 +8466,73 @@
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
 					(reference "#PWR01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GNDD")
+		(at 121.92 115.57 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a9945e65-d65b-40dd-8f1c-2a12944873cf")
+		(property "Reference" "#PWR010"
+			(at 128.27 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GNDD"
+			(at 125.73 115.57 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 121.92 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 121.92 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GNDD\" , digital ground"
+			(at 121.92 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "fdc91260-5498-4f75-8aa1-41ec9e7c5c33")
+		)
+		(instances
+			(project "FlameSensorSender"
+				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
+					(reference "#PWR010")
 					(unit 1)
 				)
 			)
@@ -8056,7 +8614,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b8e900fb-73f6-458f-bb69-b2bfdedfae46")
-		(property "Reference" "#PWR014"
+		(property "Reference" "#PWR015"
 			(at 250.19 64.77 0)
 			(effects
 				(font
@@ -8106,7 +8664,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
-					(reference "#PWR014")
+					(reference "#PWR015")
 					(unit 1)
 				)
 			)
@@ -8255,7 +8813,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cafe247b-40b1-47f0-bce4-e90e351e0654")
-		(property "Reference" "BZ1"
+		(property "Reference" "BZ2"
 			(at 259.08 106.68 0)
 			(effects
 				(font
@@ -8309,7 +8867,81 @@
 		(instances
 			(project ""
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
-					(reference "BZ1")
+					(reference "BZ2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Transistor_FET:AO3400A")
+		(at 113.03 118.11 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d0dc108f-98f0-4402-86b2-7b5efb800bc7")
+		(property "Reference" "Q1"
+			(at 113.03 109.22 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AO3400A"
+			(at 113.03 111.76 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
+			(at 114.935 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "http://www.aosmd.com/pdfs/datasheet/AO3400A.pdf"
+			(at 116.84 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Description" "30V Vds, 5.7A Id, N-Channel MOSFET, SOT-23"
+			(at 113.03 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "51d75a6f-af1e-4509-96dc-ecf694400910")
+		)
+		(pin "3"
+			(uuid "f2fac846-b710-4b3c-a483-2772ebf038ef")
+		)
+		(pin "1"
+			(uuid "007a74ed-9577-444e-abe3-c0b44dc42ae6")
+		)
+		(instances
+			(project ""
+				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
+					(reference "Q1")
 					(unit 1)
 				)
 			)
@@ -8737,7 +9369,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f61e3052-909e-435e-a794-3333b2db27cd")
-		(property "Reference" "R6"
+		(property "Reference" "R9"
 			(at 236.22 124.46 90)
 			(effects
 				(font
@@ -8789,7 +9421,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
-					(reference "R6")
+					(reference "R9")
 					(unit 1)
 				)
 			)
@@ -8805,7 +9437,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fa266965-9b3b-4695-a51c-fe9e32668325")
-		(property "Reference" "#PWR010"
+		(property "Reference" "#PWR011"
 			(at 198.12 137.16 0)
 			(effects
 				(font
@@ -8855,7 +9487,7 @@
 		(instances
 			(project ""
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
-					(reference "#PWR010")
+					(reference "#PWR011")
 					(unit 1)
 				)
 			)

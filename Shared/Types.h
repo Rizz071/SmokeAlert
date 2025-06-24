@@ -29,10 +29,10 @@ typedef struct Battery_t {
 
 // Settings must be received from the base station when the sensor is connected
 typedef struct Settings {
-//	uint16_t ? lora_secret_word;
 	float alarm_level; // 0-4V
-	uint16_t time_to_wakeup;  // in seconds
-	uint8_t times_to_heartbeat; // times to send heartbeat via LoRa
+	uint32_t sleep_time;  // in seconds
+	uint32_t times_to_heartbeat; // times to send heartbeat via LoRa
 } Settings_t;
+
 
 #endif /* TYPES_H_ */

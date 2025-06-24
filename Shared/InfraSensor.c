@@ -26,10 +26,6 @@ static float poll_sensor(ADC_HandleTypeDef *hadc, uint8_t times) {
 
 		TIM2_Delay_us(280);
 
-//		HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_SET);
-//		HAL_Delay(1);
-//		HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_RESET);
-
 		HAL_ADC_Start(hadc);
 
 		HAL_ADC_PollForConversion(hadc, HAL_MAX_DELAY);

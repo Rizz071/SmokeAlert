@@ -12,13 +12,15 @@
 #include "Types.h"
 #include "DebugLog.h"
 
-extern Battery_t Battery;
+//extern Battery_t Battery;
 
 static uint8_t battery_percent_from_voltage(float);
 
 Battery_t get_battery_level(ADC_HandleTypeDef *hadc) {
 
 	debug("Polling for battery status...");
+
+	Battery_t Battery;
 
 	uint16_t adc_val = 0;
 	uint16_t temp_val;

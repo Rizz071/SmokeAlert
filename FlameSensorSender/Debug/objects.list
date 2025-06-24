@@ -27,6 +27,7 @@
 "./Shared/AlarmReset.o"
 "./Shared/BackupReg.o"
 "./Shared/BatteryLevel.o"
+"./Shared/DataStorage.o"
 "./Shared/DebugLog.o"
 "./Shared/Delay_ns.o"
 "./Shared/InfraSensor.o"

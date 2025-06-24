@@ -72,7 +72,7 @@ Settings_t retrieveSettingsFromFlash() {
 	Settings_t s;
 
 	// Default parameters
-	s.alarm_level = 0.8f;
+	s.alarm_level = 1.0f;
 	s.sleep_time = 4; // in sec
 	s.times_to_heartbeat = 3; // in times
 

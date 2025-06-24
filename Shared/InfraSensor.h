@@ -10,6 +10,6 @@
 
 #include "main.h"
 
-float get_infra_sensor_data(ADC_HandleTypeDef *hadc);
+float get_infra_sensor_data(ADC_HandleTypeDef *hadc, uint8_t times);
 
 #endif /* INFRASENSOR_H_ */

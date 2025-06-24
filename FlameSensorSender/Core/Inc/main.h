@@ -75,6 +75,8 @@ void Error_Handler(void);
 #define V_LED_GPIO_Port GPIOB
 #define INFO_LED_Pin GPIO_PIN_15
 #define INFO_LED_GPIO_Port GPIOB
+#define BUZZER_Pin GPIO_PIN_15
+#define BUZZER_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 

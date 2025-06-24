@@ -10,11 +10,15 @@
 #include "Delay_ns.h"
 #include "DebugLog.h"
 
-static float poll_sensor(ADC_HandleTypeDef *hadc, uint8_t times) {
+float get_infra_sensor_data(ADC_HandleTypeDef *hadc, uint8_t times) {
 
-//	HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_RESET);
-//	HAL_Delay(100);
-//	HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_SET);
+	debug("Polling for dust sensor data...");
+
+	HAL_Delay(100); // Sensor stabilization time (min 100ms)
+
+	//	HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_RESET);
+	//	HAL_Delay(100);
+	//	HAL_GPIO_WritePin(V_LED_GPIO_Port, V_LED_Pin, GPIO_PIN_SET);
 
 	uint16_t adc_V0 = 0;
 
@@ -55,14 +59,4 @@ static float poll_sensor(ADC_HandleTypeDef *hadc, uint8_t times) {
 	debug("\t...DONE\n\r");
 
 	return (adc_V0 * 3.3f) / 4095.0f * 2.0f;
-
-}
-
-float get_infra_sensor_data(ADC_HandleTypeDef *hadc) {
-
-	debug("Polling for dust sensor data...");
-
-	HAL_Delay(100); // Sensor stabilization time (min 100ms)
-
-	return poll_sensor(hadc, 3);
 }

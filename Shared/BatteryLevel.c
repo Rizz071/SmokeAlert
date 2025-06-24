@@ -56,10 +56,10 @@ Battery_t get_battery_level(ADC_HandleTypeDef *hadc) {
 
 	Battery.charge_percent = battery_percent_from_voltage(Battery.vdd);
 
-	debug("Battery status:");
-	debug("\tVDD: %d.%02d", (uint8_t) Battery.vdd,
+	debug("\tBattery status:");
+	debug("\t\tVDD: %d.%02d", (uint8_t) Battery.vdd,
 			(uint16_t) (Battery.vdd * 100) % 100);
-	debug("\tPercent: %d\n\r", Battery.charge_percent);
+	debug("\t\tPercent: %d\n\r", Battery.charge_percent);
 
 	return Battery;
 }

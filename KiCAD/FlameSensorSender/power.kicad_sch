@@ -1912,7 +1912,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Transistor_FET:AO3401A"
+		(symbol "Transistor_FET:AO3400A"
 			(pin_names
 				(hide yes)
 			)
@@ -1928,7 +1928,7 @@
 					(justify left)
 				)
 			)
-			(property "Value" "AO3401A"
+			(property "Value" "AO3400A"
 				(at 5.08 0 0)
 				(effects
 					(font
@@ -1948,7 +1948,7 @@
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "http://www.aosmd.com/pdfs/datasheet/AO3401A.pdf"
+			(property "Datasheet" "http://www.aosmd.com/pdfs/datasheet/AO3400A.pdf"
 				(at 5.08 -3.81 0)
 				(effects
 					(font
@@ -1958,7 +1958,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "-4.0A Id, -30V Vds, P-Channel MOSFET, SOT-23"
+			(property "Description" "30V Vds, 5.7A Id, N-Channel MOSFET, SOT-23"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1967,7 +1967,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_keywords" "P-Channel MOSFET"
+			(property "ki_keywords" "N-Channel MOSFET"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1985,7 +1985,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "AO3401A_0_1"
+			(symbol "AO3400A_0_1"
 				(polyline
 					(pts
 						(xy 0.254 1.905) (xy 0.254 -1.905)
@@ -2024,18 +2024,6 @@
 				)
 				(polyline
 					(pts
-						(xy 0.762 1.778) (xy 3.302 1.778) (xy 3.302 -1.778) (xy 0.762 -1.778)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
 						(xy 0.762 0.508) (xy 0.762 -0.508)
 					)
 					(stroke
@@ -2058,6 +2046,30 @@
 						(type none)
 					)
 				)
+				(polyline
+					(pts
+						(xy 0.762 -1.778) (xy 3.302 -1.778) (xy 3.302 1.778) (xy 0.762 1.778)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.016 0) (xy 2.032 0.381) (xy 2.032 -0.381) (xy 1.016 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
 				(circle
 					(center 1.651 0)
 					(radius 2.794)
@@ -2067,18 +2079,6 @@
 					)
 					(fill
 						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 2.286 0) (xy 1.27 0.381) (xy 1.27 -0.381) (xy 2.286 0)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
 					)
 				)
 				(polyline
@@ -2129,7 +2129,7 @@
 				)
 				(polyline
 					(pts
-						(xy 2.794 -0.508) (xy 2.921 -0.381) (xy 3.683 -0.381) (xy 3.81 -0.254)
+						(xy 2.794 0.508) (xy 2.921 0.381) (xy 3.683 0.381) (xy 3.81 0.254)
 					)
 					(stroke
 						(width 0)
@@ -2141,7 +2141,7 @@
 				)
 				(polyline
 					(pts
-						(xy 3.302 -0.381) (xy 2.921 0.254) (xy 3.683 0.254) (xy 3.302 -0.381)
+						(xy 3.302 0.381) (xy 2.921 -0.254) (xy 3.683 -0.254) (xy 3.302 0.381)
 					)
 					(stroke
 						(width 0)
@@ -2152,7 +2152,7 @@
 					)
 				)
 			)
-			(symbol "AO3401A_1_1"
+			(symbol "AO3400A_1_1"
 				(pin input line
 					(at -5.08 0 0)
 					(length 2.54)
@@ -2540,10 +2540,10 @@
 		(uuid "d5949758-f4fa-4ffd-a7a0-2aaf339790a9")
 	)
 	(junction
-		(at 175.26 102.87)
+		(at 175.26 133.35)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "1aaadd31-8e49-4cc5-aae5-6ddb551a4310")
+		(uuid "12108dcf-a296-4cbf-8911-1d0271b2a00d")
 	)
 	(junction
 		(at 217.17 133.35)
@@ -2612,6 +2612,12 @@
 		(uuid "7114a4b1-390a-49dd-8202-25a75e987478")
 	)
 	(junction
+		(at 175.26 102.87)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "784b770c-47e7-4dea-b47d-68b799a43b07")
+	)
+	(junction
 		(at 175.26 113.03)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2646,12 +2652,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a886f070-89af-45fa-b806-98f6b54da177")
-	)
-	(junction
-		(at 201.93 133.35)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "af21f3ff-127e-4401-9de2-8bc7671aa3b4")
 	)
 	(junction
 		(at 243.84 102.87)
@@ -2721,7 +2721,7 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 132.08) (xy 148.59 132.08)
+			(xy 153.67 129.54) (xy 148.59 129.54)
 		)
 		(stroke
 			(width 0)
@@ -2758,16 +2758,6 @@
 			(type default)
 		)
 		(uuid "0a987fbf-c437-450a-bbd3-0ae4f43ddefe")
-	)
-	(wire
-		(pts
-			(xy 140.97 111.76) (xy 140.97 102.87)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0b666938-9088-4980-848b-b308a82fb0ac")
 	)
 	(wire
 		(pts
@@ -2881,7 +2871,7 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 129.54) (xy 148.59 132.08)
+			(xy 148.59 129.54) (xy 148.59 128.27)
 		)
 		(stroke
 			(width 0)
@@ -2961,7 +2951,7 @@
 	)
 	(wire
 		(pts
-			(xy 201.93 133.35) (xy 175.26 133.35)
+			(xy 175.26 133.35) (xy 217.17 133.35)
 		)
 		(stroke
 			(width 0)
@@ -3091,7 +3081,7 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 121.92) (xy 148.59 119.38)
+			(xy 148.59 120.65) (xy 148.59 119.38)
 		)
 		(stroke
 			(width 0)
@@ -3158,6 +3148,16 @@
 			(type default)
 		)
 		(uuid "75d2525f-2105-452f-8303-7e3c25fe3c56")
+	)
+	(wire
+		(pts
+			(xy 163.83 102.87) (xy 175.26 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "76c4ddc9-4948-4bfd-b163-cbc0fb03bc6a")
 	)
 	(wire
 		(pts
@@ -3271,6 +3271,16 @@
 	)
 	(wire
 		(pts
+			(xy 137.16 133.35) (xy 175.26 133.35)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "981da980-fad3-447a-989e-ba98ebfecfd7")
+	)
+	(wire
+		(pts
 			(xy 166.37 35.56) (xy 166.37 33.02)
 		)
 		(stroke
@@ -3371,7 +3381,7 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 111.76) (xy 140.97 111.76)
+			(xy 137.16 111.76) (xy 144.78 111.76)
 		)
 		(stroke
 			(width 0)
@@ -3408,6 +3418,16 @@
 			(type default)
 		)
 		(uuid "bc5b4c90-b44b-4f19-9dfe-5079ad7d6d69")
+	)
+	(wire
+		(pts
+			(xy 137.16 111.76) (xy 137.16 133.35)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bf487f46-8300-41c2-9aae-df5b6d3e5942")
 	)
 	(wire
 		(pts
@@ -3511,16 +3531,6 @@
 	)
 	(wire
 		(pts
-			(xy 140.97 102.87) (xy 175.26 102.87)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ccbb0a9a-0694-426a-b3d9-5e4f1d51f3f5")
-	)
-	(wire
-		(pts
 			(xy 44.45 63.5) (xy 44.45 67.31)
 		)
 		(stroke
@@ -3588,16 +3598,6 @@
 			(type default)
 		)
 		(uuid "e6be81a1-4b88-429a-b6a9-6f4126e50da5")
-	)
-	(wire
-		(pts
-			(xy 201.93 133.35) (xy 217.17 133.35)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "eaa0fb4c-e91b-4c08-84be-3901bbd527a5")
 	)
 	(wire
 		(pts
@@ -3701,22 +3701,22 @@
 	)
 	(global_label "VRAW"
 		(shape input)
-		(at 166.37 111.76 0)
+		(at 163.83 102.87 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
 		(uuid "18d2f7d0-8207-4c7d-845a-c14974f283b5")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 172.6925 111.76 0)
+			(at 157.5075 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -3755,22 +3755,22 @@
 	)
 	(global_label "SENSOR EN"
 		(shape input)
-		(at 144.78 132.08 180)
+		(at 153.67 129.54 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right)
+			(justify left)
 		)
 		(uuid "5d0257d0-7ceb-49aa-82a5-bd6984ae9ef0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 135.4276 132.08 0)
+			(at 163.0224 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -3854,7 +3854,7 @@
 	(netclass_flag ""
 		(length 2.54)
 		(shape round)
-		(at 144.78 111.76 180)
+		(at 140.97 111.76 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3864,7 +3864,7 @@
 		)
 		(uuid "1170b430-e46b-4dde-bbe4-b2de7f69902e")
 		(property "Netclass" "Power"
-			(at 145.4785 114.3 0)
+			(at 141.6685 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3873,7 +3873,7 @@
 			)
 		)
 		(property "Component Class" ""
-			(at -8.89 93.98 0)
+			(at -12.7 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4775,6 +4775,73 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GNDD")
+		(at 166.37 111.76 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1f689069-8b68-43d9-912a-d82d84764551")
+		(property "Reference" "#PWR020"
+			(at 172.72 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GNDD"
+			(at 170.18 111.76 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 166.37 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 166.37 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GNDD\" , digital ground"
+			(at 166.37 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ebc49607-246c-4c8d-aec6-08a120b96afa")
+		)
+		(instances
+			(project "FlameSensorSender"
+				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
+					(reference "#PWR020")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Custom_library:TPS63802DLAR")
 		(at 201.93 113.03 0)
 		(unit 1)
@@ -4977,7 +5044,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2474f4a3-1f27-4dbc-9db9-96b2adbffa15")
-		(property "Reference" "#PWR016"
+		(property "Reference" "#PWR015"
 			(at 44.45 73.66 0)
 			(effects
 				(font
@@ -5027,7 +5094,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR016")
+					(reference "#PWR015")
 					(unit 1)
 				)
 			)
@@ -5545,7 +5612,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 148.59 125.73 0)
+		(at 148.59 124.46 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -5555,7 +5622,7 @@
 		(fields_autoplaced yes)
 		(uuid "60c40a28-8255-447f-913b-2b32819aec3a")
 		(property "Reference" "R16"
-			(at 146.05 124.46 0)
+			(at 146.05 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5564,7 +5631,7 @@
 			)
 		)
 		(property "Value" "1k,0603"
-			(at 146.05 127 0)
+			(at 146.05 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5573,7 +5640,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 150.368 125.73 90)
+			(at 150.368 124.46 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5582,7 +5649,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 148.59 125.73 0)
+			(at 148.59 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5591,7 +5658,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 148.59 125.73 0)
+			(at 148.59 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5692,7 +5759,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "6e81e4a6-d627-4309-950d-90332b064325")
-		(property "Reference" "#PWR017"
+		(property "Reference" "#PWR016"
 			(at 66.04 139.7 0)
 			(effects
 				(font
@@ -5742,73 +5809,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR017")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GNDD")
-		(at 201.93 133.35 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "81033656-8c94-4208-9100-6b59f4e149ad")
-		(property "Reference" "#PWR021"
-			(at 201.93 139.7 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GNDD"
-			(at 201.93 137.16 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 201.93 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 201.93 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GNDD\" , digital ground"
-			(at 201.93 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "96a25b13-582d-45de-b493-2f55cb23d6d0")
-		)
-		(instances
-			(project "FlameSensorSender"
-				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR021")
+					(reference "#PWR016")
 					(unit 1)
 				)
 			)
@@ -5884,7 +5885,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Transistor_FET:AO3401A")
+		(lib_id "Transistor_FET:AO3400A")
 		(at 153.67 114.3 90)
 		(unit 1)
 		(exclude_from_sim no)
@@ -5901,7 +5902,7 @@
 				)
 			)
 		)
-		(property "Value" "AO3401A"
+		(property "Value" "AO3400A"
 			(at 153.67 107.95 90)
 			(effects
 				(font
@@ -5909,7 +5910,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-3"
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
 			(at 155.575 109.22 0)
 			(effects
 				(font
@@ -5920,7 +5921,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "http://www.aosmd.com/pdfs/datasheet/AO3401A.pdf"
+		(property "Datasheet" "http://www.aosmd.com/pdfs/datasheet/AO3400A.pdf"
 			(at 157.48 109.22 0)
 			(effects
 				(font
@@ -5930,7 +5931,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-4.0A Id, -30V Vds, P-Channel MOSFET, SOT-23"
+		(property "Description" "30V Vds, 5.7A Id, N-Channel MOSFET, SOT-23"
 			(at 153.67 114.3 0)
 			(effects
 				(font
@@ -6106,7 +6107,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9b086675-2b4a-406c-a7be-cc5bb92af2e7")
-		(property "Reference" "#PWR019"
+		(property "Reference" "#PWR018"
 			(at 124.46 46.99 0)
 			(effects
 				(font
@@ -6157,7 +6158,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR019")
+					(reference "#PWR018")
 					(unit 1)
 				)
 			)
@@ -6446,7 +6447,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c04226f7-ac3d-400b-a943-b5dc316e10e1")
-		(property "Reference" "#PWR018"
+		(property "Reference" "#PWR017"
 			(at 88.9 68.58 0)
 			(effects
 				(font
@@ -6496,7 +6497,7 @@
 		(instances
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR018")
+					(reference "#PWR017")
 					(unit 1)
 				)
 			)
@@ -6512,7 +6513,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cdc7ee12-f200-4ce2-8e9d-c9c87b18e2f4")
-		(property "Reference" "#PWR020"
+		(property "Reference" "#PWR019"
 			(at 162.56 26.67 0)
 			(effects
 				(font
@@ -6562,7 +6563,7 @@
 		(instances
 			(project ""
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3/3604db2d-77b7-4400-bb45-6221e993f446"
-					(reference "#PWR020")
+					(reference "#PWR019")
 					(unit 1)
 				)
 			)

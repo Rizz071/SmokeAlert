@@ -38,8 +38,10 @@ float get_infra_sensor_data(ADC_HandleTypeDef *hadc, uint8_t times) {
 
 		HAL_ADC_Stop(hadc);
 
-		if (v_temp > adc_V0)
-			adc_V0 = v_temp;
+//		if (v_temp > adc_V0)
+//			adc_V0 = v_temp;
+
+		adc_V0 += v_temp;
 
 		TIM2_Delay_us(40);
 
@@ -57,6 +59,8 @@ float get_infra_sensor_data(ADC_HandleTypeDef *hadc, uint8_t times) {
 	 */
 
 	debug("\t...DONE\n\r");
+
+	adc_V0 = adc_V0 / times;
 
 	return (adc_V0 * 3.3f) / 4095.0f * 2.0f;
 }

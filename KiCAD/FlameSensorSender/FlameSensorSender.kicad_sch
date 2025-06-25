@@ -5834,6 +5834,28 @@
 			)
 		)
 	)
+	(global_label "GNDD2"
+		(shape input)
+		(at 274.32 119.38 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5aa196ec-68a4-4ae4-bab2-abc0b078ab1a")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 280.9849 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "+5V0"
 		(shape input)
 		(at 214.63 85.09 180)
@@ -6587,7 +6609,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Ai-Thinker-Ra-02"
+		(property "Value" "Ra-01SCH-P"
 			(at 108.966 56.896 0)
 			(effects
 				(font
@@ -8407,73 +8429,6 @@
 			(project "FlameSensorSender"
 				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
 					(reference "#PWR01")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GNDD")
-		(at 274.32 119.38 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "a9945e65-d65b-40dd-8f1c-2a12944873cf")
-		(property "Reference" "#PWR014"
-			(at 280.67 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GNDD"
-			(at 278.13 119.38 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 274.32 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 274.32 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GNDD\" , digital ground"
-			(at 274.32 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "fdc91260-5498-4f75-8aa1-41ec9e7c5c33")
-		)
-		(instances
-			(project "FlameSensorSender"
-				(path "/a1d9ab92-440a-49d1-ae86-3051bc03dcb3"
-					(reference "#PWR014")
 					(unit 1)
 				)
 			)

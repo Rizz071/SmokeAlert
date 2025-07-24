@@ -1,30 +1,35 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2025 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2025 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "cmsis_os2.h"
 #include "icache.h"
-#include "memorymap.h"
+#include "usart.h"
+#include "spi.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+
+#include "llcc68_hal.h"
+#include "LoraReceiver.h"
+#include "callbacks.h"
+#include "DebugLog.h"
 
 /* USER CODE END Includes */
 
@@ -46,12 +51,11 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+volatile uint16_t IRQ_FLAG;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -62,115 +66,219 @@ void MX_FREERTOS_Init(void);
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
-int main(void)
-{
+ * @brief  The application entry point.
+ * @retval int
+ */
+int main(void) {
 
-  /* USER CODE BEGIN 1 */
+	/* USER CODE BEGIN 1 */
 
-  /* USER CODE END 1 */
+	/* USER CODE END 1 */
 
-  /* MCU Configuration--------------------------------------------------------*/
+	/* MCU Configuration--------------------------------------------------------*/
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+	HAL_Init();
 
-  /* USER CODE BEGIN Init */
+	/* USER CODE BEGIN Init */
 
-  /* USER CODE END Init */
+	/* USER CODE END Init */
 
-  /* Configure the system clock */
-  SystemClock_Config();
+	/* Configure the system clock */
+	SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
+	/* USER CODE BEGIN SysInit */
 
-  /* USER CODE END SysInit */
+	/* USER CODE END SysInit */
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_ICACHE_Init();
-  /* USER CODE BEGIN 2 */
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+	MX_ICACHE_Init();
+	MX_SPI1_Init();
+	MX_LPUART1_UART_Init();
+	/* USER CODE BEGIN 2 */
 
-  /* USER CODE END 2 */
+	debug_init(&hlpuart1);
 
-  /* Init scheduler */
-  osKernelInitialize();
+	LLCC68_Spi_Driver_Init(&hspi1, LORA_NRST_GPIO_Port, LORA_NRST_Pin,
+	LORA_NSS_GPIO_Port,
+	LORA_NSS_Pin, LORA_BUSY_GPIO_Port, LORA_BUSY_Pin);
 
-  /* Call init function for freertos objects (in app_freertos.c) */
-  MX_FREERTOS_Init();
+	LLCC68_Reset();
 
-  /* Start scheduler */
-  osKernelStart();
+	uint8_t status = LLCC68_CheckStatus();
 
-  /* We should never get here as control is now taken by the scheduler */
+	if ((status & 0xF0) != 0x00) {
+		// Модуль ответил статусом => жив
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-    /* USER CODE END WHILE */
+		HAL_GPIO_WritePin(SMALL_INFO_LED_GPIO_Port, SMALL_INFO_LED_Pin,
+				GPIO_PIN_RESET); // светодиод ВЫКЛ (Bluepill style)
+	} else {
 
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
+		// Статус = 0x00 => модуль не отвечает
+		HAL_GPIO_WritePin(SMALL_INFO_LED_GPIO_Port, SMALL_INFO_LED_Pin,
+				GPIO_PIN_SET);   // светодиод ВКЛ
+	}
+
+// Set Standby mode
+	uint8_t standby_param = 0x00; // RC
+	LLCC68_WriteCommand(0x80, &standby_param, 1);
+
+	// Set Packet Type to LoRa
+	uint8_t packet_type = 0x01;
+	LLCC68_WriteCommand(0x8A, &packet_type, 1);
+
+	// Set RF frequency
+	LLCC68_SetRfFrequency(870000000);
+
+	// Set buffer base address
+	uint8_t base_addr[2] = { 0x00, 0x00 };  // TX = 0x00, RX = 0x00
+	LLCC68_WriteCommand(0x8F, base_addr, 2);
+
+	// Настройка параметров PA (усилителя мощности)
+//	uint8_t pa_config[4] = { 0x04, 0x07, 0x00, 0x01 }; // Оптимальные настройки для 22 дБм
+//	LLCC68_WriteCommand(0x95, pa_config, 4);
+
+//	// Настройка параметров модуляции LoRa (SF7, BW=125 кГц, CR=4/5)
+//	uint8_t mod_params[3] = { 0x07, 0x05, 0x01 }; // SF7, BW=125 кГц, CR=4/5
+//	LLCC68_WriteCommand(0x8B, mod_params, 3);
+
+	// Настройка параметров модуляции LoRa
+	// Параметры задаются в драйвере LLCC68 сразу для всех устройств
+	LLCC68_SetModulationParams();
+
+	// Настройка параметров пакета
+	LLCC68_SetPacketParams(0x7F);	// 127 байт максимально
+
+	// Set all interrupts to DIO1
+	uint8_t params3[8];
+	uint16_t irqMask = 0x00FF;    // включаем IRQ биты 0-7
+	uint16_t dio1Mask = 0x00FF;   // все эти IRQ выводим на DIO1
+	uint16_t dio2Mask = 0x0000;   // DIO2 ничего не выводит
+	uint16_t dio3Mask = 0x0000;   // DIO3 ничего не выводит
+	params3[0] = (irqMask >> 8) & 0xFF;
+	params3[1] = irqMask & 0xFF;
+	params3[2] = (dio1Mask >> 8) & 0xFF;
+	params3[3] = dio1Mask & 0xFF;
+	params3[4] = (dio2Mask >> 8) & 0xFF;
+	params3[5] = dio2Mask & 0xFF;
+	params3[6] = (dio3Mask >> 8) & 0xFF;
+	params3[7] = dio3Mask & 0xFF;
+	LLCC68_WriteCommand(0x08, params3, 8);
+
+//	LoRa_ClearAllIrqStatus();
+
+	// Включение режима приёма (RX)
+	uint8_t rx_timeout[3] = { 0xFF, 0xFF, 0xFF };
+	LLCC68_WriteCommand(0x82, rx_timeout, 3);
+
+//	uint8_t status2 = 0;
+//	LLCC68_ReadCommand(0xC0, &status2, 1);
+//	printf("Status: 0x%02X\r\n", status);
+
+	/* USER CODE END 2 */
+
+	/* Infinite loop */
+	/* USER CODE BEGIN WHILE */
+	while (1) {
+
+		// Проверка статуса IRQ
+		uint8_t irq_status[2];
+		LLCC68_ReadCommand(0x12, irq_status, 2); // GetIrqStatus
+
+		if (irq_status[1] & 0x02) { // RxDone
+
+			HAL_GPIO_WritePin(SMALL_INFO_LED_GPIO_Port, SMALL_INFO_LED_Pin,
+					GPIO_PIN_SET);
+			HAL_Delay(100);
+			HAL_GPIO_WritePin(SMALL_INFO_LED_GPIO_Port, SMALL_INFO_LED_Pin,
+					GPIO_PIN_RESET);
+
+			// Чтение длины принятого пакета
+			uint8_t rx_info[2];
+			LLCC68_ReadCommand(0x13, rx_info, 2); // GetRxBufferStatus
+			uint8_t payload_len = rx_info[0];
+			uint8_t buffer_offset = rx_info[1];
+
+			// Чтение данных из буфера
+			uint8_t rx_data[payload_len]; // Буфер для данных
+
+			LLCC68_ReadBuffer(buffer_offset, rx_data, payload_len);
+
+			// Вывод принятых данных
+//			debug("Received: %.*s\n\r", payload_len, rx_data);
+
+			// Возврат в режим приёма
+			LLCC68_WriteCommand(0x82, rx_timeout, 3);
+		}
+
+		HAL_Delay(300); // Небольшая задержка для снижения нагрузки на CPU
+
+		/* USER CODE END WHILE */
+
+		/* USER CODE BEGIN 3 */
+//		check_for_packet();
+//		HAL_GPIO_TogglePin(SMALL_INFO_LED_GPIO_Port, SMALL_INFO_LED_Pin);
+//		HAL_GPIO_WritePin(SMALL_INFO_LED_GPIO_Port, SMALL_INFO_LED_Pin,GPIO_PIN_SET);
+//		HAL_Delay(100);
+	}
+	/* USER CODE END 3 */
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
-void SystemClock_Config(void)
-{
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+ * @brief System Clock Configuration
+ * @retval None
+ */
+void SystemClock_Config(void) {
+	RCC_OscInitTypeDef RCC_OscInitStruct = { 0 };
+	RCC_ClkInitTypeDef RCC_ClkInitStruct = { 0 };
 
-  /** Configure the main internal regulator output voltage
-  */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
+	/** Configure the main internal regulator output voltage
+	 */
+	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
 
-  while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
+	while (!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {
+	}
 
-  /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLL1_SOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 2;
-  RCC_OscInitStruct.PLL.PLLN = 40;
-  RCC_OscInitStruct.PLL.PLLP = 2;
-  RCC_OscInitStruct.PLL.PLLQ = 2;
-  RCC_OscInitStruct.PLL.PLLR = 2;
-  RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1_VCIRANGE_3;
-  RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1_VCORANGE_WIDE;
-  RCC_OscInitStruct.PLL.PLLFRACN = 0;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
+	/** Initializes the RCC Oscillators according to the specified parameters
+	 * in the RCC_OscInitTypeDef structure.
+	 */
+	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE
+			| RCC_OSCILLATORTYPE_CSI;
+	RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+	RCC_OscInitStruct.CSIState = RCC_CSI_ON;
+	RCC_OscInitStruct.CSICalibrationValue = RCC_CSICALIBRATION_DEFAULT;
+	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+	RCC_OscInitStruct.PLL.PLLSource = RCC_PLL1_SOURCE_HSE;
+	RCC_OscInitStruct.PLL.PLLM = 2;
+	RCC_OscInitStruct.PLL.PLLN = 11;
+	RCC_OscInitStruct.PLL.PLLP = 2;
+	RCC_OscInitStruct.PLL.PLLQ = 2;
+	RCC_OscInitStruct.PLL.PLLR = 2;
+	RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1_VCIRANGE_3;
+	RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1_VCORANGE_WIDE;
+	RCC_OscInitStruct.PLL.PLLFRACN = 0;
+	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
+		Error_Handler();
+	}
 
-  /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
-                              |RCC_CLOCKTYPE_PCLK3;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB3CLKDivider = RCC_HCLK_DIV1;
+	/** Initializes the CPU, AHB and APB buses clocks
+	 */
+	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
+			| RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 | RCC_CLOCKTYPE_PCLK3;
+	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+	RCC_ClkInitStruct.APB3CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
-  {
-    Error_Handler();
-  }
+	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_3) != HAL_OK) {
+		Error_Handler();
+	}
 
-  /** Configure the programming delay
-  */
-  __HAL_FLASH_SET_PROGRAM_DELAY(FLASH_PROGRAMMING_DELAY_2);
+	/** Configure the programming delay
+	 */
+	__HAL_FLASH_SET_PROGRAM_DELAY(FLASH_PROGRAMMING_DELAY_1);
 }
 
 /* USER CODE BEGIN 4 */
@@ -178,21 +286,18 @@ void SystemClock_Config(void)
 /* USER CODE END 4 */
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
-void Error_Handler(void)
-{
-  /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-  }
-  /* USER CODE END Error_Handler_Debug */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
+void Error_Handler(void) {
+	/* USER CODE BEGIN Error_Handler_Debug */
+	/* User can add his own implementation to report the HAL error return state */
+	__disable_irq();
+	while (1) {
+	}
+	/* USER CODE END Error_Handler_Debug */
 }
-
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.

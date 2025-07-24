@@ -4131,7 +4131,7 @@
 		)
 		(uuid "96e49d51-c563-4388-bc59-8dfcfaa10013")
 	)
-	(text "Optical smole dust/smoke sensor Sharp"
+	(text "Optical dust/smoke sensor Sharp"
 		(exclude_from_sim no)
 		(at 246.126 27.432 0)
 		(effects

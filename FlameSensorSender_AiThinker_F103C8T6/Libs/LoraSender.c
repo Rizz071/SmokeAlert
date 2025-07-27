@@ -91,14 +91,12 @@ void send_packet(SPI_HandleTypeDef *hspi, SendPacket_t packet) {
 		uint8_t tx_timeout[3] = { 0x00, 0x00, 0x00 };
 		LLCC68_WriteCommand(0x83, tx_timeout, 3);
 
-		// Wait for TxDone
 		// Проверка статуса IRQ
 		uint8_t irq_status[2];
-//		debug("%IRQ_Status: %d", irq_status[1]);
 		LLCC68_ReadCommand(0x12, irq_status, 2); // GetIrqStatus
 
 //		while (!(irq_status[1] & 0x01)) { // TxDone (бит 1)
-//			HAL_Delay(1);
+//			__WFI();
 //		}
 //		debug("Packet sent!\n\r");
 

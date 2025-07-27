@@ -523,6 +523,9 @@
       "GNDD2": [
         "Power"
       ],
+      "INFO_SUPPLY": [
+        "Power"
+      ],
       "Net-(BT1-+)": [
         "Power"
       ],
@@ -569,6 +572,9 @@
         "Power"
       ],
       "Net-(J5-Pin_4)": [
+        "Power"
+      ],
+      "Net-(J5-Pin_6)": [
         "Power"
       ],
       "Net-(J6-CC1)": [
@@ -623,6 +629,15 @@
         "Power"
       ],
       "Net-(U4-PG)": [
+        "Power"
+      ],
+      "Net-(U6-FB)": [
+        "Power"
+      ],
+      "Net-(U6-L1)": [
+        "Power"
+      ],
+      "Net-(U6-PG)": [
         "Power"
       ],
       "VRAW": [

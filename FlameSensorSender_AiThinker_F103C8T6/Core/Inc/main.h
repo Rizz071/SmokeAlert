@@ -59,6 +59,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define SMALL_INFO_LED_Pin GPIO_PIN_13
 #define SMALL_INFO_LED_GPIO_Port GPIOC
+#define INFO_LED_Pin GPIO_PIN_14
+#define INFO_LED_GPIO_Port GPIOC
 #define V0_Pin GPIO_PIN_0
 #define V0_GPIO_Port GPIOA
 #define VCC_BAT_Pin GPIO_PIN_1
@@ -78,8 +80,6 @@ void Error_Handler(void);
 #define MOSFET_GATE_LORA_GPIO_Port GPIOB
 #define V_LED_Pin GPIO_PIN_12
 #define V_LED_GPIO_Port GPIOB
-#define INFO_LED_Pin GPIO_PIN_15
-#define INFO_LED_GPIO_Port GPIOB
 #define BUZZER_Pin GPIO_PIN_15
 #define BUZZER_GPIO_Port GPIOA
 

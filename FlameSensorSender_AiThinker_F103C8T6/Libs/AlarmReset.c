@@ -20,11 +20,15 @@ void set_alarm(RTC_HandleTypeDef *hrtc, uint16_t sec) {
 		HAL_RTC_DeactivateAlarm(hrtc, RTC_ALARM_A);
 	}
 
+	RTC_TimeTypeDef now;
+	HAL_RTC_GetTime(hrtc, &now, RTC_FORMAT_BIN);
+
 	RTC_AlarmTypeDef sAlarm = { 0 };
 
 	sAlarm.AlarmTime.Hours = 0;
 	sAlarm.AlarmTime.Minutes = 0;
-	sAlarm.AlarmTime.Seconds = sec;
+	sAlarm.AlarmTime.Seconds = now.Seconds + sec;
+	sec;
 	sAlarm.Alarm = RTC_ALARM_A;
 	if (HAL_RTC_SetAlarm_IT(hrtc, &sAlarm, RTC_FORMAT_BIN) != HAL_OK) {
 		Error_Handler();

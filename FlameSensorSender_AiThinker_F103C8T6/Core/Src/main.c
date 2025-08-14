@@ -61,7 +61,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-volatile uint16_t IRQ_FLAG;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -110,103 +110,97 @@ int main(void) {
 	MX_TIM2_Init();
 	MX_USART1_UART_Init();
 	/* USER CODE BEGIN 2 */
-	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_LORA_Pin, GPIO_PIN_SET);
-	debug_init(&huart1);
-	SendPacket_t packet;
-	send_packet(&hspi1, packet);
 
-//	Settings_t settings;
-//	SerialNumber_t hw_serial;
-//	Battery_t Battery;
-//	SendPacket_t packet;
-//
-//	bool ALERT_FLAG = false;
-//
-//	debug_init(&huart1);
-//
-//	debug("========================");
-//	debug("The device has woken up!");
-//
-//	settings = retrieveSettingsFromFlash();
-//
-//	debug("\tAlarm level: %d.%02d", (uint8_t) settings.alarm_level,
-//			(uint8_t) (settings.alarm_level * 100) % 100);
-//	debug("\tSleep time: %d sec", settings.sleep_time);
-//	debug("\tHeartbeat every: %d time\n\r", settings.times_to_heartbeat);
-//
-//	MX_ADC1_Init();
-//	Battery = get_battery_level(&hadc1);
-//	HAL_ADC_DeInit(&hadc1);
-//
-//	// Powering VCC to Smoke Sensor and polling for data
-//	MX_ADC2_Init();
-//	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_SET);
-//	float sensor_data = get_infra_sensor_data(&hadc2, 1);
-//	if (sensor_data >= settings.alarm_level) {
-//		sensor_data = get_infra_sensor_data(&hadc2, 3);
-//		if (sensor_data >= settings.alarm_level)
-//			ALERT_FLAG = true;
-//	}
-//	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_RESET);
-//	HAL_ADC_DeInit(&hadc2);
-//
-//	init_backup_register();
-//	uint8_t backup_reg_current_value = read_backup_register();
-//	debug("Sleeps to heartbeat: %d of %d\n\r", backup_reg_current_value + 1,
-//			settings.times_to_heartbeat);
-//
-//	if ((backup_reg_current_value + 1 >= settings.times_to_heartbeat)
-//			|| ALERT_FLAG) {
-//
-//		hw_serial = get_serial_number();
-//
-//		packet.ID = hw_serial.byte_2;
-//		packet.battery_level = Battery.charge_percent;
-//		packet.sensor_data = sensor_data;
-//		debug("Formed packet:");
-//		debug("\tID: %d", (uint8_t) packet.ID);
-//		debug("\tbattery_level: %d%%", (uint8_t) Battery.charge_percent);
-//		debug("\tsensor_data: %d.%02d\n\r", (uint8_t) sensor_data,
-//				(uint16_t) (sensor_data * 100) % 100);
-//
-//		HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_LORA_Pin, GPIO_PIN_SET);
-//		MX_SPI1_Init();
-//		HAL_Delay(100);
-//		send_packet(&hspi1, packet);
-//		HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_LORA_Pin, GPIO_PIN_RESET);
-//
-//		write_backup_register(0);
-//	} else {
-//		write_backup_register(++backup_reg_current_value);
-//	}
-//
-//	if (ALERT_FLAG) {
-//		debug("\n\rBUZZ BUZZ BUZZ\n\r\n\r");
-//
-//		HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_SET);
-//		for (int i = 0; i < 3; i++) {
-//			HAL_GPIO_WritePin(BUZZER_GPIO_Port, BUZZER_Pin, GPIO_PIN_SET);
-//			HAL_Delay(500);
-//			HAL_GPIO_WritePin(BUZZER_GPIO_Port, BUZZER_Pin, GPIO_PIN_RESET);
-//			HAL_Delay(500);
-//		}
-//		HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_RESET);
-//
-//		settings.sleep_time = 5;
-//	}
-//
-//	//  Toggling RED LED
-//	HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_SET);
-//	HAL_Delay(1);
-//	HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_RESET);
-//
-//	// Sleeping
-//	set_alarm(&hrtc, settings.sleep_time);
-//
-//	debug("Going STANDBY MODE\n\r\n\r");
-//	debug("\tIRQ FLAG: %d\r\n",IRQ_FLAG);
-//
-//	HAL_PWR_EnterSTANDBYMode();
+	Settings_t settings;
+	SerialNumber_t hw_serial;
+	Battery_t Battery;
+	SendPacket_t packet;
+
+	bool ALERT_FLAG = false;
+
+	debug_init(&huart1);
+
+	debug("========================");
+	debug("The device has woken up!");
+
+	settings = retrieveSettingsFromFlash();
+
+	debug("\tAlarm level: %d.%02d", (uint8_t) settings.alarm_level,
+			(uint8_t) (settings.alarm_level * 100) % 100);
+	debug("\tSleep time: %d sec", settings.sleep_time);
+	debug("\tHeartbeat every: %d time\n\r", settings.times_to_heartbeat);
+
+	MX_ADC1_Init();
+	Battery = get_battery_level(&hadc1);
+	HAL_ADC_DeInit(&hadc1);
+
+	// Powering VCC to Smoke Sensor and polling for data
+	MX_ADC2_Init();
+	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_SET);
+	float sensor_data = get_infra_sensor_data(&hadc2, 1);
+	if (sensor_data >= settings.alarm_level) {
+		sensor_data = get_infra_sensor_data(&hadc2, 3);
+		if (sensor_data >= settings.alarm_level)
+			ALERT_FLAG = true;
+	}
+	HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_RESET);
+	HAL_ADC_DeInit(&hadc2);
+
+	init_backup_register();
+	uint8_t backup_reg_current_value = read_backup_register();
+	debug("Sleeps to heartbeat: %d of %d\n\r", backup_reg_current_value + 1,
+			settings.times_to_heartbeat);
+
+	if ((backup_reg_current_value + 1 >= settings.times_to_heartbeat)
+			|| ALERT_FLAG) {
+
+		hw_serial = get_serial_number();
+
+		packet.ID = hw_serial.byte_2;
+		packet.battery_level = Battery.charge_percent;
+		packet.sensor_data = sensor_data;
+		debug("Formed packet:");
+		debug("\tID: %d", (uint8_t) packet.ID);
+		debug("\tbattery_level: %d%%", (uint8_t) Battery.charge_percent);
+		debug("\tsensor_data: %d.%02d\n\r", (uint8_t) sensor_data,
+				(uint16_t) (sensor_data * 100) % 100);
+
+		HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_LORA_Pin, GPIO_PIN_SET);
+		MX_SPI1_Init();
+		send_packet(&hspi1, packet);
+		HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_LORA_Pin, GPIO_PIN_RESET);
+
+		write_backup_register(0);
+	} else {
+		write_backup_register(++backup_reg_current_value);
+	}
+
+	if (ALERT_FLAG) {
+		debug("\n\rBUZZ BUZZ BUZZ\n\r\n\r");
+
+		HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_SET);
+		for (int i = 0; i < 3; i++) {
+			HAL_GPIO_WritePin(BUZZER_GPIO_Port, BUZZER_Pin, GPIO_PIN_SET);
+			HAL_Delay(500);
+			HAL_GPIO_WritePin(BUZZER_GPIO_Port, BUZZER_Pin, GPIO_PIN_RESET);
+			HAL_Delay(500);
+		}
+		HAL_GPIO_WritePin(GPIOB, MOSFET_GATE_SENSOR_Pin, GPIO_PIN_RESET);
+
+		settings.sleep_time = 5;
+	}
+
+	//  Toggling RED LED
+	HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_SET);
+	HAL_Delay(1);
+	HAL_GPIO_WritePin(INFO_LED_GPIO_Port, INFO_LED_Pin, GPIO_PIN_RESET);
+
+	// Sleeping
+	set_alarm(&hrtc, settings.sleep_time);
+
+	debug("Going STANDBY MODE\n\r\n\r");
+
+	HAL_PWR_EnterSTANDBYMode();
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
@@ -215,12 +209,7 @@ int main(void) {
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
-//		char *send_data;
-//		send_data = "Hello world!";
-//		if (LoRa_transmit(&myLoRa, (uint8_t*) send_data, 12, 100) == 1) {
-//			debug("Sent!");
-//		}
-//		HAL_Delay(2000);
+
 	}
 	/* USER CODE END 3 */
 }
@@ -270,7 +259,10 @@ void SystemClock_Config(void) {
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc) {
+	// Просто заглушка — достаточно, чтобы выйти из Standby
+	debug("RTC Alarm Callback triggered!\n\r");
+}
 /* USER CODE END 4 */
 
 /**

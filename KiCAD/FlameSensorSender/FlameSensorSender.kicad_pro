@@ -574,9 +574,6 @@
       "Net-(J5-Pin_4)": [
         "Power"
       ],
-      "Net-(J5-Pin_6)": [
-        "Power"
-      ],
       "Net-(J6-CC1)": [
         "Power"
       ],
@@ -592,10 +589,22 @@
       "Net-(J6-Pin_4)": [
         "Power"
       ],
+      "Net-(J6-Pin_6)": [
+        "Power"
+      ],
       "Net-(J7-CC1)": [
         "Power"
       ],
       "Net-(J7-CC2)": [
+        "Power"
+      ],
+      "Net-(J7-Pin_2)": [
+        "Power"
+      ],
+      "Net-(J7-Pin_3)": [
+        "Power"
+      ],
+      "Net-(J7-Pin_4)": [
         "Power"
       ],
       "Net-(Q1-D)": [
@@ -608,6 +617,12 @@
         "Power"
       ],
       "Net-(Q3-D)": [
+        "Power"
+      ],
+      "Net-(Q5-D)": [
+        "Power"
+      ],
+      "Net-(Q6-D)": [
         "Power"
       ],
       "Net-(U2-~{RESET})": [
@@ -640,6 +655,10 @@
       "Net-(U6-PG)": [
         "Power"
       ],
+      "VCC_BAT": [
+        "Default",
+        "Power"
+      ],
       "VRAW": [
         "Power"
       ]
@@ -651,7 +670,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "",
+      "plot": "export-2025-07-30-1",
       "pos_files": "",
       "specctra_dsn": "",
       "step": "FlameSensorSender.step",
@@ -705,7 +724,7 @@
           "group_by": false,
           "label": "Описание",
           "name": "Description",
-          "show": false
+          "show": true
         },
         {
           "group_by": false,

@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
 #include "icache.h"
 #include "usart.h"
 #include "spi.h"
@@ -25,11 +26,15 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
+#include <string.h>
 #include "llcc68_hal.h"
 #include "LoraReceiver.h"
 #include "callbacks.h"
 #include "DebugLog.h"
+#include "ssd1306.h"
+#include "ssd1306_fonts.h"
+//#include "ssd1306_tests.h"
 
 /* USER CODE END Includes */
 
@@ -51,7 +56,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-volatile uint16_t IRQ_FLAG;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -96,9 +101,21 @@ int main(void) {
 	MX_ICACHE_Init();
 	MX_SPI1_Init();
 	MX_LPUART1_UART_Init();
+	MX_I2C1_Init();
 	/* USER CODE BEGIN 2 */
 
 	debug_init(&hlpuart1);
+
+	ssd1306_Init();
+	ssd1306_Fill(Black);
+
+	ssd1306_SetCursor(0, 0);
+	ssd1306_WriteString("RECEIVER", Font_7x10, White);
+
+	ssd1306_SetCursor(0, 27);
+	ssd1306_WriteString("Smoke: ", Font_7x10, White);
+
+	ssd1306_UpdateScreen();
 
 	LLCC68_Spi_Driver_Init(&hspi1, LORA_NRST_GPIO_Port, LORA_NRST_Pin,
 	LORA_NSS_GPIO_Port,
@@ -120,7 +137,7 @@ int main(void) {
 				GPIO_PIN_SET);   // светодиод ВКЛ
 	}
 
-// Set Standby mode
+	// Set Standby mode
 	uint8_t standby_param = 0x00; // RC
 	LLCC68_WriteCommand(0x80, &standby_param, 1);
 
@@ -134,14 +151,6 @@ int main(void) {
 	// Set buffer base address
 	uint8_t base_addr[2] = { 0x00, 0x00 };  // TX = 0x00, RX = 0x00
 	LLCC68_WriteCommand(0x8F, base_addr, 2);
-
-	// Настройка параметров PA (усилителя мощности)
-//	uint8_t pa_config[4] = { 0x04, 0x07, 0x00, 0x01 }; // Оптимальные настройки для 22 дБм
-//	LLCC68_WriteCommand(0x95, pa_config, 4);
-
-//	// Настройка параметров модуляции LoRa (SF7, BW=125 кГц, CR=4/5)
-//	uint8_t mod_params[3] = { 0x07, 0x05, 0x01 }; // SF7, BW=125 кГц, CR=4/5
-//	LLCC68_WriteCommand(0x8B, mod_params, 3);
 
 	// Настройка параметров модуляции LoRa
 	// Параметры задаются в драйвере LLCC68 сразу для всех устройств
@@ -166,15 +175,9 @@ int main(void) {
 	params3[7] = dio3Mask & 0xFF;
 	LLCC68_WriteCommand(0x08, params3, 8);
 
-//	LoRa_ClearAllIrqStatus();
-
 	// Включение режима приёма (RX)
 	uint8_t rx_timeout[3] = { 0xFF, 0xFF, 0xFF };
 	LLCC68_WriteCommand(0x82, rx_timeout, 3);
-
-//	uint8_t status2 = 0;
-//	LLCC68_ReadCommand(0xC0, &status2, 1);
-//	printf("Status: 0x%02X\r\n", status);
 
 	/* USER CODE END 2 */
 
@@ -205,8 +208,16 @@ int main(void) {
 
 			LLCC68_ReadBuffer(buffer_offset, rx_data, payload_len);
 
-			// Вывод принятых данных
-//			debug("Received: %.*s\n\r", payload_len, rx_data);
+			SendPacket_t packet;
+			memcpy(&packet, &rx_data, sizeof(SendPacket_t));
+
+			char text_out[32];
+			sprintf(text_out, "%.2f", packet.sensor_data);
+
+			ssd1306_SetCursor(50, 20);
+			ssd1306_WriteString(text_out, Font_11x18, White);
+
+			ssd1306_UpdateScreen();
 
 			// Возврат в режим приёма
 			LLCC68_WriteCommand(0x82, rx_timeout, 3);
@@ -217,10 +228,7 @@ int main(void) {
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
-//		check_for_packet();
-//		HAL_GPIO_TogglePin(SMALL_INFO_LED_GPIO_Port, SMALL_INFO_LED_Pin);
-//		HAL_GPIO_WritePin(SMALL_INFO_LED_GPIO_Port, SMALL_INFO_LED_Pin,GPIO_PIN_SET);
-//		HAL_Delay(100);
+
 	}
 	/* USER CODE END 3 */
 }

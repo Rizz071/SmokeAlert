@@ -78,12 +78,11 @@
 						</toolChain>
 					</folderInfo>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1035944957.395452640" name="DebugLog.h" rcbsApplicability="disable" resourcePath="Shared/DebugLog.h" toolsToInvoke=""/>
-					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1035944957.126983727" name="LoRa.h" rcbsApplicability="disable" resourcePath="Shared/LoRa.h" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Shared"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Libs"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry excluding="LoRa.h|LoRa.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Shared"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

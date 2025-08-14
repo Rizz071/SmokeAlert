@@ -16,6 +16,7 @@
 void send_packet(SPI_HandleTypeDef *hspi, SendPacket_t packet) {
 
 	debug("Enabling LoRa...\n\r");
+	HAL_Delay(100);
 
 	LLCC68_Spi_Driver_Init(hspi, LORA_NRST_GPIO_Port, LORA_NRST_Pin,
 	LORA_NSS_GPIO_Port, LORA_NSS_Pin, LORA_BUSY_GPIO_Port, LORA_BUSY_Pin);
@@ -59,10 +60,8 @@ void send_packet(SPI_HandleTypeDef *hspi, SendPacket_t packet) {
 	// Параметры задаются в драйвере LLCC68 сразу для всех устройств
 	LLCC68_SetModulationParams();
 
-	uint8_t tx_data[] = "Test message";  // Буфер с передаваемыми данными
-
 	// Настройка параметров пакета
-	LLCC68_SetPacketParams(sizeof(tx_data));
+	LLCC68_SetPacketParams(sizeof(SendPacket_t));
 
 	// Set all interrupts to DIO1
 	uint8_t params3[8];
@@ -84,26 +83,19 @@ void send_packet(SPI_HandleTypeDef *hspi, SendPacket_t packet) {
 	uint8_t base_addr[2] = { 0x00, 0x00 };  // TX = 0x00, RX = 0x00
 	LLCC68_WriteCommand(0x8F, base_addr, 2);
 
-	while (1) {
+	uint8_t buffer[sizeof(SendPacket_t)];
+	memcpy(buffer, &packet, sizeof(SendPacket_t));
 
-		LLCC68_WriteBuffer(0x00, tx_data, sizeof(tx_data));
+	LLCC68_WriteBuffer(0x00, buffer, sizeof(SendPacket_t));
 
-		uint8_t tx_timeout[3] = { 0x00, 0x00, 0x00 };
-		LLCC68_WriteCommand(0x83, tx_timeout, 3);
+	uint8_t tx_timeout[3] = { 0x00, 0x00, 0x00 };
+	LLCC68_WriteCommand(0x83, tx_timeout, 3);
 
-		// Проверка статуса IRQ
-		uint8_t irq_status[2];
-		LLCC68_ReadCommand(0x12, irq_status, 2); // GetIrqStatus
+	// Проверка статуса IRQ
+//	uint8_t irq_status[2];
+//	LLCC68_ReadCommand(0x12, irq_status, 2); // GetIrqStatus
 
-//		while (!(irq_status[1] & 0x01)) { // TxDone (бит 1)
-//			__WFI();
-//		}
-//		debug("Packet sent!\n\r");
-
-		LLCC68_ClearAllIrqStatus(); // Сброс флага
-
-		HAL_Delay(4000);
-	}
-
+	debug("Packet sent!\n\r");
+	LLCC68_ClearAllIrqStatus(); // Сброс флага
 }
 

@@ -45,7 +45,7 @@ void LLCC68_Spi_Driver_Init(SPI_HandleTypeDef *hspi_extern,
 void LLCC68_SetModulationParams() {
 
 	// Настройка параметров модуляции LoRa
-	uint8_t mod_params[4] = { 0x0B, 0x04, 0x04, 0x01 }; // SF11, BW=125 кГц, CR=4/8, Low Data Rate enable
+	uint8_t mod_params[4] = { 0x09, 0x04, 0x04, 0x01 }; // SF9, BW=125 кГц, CR=4/8, Low Data Rate enable
 	LLCC68_WriteCommand(0x8B, mod_params, 4);
 
 }
@@ -112,7 +112,7 @@ uint8_t LLCC68_CheckStatus(void) {
 	NSS_HIGH();
 	HAL_Delay(1);
 
-// Теперь делаем "нулевую" передачу, чтобы вычитать статус (модуль возвращает его)
+	// Теперь делаем "нулевую" передачу, чтобы вычитать статус (модуль возвращает его)
 	LLCC68_WaitWhileBusy();
 	NSS_LOW();
 	uint8_t dummy[2] = { 0x00, 0x00 };

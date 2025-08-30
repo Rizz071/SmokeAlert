@@ -57,6 +57,7 @@ extern "C" {
 extern osThreadId_t defaultTaskHandle;
 extern osThreadId_t DisplayTaskHandle;
 extern osThreadId_t LoraReceiverTaskHandle;
+extern osMessageQueueId_t esp32_uart_queueHandle;
 extern osSemaphoreId_t displaySemHandle;
 
 /* Exported function prototypes -----------------------------------------------*/

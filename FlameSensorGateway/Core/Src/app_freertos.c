@@ -31,6 +31,7 @@
 #include "DebugLog.h"
 #include "ssd1306.h"
 #include "ssd1306_fonts.h"
+#include "esp32c3.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,36 +53,30 @@
 /* USER CODE BEGIN Variables */
 extern UART_HandleTypeDef hlpuart1;
 extern SPI_HandleTypeDef hspi1;
+extern UART_HandleTypeDef huart1;
 
 char text_out[32] = "-1";
 
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128 * 4
-};
+const osThreadAttr_t defaultTask_attributes = { .name = "defaultTask",
+		.priority = (osPriority_t) osPriorityNormal, .stack_size = 400 * 4 };
 /* Definitions for DisplayTask */
 osThreadId_t DisplayTaskHandle;
-const osThreadAttr_t DisplayTask_attributes = {
-  .name = "DisplayTask",
-  .priority = (osPriority_t) osPriorityLow,
-  .stack_size = 512 * 4
-};
+const osThreadAttr_t DisplayTask_attributes = { .name = "DisplayTask",
+		.priority = (osPriority_t) osPriorityNormal, .stack_size = 256 * 4 };
 /* Definitions for LoraReceiverTask */
 osThreadId_t LoraReceiverTaskHandle;
-const osThreadAttr_t LoraReceiverTask_attributes = {
-  .name = "LoraReceiverTask",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 512 * 4
-};
+const osThreadAttr_t LoraReceiverTask_attributes = { .name = "LoraReceiverTask",
+		.priority = (osPriority_t) osPriorityNormal, .stack_size = 256 * 4 };
+/* Definitions for esp32_uart_queue */
+osMessageQueueId_t esp32_uart_queueHandle;
+const osMessageQueueAttr_t esp32_uart_queue_attributes = { .name =
+		"esp32_uart_queue" };
 /* Definitions for displaySem */
 osSemaphoreId_t displaySemHandle;
-const osSemaphoreAttr_t displaySem_attributes = {
-  .name = "displaySem"
-};
+const osSemaphoreAttr_t displaySem_attributes = { .name = "displaySem" };
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -93,12 +88,12 @@ void LoraReceiverTask(void *argument);
 /* USER CODE END FunctionPrototypes */
 
 /**
-  * @brief  FreeRTOS initialization
-  * @param  None
-  * @retval None
-  */
+ * @brief  FreeRTOS initialization
+ * @param  None
+ * @retval None
+ */
 void MX_FREERTOS_Init(void) {
-  /* USER CODE BEGIN Init */
+	/* USER CODE BEGIN Init */
 
 	debug_init(&hlpuart1);
 
@@ -106,50 +101,50 @@ void MX_FREERTOS_Init(void) {
 
 	LoraInit();
 
-  /* USER CODE END Init */
+//	esp32_init(&huart4, esp32_uart_queueHandle);
 
-  /* USER CODE BEGIN RTOS_MUTEX */
+	/* USER CODE END Init */
+
+	/* USER CODE BEGIN RTOS_MUTEX */
 	/* add mutexes, ... */
-  /* USER CODE END RTOS_MUTEX */
-  /* creation of displaySem */
-  displaySemHandle = osSemaphoreNew(1, 0, &displaySem_attributes);
+	/* USER CODE END RTOS_MUTEX */
+	/* creation of displaySem */
+	displaySemHandle = osSemaphoreNew(1, 1, &displaySem_attributes);
 
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
+	/* USER CODE BEGIN RTOS_SEMAPHORES */
 	/* add semaphores, ... */
 
-  /* USER CODE END RTOS_SEMAPHORES */
+	/* USER CODE END RTOS_SEMAPHORES */
 
-  /* USER CODE BEGIN RTOS_TIMERS */
+	/* USER CODE BEGIN RTOS_TIMERS */
 	/* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
+	/* USER CODE END RTOS_TIMERS */
+	/* creation of esp32_uart_queue */
+	esp32_uart_queueHandle = osMessageQueueNew(128, sizeof(uint8_t),
+			&esp32_uart_queue_attributes);
 
-  /* USER CODE BEGIN RTOS_QUEUES */
+	/* USER CODE BEGIN RTOS_QUEUES */
 	/* add queues, ... */
-  /* USER CODE END RTOS_QUEUES */
-  /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+	/* USER CODE END RTOS_QUEUES */
+	/* creation of defaultTask */
+	defaultTaskHandle = osThreadNew(StartDefaultTask, NULL,
+			&defaultTask_attributes);
 
-  /* creation of DisplayTask */
-  DisplayTaskHandle = osThreadNew(DisplayTask, NULL, &DisplayTask_attributes);
+	/* creation of DisplayTask */
+	DisplayTaskHandle = osThreadNew(DisplayTask, NULL, &DisplayTask_attributes);
 
-  /* creation of LoraReceiverTask */
-  LoraReceiverTaskHandle = osThreadNew(LoraReceiverTask, NULL, &LoraReceiverTask_attributes);
+	/* creation of LoraReceiverTask */
+	LoraReceiverTaskHandle = osThreadNew(LoraReceiverTask, NULL,
+			&LoraReceiverTask_attributes);
 
-  /* USER CODE BEGIN RTOS_THREADS */
+	/* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
-//	osThreadAttr_t loraReceiverTask_attr = { .name = "Lora Receiver Task",
-//			.stack_size = 128 };
-//	osThreadId_t loraReceiverTaskHandle = osThreadNew(LoraReceiverTask, NULL,
-//			&loraReceiverTask_attr);
-//	osThreadAttr_t displayTask_attr = { .name = "DisplayUpdaterTask",
-//			.stack_size = 128 };
-//	osThreadId_t displayTaskHandle = osThreadNew(DisplayTask, NULL,
-//			&displayTask_attr);
-  /* USER CODE END RTOS_THREADS */
 
-  /* USER CODE BEGIN RTOS_EVENTS */
+	/* USER CODE END RTOS_THREADS */
+
+	/* USER CODE BEGIN RTOS_EVENTS */
 	/* add events, ... */
-  /* USER CODE END RTOS_EVENTS */
+	/* USER CODE END RTOS_EVENTS */
 
 }
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -159,15 +154,26 @@ void MX_FREERTOS_Init(void) {
  * @retval None
  */
 /* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
-{
-  /* USER CODE BEGIN defaultTask */
+void StartDefaultTask(void *argument) {
+	/* USER CODE BEGIN defaultTask */
+
+	esp32_init(&huart1, esp32_uart_queueHandle);
+
+	// Тест подключения esp32 по UART
+	char cmd1[] = "ATE0\r\n";
+	esp32_send_AT(cmd1, sizeof(cmd1));
+
+	// Тест подключения esp32 по UART
+	char cmd2[] = "AT\r\n";
+	esp32_send_AT(cmd2, sizeof(cmd2));
+
 	/* Infinite loop */
 	for (;;) {
 		// for debug purposes
-		osDelay(1);
+
+		osDelay(1000);
 	}
-  /* USER CODE END defaultTask */
+	/* USER CODE END defaultTask */
 }
 
 /* USER CODE BEGIN Header_DisplayTask */
@@ -177,9 +183,8 @@ void StartDefaultTask(void *argument)
  * @retval None
  */
 /* USER CODE END Header_DisplayTask */
-void DisplayTask(void *argument)
-{
-  /* USER CODE BEGIN DisplayTask */
+void DisplayTask(void *argument) {
+	/* USER CODE BEGIN DisplayTask */
 	/* Infinite loop */
 	for (;;) {
 
@@ -192,7 +197,7 @@ void DisplayTask(void *argument)
 		ssd1306_UpdateScreen();
 
 	}
-  /* USER CODE END DisplayTask */
+	/* USER CODE END DisplayTask */
 }
 
 /* USER CODE BEGIN Header_LoraReceiverTask */
@@ -202,9 +207,8 @@ void DisplayTask(void *argument)
  * @retval None
  */
 /* USER CODE END Header_LoraReceiverTask */
-void LoraReceiverTask(void *argument)
-{
-  /* USER CODE BEGIN LoraReceiverTask */
+void LoraReceiverTask(void *argument) {
+	/* USER CODE BEGIN LoraReceiverTask */
 	/* Infinite loop */
 	for (;;) {
 
@@ -250,68 +254,11 @@ void LoraReceiverTask(void *argument)
 		}
 	}
 
-  /* USER CODE END LoraReceiverTask */
+	/* USER CODE END LoraReceiverTask */
 }
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
-//void LoraReceiverTask(void *argument) {
-//	for (;;) {
-//		// Ждём сигнала от ISR
-//		ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
-//
-//		// Проверка статуса IRQ
-//		uint8_t irq_status[2];
-//		LLCC68_ReadCommand(0x12, irq_status, 2); // GetIrqStatus
-//		LLCC68_ClearAllIrqStatus();
-//
-//		if (irq_status[1] & 0x02) { // RxDone
-//			HAL_GPIO_WritePin(SMALL_INFO_LED_GPIO_Port, SMALL_INFO_LED_Pin,
-//					GPIO_PIN_SET);
-////			HAL_Delay(100);
-//			osDelay(100);
-//
-//			HAL_GPIO_WritePin(SMALL_INFO_LED_GPIO_Port, SMALL_INFO_LED_Pin,
-//					GPIO_PIN_RESET);
-//
-//			// Чтение длины принятого пакета
-//			uint8_t rx_info[2];
-//			LLCC68_ReadCommand(0x13, rx_info, 2); // GetRxBufferStatus
-//			uint8_t payload_len = rx_info[0];
-//			uint8_t buffer_offset = rx_info[1];
-//
-//			// Чтение данных из буфера
-//			uint8_t rx_data[payload_len]; // Буфер для данных
-//
-//			LLCC68_ReadBuffer(buffer_offset, rx_data, payload_len);
-//
-//			SendPacket_t packet;
-//			memcpy(&packet, &rx_data, sizeof(SendPacket_t));
-//
-//			sprintf(text_out, "%.2f", packet.sensor_data);
-//
-//			osSemaphoreRelease(displaySemaphoreHandle); // разбудить задачу дисплея
-//
-//			// Возврат в режим приёма
-//			uint8_t rx_timeout[3] = { 0xFF, 0xFF, 0xFF };
-//			LLCC68_WriteCommand(0x82, rx_timeout, 3);
-//		}
-//	}
-//}
-//void DisplayTask(void *argument) {
-//	for (;;) {
-//
-//		// Ждём уведомления семафором
-//		osSemaphoreAcquire(displaySemaphoreHandle, osWaitForever);
-//
-//		ssd1306_SetCursor(50, 20);
-//
-//		ssd1306_WriteString(text_out, Font_11x18, White);
-//		ssd1306_UpdateScreen();
-//
-////		osDelay(20); //(≈ 50 FPS).
-//	}
-//}
 void DisplayInit() {
 
 	ssd1306_Init();

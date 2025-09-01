@@ -1,7 +1,8 @@
 package main
 
 import (
-	"database/sql"
+	"SmokeAlarmBackend/DB"
+	"SmokeAlarmBackend/config"
 	"fmt"
 	"log"
 
@@ -9,26 +10,45 @@ import (
 )
 
 func main() {
-	// Подключение к существующей служебной базе "postgres"
-	dsn := "postgres://postgres:132456@localhost:5432/postgres"
 
-	db, err := sql.Open("pgx", dsn)
+	// Подключение к существующей служебной базе "postgres"
+	db, err := DB.OpenDB(
+		fmt.Sprintf("postgres://postgres:%s@%s/postgres",
+			config.App.DBAdminPassword,
+			config.App.DBHostProduction,
+		))
+
 	if err != nil {
-		log.Fatalf("failed to connect to postgres: %v", err)
+		log.Fatalf("cannot connect to DB: %v", err)
 	}
+
 	defer db.Close()
 
-	// Создаём нового пользователя
-	_, err = db.Exec(`CREATE USER smoke_admin WITH PASSWORD 'smoke_admin1324567890';`)
+	_, err = db.Exec(
+		fmt.Sprintf("CREATE USER %s WITH PASSWORD '%s';",
+			config.App.DBUserProduction,
+			config.App.DBUserPasswordProduction,
+		))
+
 	if err != nil {
 		log.Fatalf("failed to create user: %v", err)
 	}
 
-	// Создаём новую базу
-	_, err = db.Exec(`CREATE DATABASE smokealert_1 OWNER smoke_admin;`)
+	fmt.Printf("User %s created successfully\r\n",
+		config.App.DBUserProduction,
+	)
+
+	_, err = db.Exec(
+		fmt.Sprintf("CREATE DATABASE %s OWNER %s;",
+			config.App.DBNameProduction,
+			config.App.DBUserProduction,
+		))
+
 	if err != nil {
 		log.Fatalf("failed to create database: %v", err)
 	}
 
-	fmt.Println("Database 'smokealert_1' and user 'smoke_admin' created successfully!")
+	fmt.Printf("Database %s created successfully\r\n",
+		config.App.DBNameProduction,
+	)
 }

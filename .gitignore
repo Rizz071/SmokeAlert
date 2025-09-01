@@ -1,2 +1,3 @@
 /.metadata/
 /KiCAD/FlameSensorSender/nextpcb
+*.env

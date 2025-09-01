@@ -1,12 +1,15 @@
-package main
+package DB
 
 import (
 	"database/sql"
 	"fmt"
+	"log"
+	"os"
 )
 
 // openDB открывает соединение с БД и возвращает указатель на *sql.DB
-func openDB(dsn string) (*sql.DB, error) {
+func OpenDB(dsn string) (*sql.DB, error) {
+
 	db, err := sql.Open("pgx", dsn)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open database: %w", err)
@@ -19,4 +22,19 @@ func openDB(dsn string) (*sql.DB, error) {
 	}
 
 	return db, nil
+}
+
+func CreateTableFromSchema(db *sql.DB, pathToSchema string) {
+
+	sqlBytes, err := os.ReadFile(pathToSchema)
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = db.Exec(string(sqlBytes))
+
+	if err != nil {
+		log.Fatalf("failed to create table: %v", err)
+	}
+
+	fmt.Println("Table", pathToSchema, "created successfully!")
 }

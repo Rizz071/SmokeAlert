@@ -23,7 +23,6 @@ type Gateway struct {
 	HWID1       int
 	HWID2       int
 	HWID3       int
-	UserID      int
 	Description string
 
 	LastAccessTime time.Time

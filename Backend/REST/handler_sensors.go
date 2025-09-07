@@ -42,7 +42,7 @@ func HandlerSensors(db *sql.DB) http.HandlerFunc {
 			}
 
 			// Проверяем, существует ли sensor в БД
-			sensorID, err := GetSensorIDByHWID(db, sensorReceivedData.HWID1, sensorReceivedData.HWID2, sensorReceivedData.HWID3)
+			sensorID, err := GetSensorIDBySensorHWID(db, sensorReceivedData.HWID1, sensorReceivedData.HWID2, sensorReceivedData.HWID3)
 			if err != nil {
 				// TODO Error unknown
 			}

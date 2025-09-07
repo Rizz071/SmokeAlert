@@ -8,46 +8,32 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 	"testing"
 	"time"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
-func TestCRUD(t *testing.T) {
-	var err error
+var testDB *sql.DB
 
-	clearTestDB(t)
+func TestMain(m *testing.M) {
 
-	testDB := setupTestDB(t)
+	clearTestDB()
+
+	testDB = setupTestDB()
 	defer testDB.Close()
 
-	u := types.User{
-		Login:    "text_login",
-		Password: "test_password",
-		Name:     "John Doe",
-	}
+	// Запуск всех тестов в пакете
+	code := m.Run()
 
-	// Запись нового пользователя в БД
-	userID, err := REST.InsertUser(testDB, u)
-	if err != nil {
-		t.Fatalf("Insert failed: %v", err)
-	}
-	t.Log("Тестовые данные User:", u)
+	clearTestDB()
 
-	g := types.Gateway{
-		HWID1:  50,
-		HWID2:  51,
-		HWID3:  52,
-		UserID: *userID,
-	}
+	os.Exit(code)
+}
 
-	// Запись нового шлюза в БД
-	gatewayID, err := REST.InsertGateway(testDB, g)
-	if err != nil {
-		t.Fatalf("Insert failed: %v", err)
-	}
-	t.Log("Тестовые данные Gateway:", g)
+func testSensorsTable(t *testing.T, testDB *sql.DB, gatewayID int) {
+	var err error
 
 	s := types.Sensor{
 		HWID1:            101,
@@ -55,7 +41,7 @@ func TestCRUD(t *testing.T) {
 		HWID3:            103,
 		LastBatteryLevel: 99,
 		Data:             1.1,
-		GatewayID:        *gatewayID,
+		GatewayID:        gatewayID,
 		Description:      "Test sensor",
 		LastAccessTime:   time.Now(),
 	}
@@ -65,18 +51,11 @@ func TestCRUD(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Insert failed: %v", err)
 	}
-	t.Log("Тестовые данные Sensor:", s)
-
-	// // Чтение ID сенсора после записи в БД
-	// sensorID, err := REST.GetSensorIDByHWID(db, 101, 102, 103)
-	// if err != nil || sensorID == nil {
-	// 	t.Fatalf("Get failed: %v", err)
-	// }
-	// t.Log("ID сенсора прочитано из БД:", *sensorID)
+	fmt.Println("Тестовые данные Sensor записаны в БД:", s)
 
 }
 
-func clearTestDB(t *testing.T) {
+func clearTestDB() {
 
 	db, err := DB.OpenDB(
 		fmt.Sprintf(`postgres://postgres:%s@%s/postgres`,
@@ -85,9 +64,8 @@ func clearTestDB(t *testing.T) {
 		))
 
 	if err != nil {
-		t.Fatalf("cannot connect to DB: %v", err)
+		log.Fatalf("cannot connect to DB: %v", err)
 	}
-
 	fmt.Println("DB postgres: opened, pinged")
 
 	defer db.Close()
@@ -96,24 +74,23 @@ func clearTestDB(t *testing.T) {
 	                        FROM pg_stat_activity
 	                        WHERE datname = 'smokealert_test';`)
 	if err != nil {
-		t.Fatal(err)
+		log.Fatalf("pg_terminate_backend(pid) failed: %v", err)
 	}
-	t.Log("DB smokealert_test: all activities terminated")
 
 	_, err = db.Exec("DROP DATABASE IF EXISTS smokealert_test;")
 	if err != nil {
-		t.Fatal(err)
+		log.Fatalf("DROP DATABASE IF EXISTS smokealert_test: %v", err)
 	}
-	t.Log("DB smokealert_test: droped")
+	fmt.Println("DB smokealert_test: droped")
 
 	_, err = db.Exec("DROP ROLE IF EXISTS test_smoke_admin;")
 	if err != nil {
-		t.Fatal(err)
+		log.Fatalf("DROP ROLE IF EXISTS test_smoke_admin failed: %v", err)
 	}
-	t.Log("USER test_smoke_admin: droped")
+	fmt.Println("USER test_smoke_admin: droped")
 }
 
-func setupTestDB(t *testing.T) *sql.DB {
+func setupTestDB() *sql.DB {
 
 	// Подключение к существующей служебной базе "postgres"
 	db, err := DB.OpenDB(
@@ -123,7 +100,7 @@ func setupTestDB(t *testing.T) *sql.DB {
 		))
 
 	if err != nil {
-		log.Fatalf("cannot connect to DB: %v", err)
+		panic(fmt.Errorf("cannot connect to DB: %v", err))
 	}
 
 	defer db.Close()
@@ -172,7 +149,7 @@ func setupTestDB(t *testing.T) *sql.DB {
 	fmt.Println("DB connected successfully")
 
 	if err != nil {
-		t.Fatalf("Cannot connect to test DB: %v", err)
+		log.Fatalf("Cannot connect to test DB: %v", err)
 	}
 
 	DB.CreateTableFromSchema(testDB, "../DB/users_schema.sql")

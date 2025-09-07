@@ -5,15 +5,96 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 	"time"
 )
 
-// TODO AddSensor
-// TODO RemoveSensorByID
-// TODO Set description
-// TODO GetSensorsByGatewayID
+// TODO InsertSensor(types.Sensor)			DONE
+// TODO RemoveSensorByID(ID)				DONE
+// TODO GetSensorIDBySensorHWID(HWID1..3)	DONE
+// TODO UpdateSensor(types.Sensor)			DONE
+// TODO GetAllSensorsByGatewayID(ID)		DONE
 
-func GetSensorIDByHWID(db *sql.DB, HWID1, HWID2, HWID3 int) (*int, error) {
+func InsertSensor(db *sql.DB, s types.Sensor) (int, error) {
+	query := `
+		INSERT INTO sensors 
+		(HWID1, HWID2, HWID3, LastBatteryLevel, Data, GatewayID, Description)
+		VALUES ($1, $2, $3, $4, $5, $6, $7)
+		RETURNING id;
+	`
+
+	var ID int
+	err := db.QueryRow(
+		query,
+		s.HWID1,
+		s.HWID2,
+		s.HWID3,
+		s.LastBatteryLevel,
+		s.Data,
+		s.GatewayID,
+		s.Description,
+	).Scan(&ID)
+
+	if err != nil {
+		return 0, fmt.Errorf("failed to insert sensor: %w", err)
+	}
+
+	return ID, nil
+}
+
+func RemoveSensorByID(db *sql.DB, ID int) error {
+	query := `DELETE FROM sensors WHERE id = $1`
+
+	result, err := db.Exec(query, ID)
+	if err != nil {
+		return fmt.Errorf("ошибка при удалении сенсора: %w", err)
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("ошибка при получении числа удалённых строк: %w", err)
+	}
+
+	if rowsAffected == 0 {
+		return fmt.Errorf("сенсор с ID %d не найден", ID)
+	}
+
+	log.Printf("Сенсор с ID %d успешно удалён\n", ID)
+	return nil
+}
+
+func GetSensorByID(db *sql.DB, ID int) (*types.Sensor, error) {
+	var sensor types.Sensor
+
+	query := `
+        SELECT ID, HWID1, HWID2, HWID3, UserID, Description, LastAccessTime
+        FROM sensor
+        WHERE ID = $1
+        LIMIT 1;
+    `
+	err := db.QueryRowContext(context.Background(), query, ID).Scan(
+		&sensor.ID,
+		&sensor.HWID1,
+		&sensor.HWID2,
+		&sensor.HWID3,
+		&sensor.LastBatteryLevel,
+		&sensor.Data,
+		&sensor.GatewayID,
+		&sensor.Description,
+		&sensor.LastAccessTime,
+	)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, fmt.Errorf("query failed: %w", err)
+	}
+
+	return &sensor, nil
+}
+
+func GetSensorIDBySensorHWID(db *sql.DB, HWID1, HWID2, HWID3 int) (*int, error) {
 	var sensorID int
 
 	query := `
@@ -34,39 +115,11 @@ func GetSensorIDByHWID(db *sql.DB, HWID1, HWID2, HWID3 int) (*int, error) {
 	return &sensorID, nil
 }
 
-func InsertSensor(db *sql.DB, s types.Sensor) (int, error) {
-	query := `
-		INSERT INTO sensors 
-		(HWID1, HWID2, HWID3, LastBatteryLevel, Data, GatewayID, Description, LastAccessTime)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-		RETURNING id;
-	`
-
-	var ID int
-	err := db.QueryRow(
-		query,
-		s.HWID1,
-		s.HWID2,
-		s.HWID3,
-		s.LastBatteryLevel,
-		s.Data,
-		s.GatewayID,
-		s.Description,
-		s.LastAccessTime,
-	).Scan(&ID)
-
-	if err != nil {
-		return 0, fmt.Errorf("failed to insert sensor: %w", err)
-	}
-
-	return ID, nil
-}
-
 func UpdateSensor(db *sql.DB, sensorID int, s types.SensorReceivedData) error {
 	query := `
         UPDATE sensors
         SET data = $1, last_access_time = $2
-        WHERE id = $3;
+        WHERE ID = $3;
     `
 
 	// Выполняем запрос
@@ -93,12 +146,12 @@ func UpdateSensor(db *sql.DB, sensorID int, s types.SensorReceivedData) error {
 	return nil
 }
 
-func GetSensorsByGatewayID(db *sql.DB, gatewayID int) ([]types.Sensor, error) {
+func GetAllSensorsByGatewayID(db *sql.DB, gatewayID int) ([]types.Sensor, error) {
 
 	query := `
-        SELECT id, HW_ID_p1, HW_ID_p2, HW_ID_p3, last_battery_level, data, gateway_id, description, last_access_time
+        SELECT ID, HWID1, HWID2, HWID3, LastBatteryLevel, Data, GatewayID, Description, LastAccessTime
         FROM sensors
-        WHERE gateway_id = $1;
+        WHERE GatewayID = $1;
     `
 
 	rows, err := db.Query(query, gatewayID)
@@ -134,43 +187,3 @@ func GetSensorsByGatewayID(db *sql.DB, gatewayID int) ([]types.Sensor, error) {
 
 	return sensorsList, nil
 }
-
-// func InsertSensor(db *sql.DB, receivedSensorData types.SensorReceivedData) error {
-
-// 	// Можно использовать данные
-// 	log.Printf("Получено: %+v\n", receivedSensorData)
-
-// 	// Данные для отправки в БД
-// 	sensorHWID1 := receivedSensorData.HWID1
-// 	sensorHWID2 := receivedSensorData.HWID2
-// 	sensorHWID3 := receivedSensorData.HWID3
-// 	data := receivedSensorData.SensorData
-
-// 	description := "Temperature sensor"
-// 	lastAccessTime := time.Now().Format("15:04:05") // только время в формате HH:MM:SS
-
-// 	gatewayID, err := GetGatewayIDBySensorHWID(db, sensorHWID1, sensorHWID2, sensorHWID3)
-// 	if err != nil {
-// 		log.Fatalf("error getting gateway_id: %v", err)
-// 	}
-
-// 	if gatewayID != nil {
-// 		log.Println("sensor found. modifying sensor.")
-
-// 		// UpdateSensorByID(db)
-// 	}
-
-// 	if gatewayID == nil {
-// 		log.Println("sensor not found. adding new sensor.")
-
-// 		_, err = db.Exec(
-// 			`INSERT INTO sensors (sensor_ID_p1, sensor_ID_p2, sensor_ID_p3, data, gateway_id, description, last_access_time)
-//          VALUES ($1,$2,$3,$4,$5,$6)`, sensorHWID1, sensorHWID2, sensorHWID3, data, gatewayID, description, lastAccessTime)
-
-// 		if err != nil {
-// 			log.Fatalf("failed to add sensor: %v", err)
-// 		}
-// 	}
-
-// 	return nil
-// }

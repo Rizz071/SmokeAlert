@@ -8,11 +8,6 @@ import (
 	"log"
 )
 
-// TODO InsertGateway				DONE
-// TODO RemoveGatewayByID			DONE
-// TODO GetGatewayByID				DONE
-// TODO GetGatewayIDBySensorHWID	DONE
-
 func InsertGateway(db *sql.DB, g types.Gateway) (*int, error) {
 
 	query := `

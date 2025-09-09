@@ -8,12 +8,7 @@ import (
 	"log"
 )
 
-// TODO InsertUser(types.User)		DONE
-// TODO RemoveUserByID				DONE
-// TODO GetUserByID(ID)				DONE
-// TODO GetAllUsers					DONE
-
-func InsertUser(db *sql.DB, g types.User) (*int, error) {
+func InsertUser(db *sql.DB, u types.User) (*int, error) {
 
 	query := `
 		INSERT INTO users 
@@ -24,13 +19,13 @@ func InsertUser(db *sql.DB, g types.User) (*int, error) {
 	var userID int
 	err := db.QueryRow(
 		query,
-		g.Login,
-		g.Password,
-		g.Name,
+		u.Login,
+		u.Password,
+		u.Name,
 	).Scan(&userID)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to insert gateway: %w", err)
+		return nil, fmt.Errorf("failed to insert user: %w", err)
 	}
 
 	return &userID, nil
@@ -82,26 +77,6 @@ func GetUserByID(db *sql.DB, ID int) (*types.User, error) {
 
 	return &user, nil
 }
-
-// func GetUserIDByLogin(db *sql.DB, login string) (*int, error) {
-
-// 	query := `
-//         SELECT ID
-//         FROM users
-//         WHERE Login = $1
-//         LIMIT 1;
-//     `
-// 	var userID int
-// 	err := db.QueryRowContext(context.Background(), query, login).Scan(&userID)
-// 	if err != nil {
-// 		if err == sql.ErrNoRows {
-// 			return nil, nil // gateway не найден
-// 		}
-// 		return nil, err // другая ошибка
-// 	}
-
-// 	return &userID, nil
-// }
 
 func GetAllUsers(db *sql.DB) ([]types.User, error) {
 

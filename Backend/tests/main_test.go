@@ -2,12 +2,12 @@ package crud_test
 
 import (
 	"SmokeAlarmBackend/DB"
-	"SmokeAlarmBackend/REST"
 	"SmokeAlarmBackend/config"
 	"SmokeAlarmBackend/types"
 	"database/sql"
 	"fmt"
 	"log"
+	"math/rand/v2"
 	"os"
 	"testing"
 	"time"
@@ -32,29 +32,6 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
-func testSensorsTable(t *testing.T, testDB *sql.DB, gatewayID int) {
-	var err error
-
-	s := types.Sensor{
-		HWID1:            101,
-		HWID2:            102,
-		HWID3:            103,
-		LastBatteryLevel: 99,
-		Data:             1.1,
-		GatewayID:        gatewayID,
-		Description:      "Test sensor",
-		LastAccessTime:   time.Now(),
-	}
-
-	// Запись нового сенсора в БД
-	_, err = REST.InsertSensor(testDB, s)
-	if err != nil {
-		t.Fatalf("Insert failed: %v", err)
-	}
-	fmt.Println("Тестовые данные Sensor записаны в БД:", s)
-
-}
-
 func clearTestDB() {
 
 	db, err := DB.OpenDB(
@@ -66,7 +43,7 @@ func clearTestDB() {
 	if err != nil {
 		log.Fatalf("cannot connect to DB: %v", err)
 	}
-	fmt.Println("DB postgres: opened, pinged")
+	log.Println("DB postgres: opened, pinged")
 
 	defer db.Close()
 
@@ -81,13 +58,11 @@ func clearTestDB() {
 	if err != nil {
 		log.Fatalf("DROP DATABASE IF EXISTS smokealert_test: %v", err)
 	}
-	fmt.Println("DB smokealert_test: droped")
 
 	_, err = db.Exec("DROP ROLE IF EXISTS test_smoke_admin;")
 	if err != nil {
 		log.Fatalf("DROP ROLE IF EXISTS test_smoke_admin failed: %v", err)
 	}
-	fmt.Println("USER test_smoke_admin: droped")
 }
 
 func setupTestDB() *sql.DB {
@@ -115,7 +90,7 @@ func setupTestDB() *sql.DB {
 		log.Fatalf("failed to create user: %v", err)
 	}
 
-	fmt.Printf("User %s created successfully\r\n",
+	log.Printf("User %s created successfully\r\n",
 		config.App.DBUserProduction,
 	)
 
@@ -129,7 +104,7 @@ func setupTestDB() *sql.DB {
 		log.Fatalf("failed to create database: %v", err)
 	}
 
-	fmt.Printf("Database %s created successfully\r\n",
+	log.Printf("Database %s created successfully\r\n",
 		config.App.DBNameTesting,
 	)
 
@@ -146,8 +121,6 @@ func setupTestDB() *sql.DB {
 		log.Fatalf("cannot connect to test DB: %v", err)
 	}
 
-	fmt.Println("DB connected successfully")
-
 	if err != nil {
 		log.Fatalf("Cannot connect to test DB: %v", err)
 	}
@@ -157,4 +130,38 @@ func setupTestDB() *sql.DB {
 	DB.CreateTableFromSchema(testDB, "../DB/sensors_schema.sql")
 
 	return testDB
+}
+
+func generateUser() types.User {
+	return types.User{
+		ID:       0, // Устанавливается автоматически при добавлении в БД
+		Login:    "Test user",
+		Password: "Test password",
+		Name:     "Test fullname",
+	}
+}
+
+func generateGateway() types.Gateway {
+	return types.Gateway{
+		ID:             0, // Устанавливается автоматически при добавлении в БД
+		HWID1:          rand.IntN(1000000),
+		HWID2:          rand.IntN(1000000),
+		HWID3:          rand.IntN(1000000),
+		Description:    "Test gateway",
+		LastAccessTime: time.Time{}, // Установка нулевого значения
+	}
+}
+
+func generateSensor() types.Sensor {
+	return types.Sensor{
+		ID:               0, // Устанавливается автоматически при добавлении в БД
+		HWID1:            rand.IntN(1000000),
+		HWID2:            rand.IntN(1000000),
+		HWID3:            rand.IntN(1000000),
+		LastBatteryLevel: rand.IntN(101), // В процентах
+		Data:             rand.Float32() * 4,
+		GatewayID:        0, // Устанавливается автоматически при добавлении в БД
+		Description:      "Test sensor",
+		LastAccessTime:   time.Time{}, // Установка нулевого значения
+	}
 }

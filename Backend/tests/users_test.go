@@ -3,49 +3,22 @@ package crud_test
 import (
 	"SmokeAlarmBackend/REST"
 	"SmokeAlarmBackend/types"
-	"fmt"
 	"testing"
 )
 
-var u = types.User{
-	Login:    "text_login",
-	Password: "test_password",
-	Name:     "John Doe",
-}
+func TestInsertUser(t *testing.T) {
 
-func TestUsersTable(t *testing.T) {
-
-	testInsertUser(t)
-	testGetUserByID(t)
-	testRemoveUserByID(t)
-	testGetAllUsers(t)
-
-}
-
-func testInsertUser(t *testing.T) {
+	u := generateUser()
 
 	_, err := REST.InsertUser(testDB, u)
 	if err != nil {
 		t.Fatalf("InsertUser() failed: %v", err)
 	}
-
-	fmt.Println("Тестовые данные User записаны в БД:", u)
 }
 
-func testGetUserByID(t *testing.T) {
+func TestRemoveUserByID(t *testing.T) {
 
-	newUserID, err := REST.InsertUser(testDB, u)
-	if err != nil {
-		t.Fatalf("InsertUser() failed: %v", err)
-	}
-
-	receivedUser, err := REST.GetUserByID(testDB, *newUserID)
-	if (receivedUser.ID != *newUserID) || err != nil {
-		t.Fatalf("GetUserByID() failed: %v", err)
-	}
-}
-
-func testRemoveUserByID(t *testing.T) {
+	u := generateUser()
 
 	newUserID, err := REST.InsertUser(testDB, u)
 	if err != nil {
@@ -63,13 +36,51 @@ func testRemoveUserByID(t *testing.T) {
 	}
 }
 
-func testGetAllUsers(t *testing.T) {
+func TestGetUserByID(t *testing.T) {
 
-	allUsers, err := REST.GetAllUsers(testDB)
+	u := generateUser()
+
+	newUserID, err := REST.InsertUser(testDB, u)
 	if err != nil {
-		t.Fatalf("testGetAllUsers() failed: %v", err)
+		t.Fatalf("InsertUser() failed: %v", err)
 	}
 
-	fmt.Println("testGetAllUsers() returned:")
-	fmt.Println(allUsers)
+	receivedUser, err := REST.GetUserByID(testDB, *newUserID)
+	if (receivedUser.ID != *newUserID) || err != nil {
+		t.Fatalf("GetUserByID() failed: %v", err)
+	}
+}
+
+func TestGetAllUsers(t *testing.T) {
+
+	var amountOfTestUsers = 10
+	testPhrase := "TestGetAllUser"
+
+	for i := 0; i < amountOfTestUsers; i++ {
+		u := generateUser()
+		u.Login = testPhrase
+		_, err := REST.InsertUser(testDB, u)
+		if err != nil {
+			t.Fatalf("InsertUser() failed at step %v : %v", i, err)
+		}
+	}
+
+	receivedUsers, err := REST.GetAllUsers(testDB)
+	if receivedUsers == nil {
+		t.Fatalf("GetAllUsers() failed : %v", err)
+	}
+	if err != nil {
+		t.Fatalf("GetAllUsers() failed : %v", err)
+	}
+
+	var finalUsersList []types.User
+	for _, user := range receivedUsers {
+		if user.Login == testPhrase {
+			finalUsersList = append(finalUsersList, user)
+		}
+	}
+
+	if len(finalUsersList) != amountOfTestUsers {
+		t.Fatalf("GetAllUsers() failed: %v", err)
+	}
 }

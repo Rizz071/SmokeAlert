@@ -9,13 +9,8 @@ import (
 	"time"
 )
 
-// TODO InsertSensor(types.Sensor)			DONE
-// TODO RemoveSensorByID(ID)				DONE
-// TODO GetSensorIDBySensorHWID(HWID1..3)	DONE
-// TODO UpdateSensor(types.Sensor)			DONE
-// TODO GetAllSensorsByGatewayID(ID)		DONE
-
 func InsertSensor(db *sql.DB, s types.Sensor) (int, error) {
+
 	query := `
 		INSERT INTO sensors 
 		(HWID1, HWID2, HWID3, LastBatteryLevel, Data, GatewayID, Description)
@@ -67,8 +62,8 @@ func GetSensorByID(db *sql.DB, ID int) (*types.Sensor, error) {
 	var sensor types.Sensor
 
 	query := `
-        SELECT ID, HWID1, HWID2, HWID3, UserID, Description, LastAccessTime
-        FROM sensor
+        SELECT ID, HWID1, HWID2, HWID3, LastBatteryLevel, Data, GatewayID, Description, LastAccessTime
+        FROM sensors
         WHERE ID = $1
         LIMIT 1;
     `
@@ -94,7 +89,7 @@ func GetSensorByID(db *sql.DB, ID int) (*types.Sensor, error) {
 	return &sensor, nil
 }
 
-func GetSensorIDBySensorHWID(db *sql.DB, HWID1, HWID2, HWID3 int) (*int, error) {
+func GetSensorIDByHWID(db *sql.DB, HWID1, HWID2, HWID3 int) (*int, error) {
 	var sensorID int
 
 	query := `
@@ -107,7 +102,7 @@ func GetSensorIDBySensorHWID(db *sql.DB, HWID1, HWID2, HWID3 int) (*int, error) 
 	err := db.QueryRowContext(context.Background(), query, HWID1, HWID2, HWID3).Scan(&sensorID)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, nil // gateway не найден
+			return nil, nil // сенсор не найден
 		}
 		return nil, err // другая ошибка
 	}
@@ -115,17 +110,30 @@ func GetSensorIDBySensorHWID(db *sql.DB, HWID1, HWID2, HWID3 int) (*int, error) 
 	return &sensorID, nil
 }
 
-func UpdateSensor(db *sql.DB, sensorID int, s types.SensorReceivedData) error {
+// Обновление полей: Data, Battery, LastAcessTime
+func UpdateSensorDataAndBattery(db *sql.DB, s types.SensorReceivedPacket) error {
+
+	// Получаем ID датчика в БД
+	sensorID, err := GetSensorIDByHWID(db, s.HWID1, s.HWID2, s.HWID3)
+	if err != nil {
+		// TODO error
+	}
+	if sensorID == nil {
+		// TODO датчик не найден => SensorInsert()
+	}
+
+	// Формируем запрос в БД
 	query := `
         UPDATE sensors
-        SET data = $1, last_access_time = $2
-        WHERE ID = $3;
+        SET LastBatteryLevel = $1, Data = $2, LastAccessTime = $3
+        WHERE ID = $4;
     `
 
 	// Выполняем запрос
 	result, err := db.ExecContext(
 		context.Background(),
 		query,
+		s.BatteryLevel,
 		s.SensorData,
 		time.Now(),
 		sensorID,

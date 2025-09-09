@@ -9,15 +9,6 @@ type User struct {
 	Name     string `json:"Name"`
 }
 
-type SensorReceivedData struct {
-	HWID1        int     `json:"HWID1"`
-	HWID2        int     `json:"HWID2"`
-	HWID3        int     `json:"HWID3"`
-	SensorData   float32 `json:"SensorData"`
-	BatteryLevel float32 `json:"BatteryLevel"`
-	GatewayID    int     `json:"GatewayID"`
-}
-
 type Gateway struct {
 	ID          int
 	HWID1       int
@@ -33,7 +24,7 @@ type Sensor struct {
 	HWID1            int
 	HWID2            int
 	HWID3            int
-	LastBatteryLevel float32
+	LastBatteryLevel int
 	Data             float32
 	GatewayID        int
 
@@ -45,6 +36,14 @@ type GatewayHWID struct {
 	HWID1 int `json:"HWID1"`
 	HWID2 int `json:"HWID2"`
 	HWID3 int `json:"HWID3"`
+}
+
+type SensorReceivedPacket struct {
+	HWID1        int     `json:"HWID1"`
+	HWID2        int     `json:"HWID2"`
+	HWID3        int     `json:"HWID3"`
+	SensorData   float32 `json:"SensorData"`
+	BatteryLevel int     `json:"BatteryLevel"`
 }
 
 type SensorHWID struct {

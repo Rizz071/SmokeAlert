@@ -3,37 +3,43 @@ package crud_test
 import (
 	"SmokeAlarmBackend/REST"
 	"SmokeAlarmBackend/types"
-	"fmt"
 	"testing"
 )
 
-var g = types.Gateway{
-	HWID1: 50,
-	HWID2: 51,
-	HWID3: 52,
-}
+func TestInsertGateway(t *testing.T) {
 
-func TestGatewayssTable(t *testing.T) {
-
-	testInsertGateway(t)
-	testGetGatewayByID(t)
-	testGetGatewayIDBySensorHWID(t)
-	testRemoveGatewayByID(t)
-
-}
-
-func testInsertGateway(t *testing.T) {
+	g := generateGateway()
 
 	_, err := REST.InsertGateway(testDB, g)
 
 	if err != nil {
 		t.Fatalf("InsertGateway() failed: %v", err)
 	}
-
-	fmt.Println("Тестовые данные Gateway записаны в БД:", g)
 }
 
-func testGetGatewayByID(t *testing.T) {
+func TestRemoveGatewayByID(t *testing.T) {
+
+	g := generateGateway()
+
+	newGatewayID, err := REST.InsertGateway(testDB, g)
+	if err != nil {
+		t.Fatalf("InsertGateway() failed: %v", err)
+	}
+
+	err = REST.RemoveGatewayByID(testDB, *newGatewayID)
+	if err != nil {
+		t.Fatalf("RemoveGatewayByID() failed: %v", err)
+	}
+
+	errorGateway, err := REST.GetGatewayByID(testDB, *newGatewayID)
+	if errorGateway != nil && err == nil {
+		t.Fatalf("GetGatewayByID() failed: %v", err)
+	}
+}
+
+func TestGetGatewayByID(t *testing.T) {
+
+	g := generateGateway()
 
 	newGatewayID, err := REST.InsertGateway(testDB, g)
 	if err != nil {
@@ -46,14 +52,9 @@ func testGetGatewayByID(t *testing.T) {
 	}
 }
 
-func testGetGatewayIDBySensorHWID(t *testing.T) {
+func TestGetGatewayIDByHWID(t *testing.T) {
 
-	var gateway = types.Gateway{
-		HWID1:       0,
-		HWID2:       10,
-		HWID3:       100,
-		Description: "test gateway",
-	}
+	gateway := generateGateway()
 
 	var gatewayHWID = types.GatewayHWID{
 		HWID1: gateway.HWID1,
@@ -75,23 +76,5 @@ func testGetGatewayIDBySensorHWID(t *testing.T) {
 
 	if (*receivedGatewayID != *newGatewayID) || err != nil {
 		t.Fatalf("GetGatewayIDByHWID() failed: %v", err)
-	}
-}
-
-func testRemoveGatewayByID(t *testing.T) {
-
-	newGatewayID, err := REST.InsertGateway(testDB, g)
-	if err != nil {
-		t.Fatalf("InsertGateway() failed: %v", err)
-	}
-
-	err = REST.RemoveGatewayByID(testDB, *newGatewayID)
-	if err != nil {
-		t.Fatalf("RemoveGatewayByID() failed: %v", err)
-	}
-
-	errorGateway, err := REST.GetGatewayByID(testDB, *newGatewayID)
-	if errorGateway != nil && err == nil {
-		t.Fatalf("GetGatewayByID() failed: %v", err)
 	}
 }

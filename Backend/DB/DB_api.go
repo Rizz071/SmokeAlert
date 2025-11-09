@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 // openDB открывает соединение с БД и возвращает указатель на *sql.DB

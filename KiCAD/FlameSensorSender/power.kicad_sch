@@ -3931,7 +3931,7 @@
 		)
 		(uuid "2ed2ca8f-e22c-4209-a1de-43fc4ec31e27")
 	)
-	(text "DC-DC BUCK-BOOST converter, VRAW to 5V5 Regulated\n\n"
+	(text "DC-DC BUCK-BOOST converter, VRAW to 5V0 Regulated\n\n"
 		(exclude_from_sim no)
 		(at 152.146 93.726 0)
 		(effects

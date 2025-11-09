@@ -19,16 +19,19 @@ func main() {
 	// db, err := DB.OpenDB("postgres://smoke_admin:smoke_admin1324567890@localhost:5432/smokealert_1")
 	db, err := DB.OpenDB(
 		fmt.Sprintf("postgres://%s:%s@%s/%s",
-			config.App.DBAdmin,
-			config.App.DBAdminPassword,
+			config.App.DBUserProduction,
+			config.App.DBUserPasswordProduction,
 			config.App.DBHostProduction,
 			config.App.DBNameProduction,
 		))
 	if err != nil {
-		log.Fatalf("cannot connect to DB: %v", err)
+		log.Fatalf("1cannot connect to DB: %v", err)
 	}
 	defer db.Close() // гарантированное закрытие при завершении программы
 	fmt.Println("DB connected successfully")
+
+	http.HandleFunc("/users", REST.HandlerAllUsers(db))
+	http.HandleFunc("/users/", REST.HandlerOneUser(db))
 
 	http.HandleFunc("/gateways", REST.HandlerGateways(db))
 	http.HandleFunc("/sensors", REST.HandlerSensors(db))

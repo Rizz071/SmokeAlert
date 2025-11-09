@@ -44,6 +44,7 @@ type SensorReceivedPacket struct {
 	HWID3        int     `json:"HWID3"`
 	SensorData   float32 `json:"SensorData"`
 	BatteryLevel int     `json:"BatteryLevel"`
+	GatewayID    int     `json:"GatewayID"`
 }
 
 type SensorHWID struct {

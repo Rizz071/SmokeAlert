@@ -5,7 +5,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"log"
 )
 
 func InsertUser(db *sql.DB, u types.User) (*int, error) {
@@ -48,7 +47,7 @@ func RemoveUserByID(db *sql.DB, ID int) error {
 		return fmt.Errorf("пользователь с ID %d не найден", ID)
 	}
 
-	log.Printf("Пользователь с ID %d успешно удалён\n", ID)
+	// log.Printf("Пользователь с ID %d успешно удалён\n", ID)
 	return nil
 }
 

@@ -65,8 +65,6 @@ void Error_Handler(void);
 #define V0_GPIO_Port GPIOA
 #define VCC_BAT_Pin GPIO_PIN_1
 #define VCC_BAT_GPIO_Port GPIOA
-#define LORA_BUSY_Pin GPIO_PIN_3
-#define LORA_BUSY_GPIO_Port GPIOA
 #define LORA_NSS_Pin GPIO_PIN_4
 #define LORA_NSS_GPIO_Port GPIOA
 #define LORA_DIO1_Pin GPIO_PIN_0
@@ -74,6 +72,8 @@ void Error_Handler(void);
 #define LORA_DIO1_EXTI_IRQn EXTI0_IRQn
 #define LORA_NRST_Pin GPIO_PIN_1
 #define LORA_NRST_GPIO_Port GPIOB
+#define LORA_BUSY_Pin GPIO_PIN_2
+#define LORA_BUSY_GPIO_Port GPIOB
 #define MOSFET_GATE_SENSOR_Pin GPIO_PIN_10
 #define MOSFET_GATE_SENSOR_GPIO_Port GPIOB
 #define MOSFET_GATE_LORA_Pin GPIO_PIN_11
